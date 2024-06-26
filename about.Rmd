@@ -1,0 +1,15 @@
+---
+title: "About | Acerca de"
+description: |
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+- 👋 Hi, I’m Iván de Luna.
+- I studied Finance (Tec de Monterrey), M.Sc. International Finance (HWR Berlin), Ph.D. in Business Administration (UAdeC), and recently completed a Specialty degree in Statistical Methods (CIMAT).
+- 👀 Interests: Finance, Statistics, Economics, ML/AI, Data Science, Regional Development and Governance, and Entrepreneurship.
+- 🌱 Currently working as an IT-Finance Systems Manager, Risk Management lecturer and independent consultant in business intelligence and development.
+- 📫 You can reach me at Twitter @idelunaa or Github @ivandeluna
+- Opinions on my own.

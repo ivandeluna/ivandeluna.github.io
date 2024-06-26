@@ -1,0 +1,30 @@
+name: "blog"
+title: "Iván de Luna Blog"
+base_url: https://ivandeluna.github.io/blog
+collections:
+  posts:
+    categories: true
+    categories_metadata: true
+    authors_metadata: false
+creative_commons: CC BY
+twitter:
+  site: "@idelunaa"
+google_analytics: "G-N5D7WWRDKG"
+description: |
+  Iván de Luna's personal blog
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: 
+  distill::distill_article:
+    css: styles.css
+cookie_consent:
+  style: simple
+  type: express
+  palette: light
+  lang: en
+  cookies_policy: url

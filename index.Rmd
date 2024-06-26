@@ -1,0 +1,5 @@
+---
+title: "Notes on random thoughts"
+site: distill::distill_website
+listing: posts
+---
