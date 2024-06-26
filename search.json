@@ -1,0 +1,12 @@
+{
+  "articles": [
+    {
+      "path": "index.html",
+      "title": "Notes on random thoughts",
+      "author": [],
+      "contents": "\n\n\n\n",
+      "last_modified": "2024-06-26T15:28:35-06:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}
