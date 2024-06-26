@@ -12,7 +12,7 @@ twitter:
 google_analytics: "G-N5D7WWRDKG"
 description: |
   Iván de Luna's personal blog
-output_dir: "docs"
+output_dir: "."
 navbar:
   right:
     - text: "Home"
