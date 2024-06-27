@@ -1,5 +1,5 @@
 name: "blog"
-title: "Iván de Luna's notes"
+title: "Iván de Luna"
 base_url: https://ivandeluna.github.io
 collections:
   posts:
