@@ -1,29 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
-    <title>Iván de Luna Blog</title>
-    <link>https://ivandeluna.github.io/blog</link>
-    <atom:link href="https://ivandeluna.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
+    <title>Iván de Luna's notes</title>
+    <link>https://ivandeluna.github.io</link>
+    <atom:link href="https://ivandeluna.github.io/index.xml" rel="self" type="application/rss+xml"/>
     <description>Iván de Luna's personal blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 26 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Welcome to Iván de Luna blog</title>
-      <dc:creator>Nora Jones</dc:creator>
-      <link>https://ivandeluna.github.io/blog/posts/welcome</link>
-      <description>Welcome to our new blog, Iván de Luna blog. We hope you enjoy 
-reading what we have to say!</description>
-      <guid>https://ivandeluna.github.io/blog/posts/welcome</guid>
-      <pubDate>Wed, 26 Jun 2024 00:00:00 +0000</pubDate>
+      <title>Empleos formales febrero 2021</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-empleos-formales-febrero-2021</link>
+      <description>A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al registrar para este mes 306 mil 5 personas aseguradas asociadas a un trabajo, solo 0.53% por debajo del mismo mes respecto al año pasado, un incremento del 0.62% respecto a enero del presente año y un incremento del 3.06% respecto al mes que menos trabajadores asegurados registró durante el 2020.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-empleos-formales-febrero-2021</guid>
+      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>La Asequibilidad de la Vivienda en Torreón</title>
+      <title>Torreón como una ciudad global</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-torreon-como-una-ciudad-global</link>
+      <description>The answers you get depend on the questions you ask. – Thomas S. Kuhn</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-torreon-como-una-ciudad-global</guid>
+      <pubDate>Mon, 14 Dec 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>El Estado de la Economía Lagunera</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-el-estado-de-la-economia-lagunera</link>
+      <description>“El desarrollo consiste en transformar la vida de las personas, no sólo transformar las economías.” ― Joseph E. Stiglitz, Making Globalization Work</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-el-estado-de-la-economia-lagunera</guid>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La Cuarentena y sus implicaciones en La Laguna</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-cuarentena-y-sus-implicaciones-en-la-laguna</link>
+      <description>“En una epidemia no hay culpables, todos son víctimas.” – José Saramago, Ensayo sobre la ceguera.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-cuarentena-y-sus-implicaciones-en-la-laguna</guid>
+      <pubDate>Mon, 18 May 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La resiliencia económica de La Laguna</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-resiliencia-economica-de-la-laguna</link>
+      <description>La Zona Metropolitana de La Laguna concentra en la industria manufacturera el 72.85% de la producción bruta total o PBT (INEGI, 2014), ésta se encuentra más diversificada que en regiones como la de Saltillo-Ramos Arizpe.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-resiliencia-economica-de-la-laguna</guid>
+      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La sociedad del desempeño</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-sociedad-del-desempeno</link>
+      <description>El 58% de los mexicanos mayores de 12 años quisiera tener más tiempo para hacer lo que realmente les gusta.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-sociedad-del-desempeno</guid>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>Composición del Ingreso y del Gasto en los Hogares de La Laguna</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna</link>
+      <description>La ENIGH 2018 es una encuesta realizada por el INEGI a nivel nacional y estatal que ayuda a conocer la composición del gasto e ingreso en los hogares. Este instrumento es útil para el análisis, no solo de la distribución de la riqueza, sino de los factores que influyen en una mejor calidad de vida de las personas.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna</guid>
+      <pubDate>Wed, 14 Aug 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La movilidad social en La Laguna</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-movilidad-social-en-la-laguna</link>
+      <description>El INEGI estima que existan en Torreón 496 mil personas mayores de 15 años, de las cuales el 2.16% no cuenta con escolaridad alguna, el 46.71% con educación básica (de los cuales 58.64% llegó hasta secundaria), el 22.43% con media superior y el 28.46% con educación superior. Teniendo a nivel municipal un grado promedio de 10.58 años</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-movilidad-social-en-la-laguna</guid>
+      <pubDate>Wed, 12 Jun 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La violencia familiar en Torreón</title>
       <dc:creator>Iván de-Luna-Aldape</dc:creator>
-      <link>https://ivandeluna.github.io/blog/posts/2024-06-26-la-asequibilidad-de-la-vivienda</link>
-      <description>En el Índice de Precios de la Vivienda, y como se reporta en el Monitor de Vivienda del IMPLAN, el valor medio de las casa en Coahuila es de $425 mil pesos.</description>
-      <guid>https://ivandeluna.github.io/blog/posts/2024-06-26-la-asequibilidad-de-la-vivienda</guid>
-      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-violencia-familiar-en-torreon</link>
+      <description>En el marco de la conmemoración del día internacional de la mujer, y como parte de las actividades que se llevan a cabo dentro del Municipio de Torreón a través del Instituto Municipal de la Mujer y el IMPLAN, se realizó el Diagnóstico sobre violencia de género contra las mujeres en Torreón, Coah.</description>
+      <category>Regional Development</category>
+      <category>Society</category>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-violencia-familiar-en-torreon</guid>
+      <pubDate>Tue, 19 Mar 2019 00:00:00 +0000</pubDate>
+    </item>
+    <item>
+      <title>La eficiencia financiera de los Sistemas Municipales de Aguas y Saneamiento en La Laguna</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna</link>
+      <description>De acuerdo con la CONAGUA, el SIMAS Rural cuenta con 17 títulos de derechos de agua de los cuales 12 se encuentran en la mancha urbana de Torreón. En el último avance de gestión para el 2018, reportan que 15 de los 17 pozos con los que cuenta el organismo están operando, atendiendo a 38,527 hogares de los cuales 82.83% están en Torreón.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna</guid>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
