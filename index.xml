@@ -7,7 +7,16 @@
     <description>Iván de Luna's personal blog
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Energy Price Forecasting Model</title>
+      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
+      <link>https://ivandeluna.github.io/posts/2024-07-23-energy-price-forecasting-model</link>
+      <description>Energy price forecasting model using AutoARIMA and model training for class example.</description>
+      <guid>https://ivandeluna.github.io/posts/2024-07-23-energy-price-forecasting-model</guid>
+      <pubDate>Tue, 23 Jul 2024 00:00:00 +0000</pubDate>
+      <media:content url="https://ivandeluna.github.io/posts/2024-07-23-energy-price-forecasting-model/distill-preview.png" medium="image" type="image/png" width="1248" height="768"/>
+    </item>
     <item>
       <title>Empleos formales febrero 2021</title>
       <dc:creator>Ivan de-Luna-Aldape</dc:creator>
@@ -81,14 +90,6 @@
       <category>Society</category>
       <guid>https://ivandeluna.github.io/posts/2024-06-26-la-violencia-familiar-en-torreon</guid>
       <pubDate>Tue, 19 Mar 2019 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>La eficiencia financiera de los Sistemas Municipales de Aguas y Saneamiento en La Laguna</title>
-      <dc:creator>Ivan de-Luna-Aldape</dc:creator>
-      <link>https://ivandeluna.github.io/posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna</link>
-      <description>De acuerdo con la CONAGUA, el SIMAS Rural cuenta con 17 títulos de derechos de agua de los cuales 12 se encuentran en la mancha urbana de Torreón. En el último avance de gestión para el 2018, reportan que 15 de los 17 pozos con los que cuenta el organismo están operando, atendiendo a 38,527 hogares de los cuales 82.83% están en Torreón.</description>
-      <guid>https://ivandeluna.github.io/posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna</guid>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
     </item>
   </channel>
 </rss>
