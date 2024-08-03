@@ -1,0 +1,178 @@
+---
+title: "GARCH Modeling of Nasdaq 100 Futures"
+description: |
+  GARCH modeling using NASDAQ 100 Futures and EDA.
+author:
+  - name: Iván de-Luna-Aldape
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+In this post we will generate a basic GARCH(1,1) model applied to NASDAQ 100 future
+prices. The main objetive is to understand the basics of modeling such time series
+given that they met certain conditions, such as heteroskedasticity.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load libraries
+library(quantmod)  # For downloading financial data
+library(rugarch)   # For GARCH modeling
+library(tseries)   # For statistical tests
+library(FinTS)     # For ARCH test
+library(ggplot2)   # For plotting
+library(e1071)
+```
+
+First we download the NASDAQ 100 futures data and preparing it for analysis:
+
+```{r download-data, warning=FALSE}
+# Download Nasdaq 100 futures data
+getSymbols("NQ=F", src="yahoo")
+
+# Extract adjusted closing prices
+prices <- Cl(`NQ=F`)
+
+# Calculate log returns
+returns <- diff(log(prices))
+
+# Remove NA values
+returns <- returns[!is.na(returns)]
+
+# Plot the returns
+ggplot(data.frame(Date = index(returns), Returns = as.numeric(returns)), 
+       aes(x = Date, y = Returns)) +
+  geom_line() +
+  theme_minimal() + 
+  labs(title = "NASDAQ 100 Futures log returns", x = "Date", y = "Log Returns")
+```
+
+In this step, after downloading the required data, we calculated log returns and generated a plot.
+
+Log returns are commonly used in financial modeling because they're additive over time and tend to be more normally distributed than simple returns, which also helps "flatten" possible outliers that may interfere with
+the model fitting part.
+
+## Preliminary Statistical Test
+
+Before fitting a GARCH model, we need to check if our data exhibits characteristics that make a GARCH model appropriate. We'll perform several statistical tests:
+
+### Test for stationarity
+
+The Augmented Dickey-Fuller test checks for stationarity. A p-value less than 0.05 suggests the series is stationary, which is a requirements for GARCH modeling.
+
+```{r adf-test, warning=FALSE}
+adf_test <- adf.test(returns)
+print(adf_test)
+```
+### Test for Serial Correlation
+
+The Ljung-Box test checks for serial correlation. A low p-value suggests the presence of serial correlation, which might be addressed by including an ARMA component in our GARCH model.
+
+```{r ljung-box, warning=FALSE}
+lb_test <- Box.test(returns, lag = 10, type = "Ljung-Box")
+print(lb_test)
+```
+
+### Test for Heteroskedasticity
+
+The ARCH LM test checks for the presence of ARCH effects (heteroskedasticity). A low p-value indicates the presence of ARCH effects, suggesting that a GARCH model might be appropriate.
+
+```{r arch-lm-test, warning=FALSE}
+arch_test <- ArchTest(returns, lags = 5)
+print(arch_test)
+```
+### Test for Normality
+
+The Jarque-Bera test checks for normality. A low p-value indicates non-normal distribution, which is common in financial returns and often addressed by using a Student's t-distribution for the GARCH model.
+
+```{r jarque-bera-test, warning=FALSE}
+jb_test <- jarque.bera.test(returns)
+print(jb_test)
+```
+### Descriptive Statistics
+
+The descriptive statistics provide additional insights into the distribution of returns, including skewness and kurtosis.
+
+
+```{r desc-stats, warning=FALSE}
+desc_stats <- c(mean = mean(returns),
+                sd = sd(returns),
+                skewness = skewness(returns),
+                kurtosis = kurtosis(returns))
+print(desc_stats)
+```
+
+
+## GARCH Model Fitting
+
+Based on the results of our preliminary tests, we'll now fit a GARCH model to our data.
+
+Here, we've specified a GARCH(1,1) model with an ARMA(1,1) mean model and a Student's t-distribution for the errors. The summary() function provides detailed information about the fitted model, including parameter estimates and various diagnostic statistics.
+
+```{r garch-spec, warning=FALSE}
+# Specify GARCH model
+spec <- ugarchspec(variance.model = list(model = "sGARCH",
+                                         garchOrder = c(1,1)),
+                   mean.model = list(armaOrder = c(1,1)),
+                   distribution.model = "std")
+
+# Fit the model
+fit <- ugarchfit(spec, returns)
+```
+
+### Model Diagnostics
+
+After fitting the GARCH model, we should check if it has adequately captured the volatility dynamics of our data.
+
+As these test show no significant serial correlation (p-value > 0.05), it suggest that the GARCH model has adequately captured the volatility dynamics.
+
+```{r garch-model, warning=FALSE}
+# Extract standardized residuals
+std_resid <- residuals(fit, standardize = TRUE)
+
+# Ljung-Box test on standardized residuals
+print("Ljung-Box Test on Standardized Residuals:")
+print(Box.test(std_resid, lag = 10, type = "Ljung-Box"))
+
+```
+Now we run the diagnostic on squared standardized residuals, in which we obtain a good model indicating that 
+there is no serial autocorrelation within our model:
+
+```{r garch-lb-ssr, warning=FALSE}
+# Ljung-Box test on squared standardized residuals
+print("Ljung-Box Test on Squared Standardized Residuals:")
+print(Box.test(std_resid^2, lag = 10, type = "Ljung-Box"))
+```
+and create a plot to visualize our model on standardized residuals:
+
+```{r garch-plot-res, warning=FALSE}
+# Plot standardized residuals
+ggplot(data.frame(Date = index(returns), Residuals = as.numeric(std_resid)), aes(x = Date, y = Residuals)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = "Standardized Residuals", x = "Date", y = "Standardized Residuals")
+```
+
+
+## Forecasting Volatility
+
+Let's use our fitted GARCH model to forecast future volatility, by estimating the next 10 periods.
+
+```{r garch-forecast, warning=FALSE}
+# Forecast volatility
+forecast <- ugarchforecast(fit, n.ahead = 10)
+plot(forecast, which = 1)
+```
+
+Finally, let's calculate the Value at Risk (VaR) basd on our GARCH model:
+
+```{r garch-var, warning=FALSE}
+VaR <- quantile(fit@fit$residuals, 0.05)
+print(paste("5% Value at Risk:", VaR))
+```
+
+the 5% VaR represents the loss that we would expect to be exceeded only 5% of the time, based on our GARCH model.
+
+## Conclusion
+
+GARCH models are powerful tools for modeling financial time series, particularly when dealing with volatility clustering and heteroskedasticity. However, it's important to remember that all models are simplifications of reality, and careful interpretation and validation are always necessary.
