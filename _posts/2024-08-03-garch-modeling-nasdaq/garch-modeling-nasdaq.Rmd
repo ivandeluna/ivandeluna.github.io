@@ -24,7 +24,9 @@ library(ggplot2)   # For plotting
 library(e1071)
 ```
 
-First we download the NASDAQ 100 futures data and preparing it for analysis:
+## Exploratory Data Analysis
+
+First we download the NASDAQ 100 futures data and prepare it for the initial analysis:
 
 ```{r download-data, warning=FALSE}
 # Download Nasdaq 100 futures data
@@ -47,10 +49,9 @@ ggplot(data.frame(Date = index(returns), Returns = as.numeric(returns)),
   labs(title = "NASDAQ 100 Futures log returns", x = "Date", y = "Log Returns")
 ```
 
-In this step, after downloading the required data, we calculated log returns and generated a plot.
+After downloading the required data, we calculated log returns and generated a plot.
 
-Log returns are commonly used in financial modeling because they're additive over time and tend to be more normally distributed than simple returns, which also helps "flatten" possible outliers that may interfere with
-the model fitting part.
+Log returns are commonly used in financial modeling because they're additive over time and tend to be more normally distributed than simple returns, which also helps "flatten" possible outliers that may interfere with the model fitting part.
 
 ## Preliminary Statistical Test
 
@@ -64,6 +65,7 @@ The Augmented Dickey-Fuller test checks for stationarity. A p-value less than 0.
 adf_test <- adf.test(returns)
 print(adf_test)
 ```
+
 ### Test for Serial Correlation
 
 The Ljung-Box test checks for serial correlation. A low p-value suggests the presence of serial correlation, which might be addressed by including an ARMA component in our GARCH model.
@@ -81,6 +83,7 @@ The ARCH LM test checks for the presence of ARCH effects (heteroskedasticity). A
 arch_test <- ArchTest(returns, lags = 5)
 print(arch_test)
 ```
+
 ### Test for Normality
 
 The Jarque-Bera test checks for normality. A low p-value indicates non-normal distribution, which is common in financial returns and often addressed by using a Student's t-distribution for the GARCH model.
@@ -89,6 +92,7 @@ The Jarque-Bera test checks for normality. A low p-value indicates non-normal di
 jb_test <- jarque.bera.test(returns)
 print(jb_test)
 ```
+
 ### Descriptive Statistics
 
 The descriptive statistics provide additional insights into the distribution of returns, including skewness and kurtosis.
@@ -135,14 +139,15 @@ print("Ljung-Box Test on Standardized Residuals:")
 print(Box.test(std_resid, lag = 10, type = "Ljung-Box"))
 
 ```
-Now we run the diagnostic on squared standardized residuals, in which we obtain a good model indicating that 
-there is no serial autocorrelation within our model:
+
+Now we run the diagnostic on squared standardized residuals, in which we obtain a good model indicating that there is no serial autocorrelation within our model:
 
 ```{r garch-lb-ssr, warning=FALSE}
 # Ljung-Box test on squared standardized residuals
 print("Ljung-Box Test on Squared Standardized Residuals:")
 print(Box.test(std_resid^2, lag = 10, type = "Ljung-Box"))
 ```
+
 and create a plot to visualize our model on standardized residuals:
 
 ```{r garch-plot-res, warning=FALSE}
@@ -164,7 +169,7 @@ forecast <- ugarchforecast(fit, n.ahead = 10)
 plot(forecast, which = 1)
 ```
 
-Finally, let's calculate the Value at Risk (VaR) basd on our GARCH model:
+Finally, we calculate the Value at Risk (VaR) basd on our GARCH model:
 
 ```{r garch-var, warning=FALSE}
 VaR <- quantile(fit@fit$residuals, 0.05)
@@ -176,3 +181,4 @@ the 5% VaR represents the loss that we would expect to be exceeded only 5% of th
 ## Conclusion
 
 GARCH models are powerful tools for modeling financial time series, particularly when dealing with volatility clustering and heteroskedasticity. However, it's important to remember that all models are simplifications of reality, and careful interpretation and validation are always necessary.
+

@@ -1,0 +1,98 @@
+---
+title: El centro histórico de Torreón y el eterno retorno de la gestión pública.
+description: |
+  El campo de acción de un municipio es limitado, lo que conlleva a generar una serie
+  de proyectos que pudieran ser repetitivos o incluso recursivos. En este post analizamos
+  el problema de la inversión e reinvención constante del Centro Histórico de Torreón,
+  así como la existencia de otros centros urbanos con un mejor potencial para su
+  desarrollo.
+date: 2024-08-03
+category: 
+  - Regional Development
+tags: 
+  - Regional Development
+author: Ivan de-Luna-Aldape
+output: distill::distill_article
+draft: true
+---
+
+El concepto del eterno retorno sugiere que el universo y todos los eventos en él
+se repiten infinitamente en un ciclo. Esta noción fue particularmente 
+popularizada por Friedrich Nietzsche en su obra "Así habló Zaratustra", quien plantea que el eterno retorno es una prueba de la vida que uno vive: ¿estarías dispuesto
+a vivir la misma vida una y otra vez por la eternidad? Este pensamiento lleva a 
+una reflexión profunda sobre nuestras elecciones y la forma en que vivimos.
+
+De manera analoga, el mito de Sísifo, como lo interpreta Camus, también refleja de manera similar una constante repetición de tareas, como empujar una piedra enorme cuesta arriba, solo para verla rodar de nuevo hacia abajo cada vez que se alcanza la cima. Camus utiliza esta historia como una metáfora del esfuerzo humano constant
+y la búsqueda de significado en un mundo inherentemente absurdo.
+
+Ahora imaginemos la constante remodelación de una calle sin un objetivo claro.
+Este proceso, aparte de ser en cierto sentido absurdo, también refleja y aborda
+la pregunta que hace Nietzche: ¿estarías dispuesto a hacerlo de nuevo?. Esta 
+remodelación constante e interminable refleja el ciclo repetitivo de 
+acciones sin avance real, un símbolo de la naturaleza cíclica y a veces absurda
+de la gestión pública, y la existencia misma.
+
+¿Estamos condenados a repetir las mismas acciones una y otra vez sin aprender
+o progresar?
+
+Por otra parte, esta constante remodelación solo hace que surjan los mismo problemas
+una y otra vez. Este esfuerzo interminable de rediseño, construcción, adaptación
+que parece no tener sentido, orilla a considerar que tal vez sea necesario
+aceptar la absurda de esto y proceder a encontrar valor y propósito en la dedicación
+hacía esta calle en particular.
+
+¿Podemos romper el ciclo?
+
+Desde una perspectiva más crítica, esta situación podría verse como un desperdicio
+de recursos y un ejemplo de ineficiencia burocrática, así como de una mala
+participación ciudadana.
+
+
+```{r}
+# Load required libraries
+library(sf)
+library(ggplot2)
+library(dplyr)
+library(spatstat)
+
+# Load your data (replace with your actual data source)
+data <- read.csv("denue_trc/INEGI_DENUE_03082024.csv")
+
+```
+
+```{r}
+# Convert data to spatial points
+points <- st_as_sf(data, coords = c("longitude", "latitude"), crs = 4326)
+
+# Transform to a projected coordinate system (replace EPSG code with appropriate one for your city)
+points_projected <- st_transform(points, crs = 3857)
+
+# Create a bounding box for your study area
+bbox <- st_bbox(points_projected)
+
+# Create a spatial window
+window <- owin(xrange = c(bbox$xmin, bbox$xmax), yrange = c(bbox$ymin, bbox$ymax))
+
+# Convert points to ppp object
+points_ppp <- as.ppp(st_coordinates(points_projected), W = window)
+
+# Perform kernel density estimation
+density_map <- density(points_ppp)
+
+# Convert density map to a data frame for ggplot
+density_df <- as.data.frame(density_map)
+
+# Create the plot
+ggplot(density_df, aes(x = x, y = y)) +
+  geom_tile(aes(fill = value)) +
+  scale_fill_viridis_c() +
+  coord_equal() +
+  theme_minimal() +
+  labs(title = "Density Map of Stores and Businesses",
+       x = "Longitude", y = "Latitude",
+       fill = "Density")
+
+# Save the plot
+ggsave("density_map.png", width = 10, height = 8, dpi = 300)
+```
+

@@ -7,9 +7,14 @@ description: |
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-- 👋 Hi, I’m Iván de Luna.
-- I studied Finance (Tec de Monterrey), M.Sc. International Finance (HWR Berlin), Ph.D. in Business Administration (UAdeC), and recently completed a Specialty degree in Statistical Methods (CIMAT).
-- 👀 Interests: Finance, Statistics, Economics, ML/AI, Data Science, Regional Development and Governance, and Entrepreneurship.
-- 🌱 Currently working as an IT-Finance Systems Manager, Risk Management lecturer and independent consultant in business intelligence and development.
-- 📫 You can reach me at Twitter @idelunaa or Github @ivandeluna
-- Opinions on my own.
+# Iván de Luna
+
+👨‍🎓 B.A. Finance (Tec de Monterrey) | M.Sc. International Finance (HWR Berlin) | Doctor of Business Administration (UAdeC) | Specialty in Statistical Methods (CIMAT)
+
+👀 Interests: Finance, Statistics, Economics, ML/AI, Data Science, Regional Development, Governance, Entrepreneurship
+
+💼 Information Systems Manager | Data Science and Finance Lecturer | Business Intelligence Consultant
+
+📫 Twitter: @idelunaa | GitHub: @ivandeluna
+
+*Opinions are my own.*
