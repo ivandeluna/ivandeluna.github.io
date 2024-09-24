@@ -12,6 +12,46 @@ In this post we will generate a basic GARCH(1,1) model applied to NASDAQ 100 fut
 prices. The main objetive is to understand the basics of modeling such time series
 given that they met certain conditions, such as heteroskedasticity.
 
+The Generalized Autoregressive Conditional Heteroskedasticity (GARCH) model is a widely used time series analysis technique for modeling the volatility of financial data. It was first introduced by Bollerslev in 1986 as an extension of the earlier ARCH (Autoregressive Conditional Heteroskedasticity) model proposed by Engle in 1982.
+
+The key idea behind GARCH modeling is that the variance of the error term in a time series model is not constant, but rather varies over time ina predictable way. This time-varying volatility is captured through the specification of the conditional variance equation, which models the variance as a function of past squared errors and past variances.
+
+Matematically, the GARCH(p,q) model can be expressed as:
+
+
+$y_t = \mu + \epsilon_t$
+
+$\epsilon_t = \sqrt{h_t} z_t$
+
+$h_t = \omega + \sum_{i=1}^p \alpha_i \epsilon_{t-i}^2 + \sum_{j=1}^q \beta_j h_{t-j}$
+
+where:
+
+- $y_t$ is the time series of interest
+- $\mu$ is the conditional mean
+- $\epsilon_t$ is the error term
+- $h_t$ is the conditional variance
+- $z_t$ is a white noise process with zero mean and unit variance
+- $\omega, \alpha_i, \beta_j$ are the model parameters to be estimated
+
+GARCH modeling offers several advantages over traditional time series analysis techniques:
+
+1. **Capturing Volatility Clustering**: GARCH models are able to capture the phenomenon of volatility clustering, where periods of high volatility tend to be followed by periods of high volatility, and periods of low volatility tend to be followed by periods of low volatility.
+2. **Improved Forecasting Accuracy**: by modeling the time-varying variance, GARCH models can provide more accurate forecasts of future volatility compared to models that assume constant variance.
+3. **Risk Management**: GARCH models can be used to estimate the Value-at-Risk (VaR) and other risk measures, which are important for financial risk management.
+4. **Flexibility**: GARCH models can be extenden in various ways, such as incorporating asymmetric effects (EGARCH) or long-memory effects (FIGARCH), to better capture the characteristics of the data.
+
+### Disadvantages and Limitations
+
+While GARCH modelling is a powerful tool, it also has some limitaitons and drawbacks:
+
+1. **Complexity**: GARCH models involve the estimation of multiple parameters, which can be computationally intensive, especially for high-frequency data or models with many lags.
+2. **Sensitivity to Model Assumptions**: GARCH models rely on specific assumptions, such as the distribution of the error terms. Violations of these assumptions can lead to biased or inefficient parameter estimates.
+3. **Difficulty in Interpreting Parameters**: The interpretation of the GARCH model parameters can be challenging, as they represent the complex dynamics of the conditional variance process.
+4. **Potential for Misspecification**: if the underlying data-generating process is not well-captured by the GARCH model, the model may produce biased or inaccurate results.
+
+In this posts we will explore a basic EDA and workflow regarding GARCH modeling.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
@@ -169,7 +209,7 @@ forecast <- ugarchforecast(fit, n.ahead = 10)
 plot(forecast, which = 1)
 ```
 
-Finally, we calculate the Value at Risk (VaR) basd on our GARCH model:
+Finally, we calculate the Value at Risk (VaR) based on our GARCH model:
 
 ```{r garch-var, warning=FALSE}
 VaR <- quantile(fit@fit$residuals, 0.05)
