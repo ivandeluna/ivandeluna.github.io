@@ -1,5 +1,5 @@
 ---
-title: "Notes on Random Thoughts"
+title: "Meridian Parallax"
 listing:
   contents: posts
   sort: "date desc"
