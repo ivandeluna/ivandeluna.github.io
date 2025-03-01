@@ -1,6 +1,6 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/blog.html",
     "items": [
       "/posts/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
       "/posts/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "listing": "/blog.html",
+    "listing": "/index.html",
     "items": [
       "/posts/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
       "/posts/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
