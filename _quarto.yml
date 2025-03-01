@@ -5,6 +5,7 @@ project:
 website:
   title: "Iván de Luna-Aldape"
   open-graph: true
+  google-analytics: "G-N5D7WWRDKG"
   navbar:
     search: true
     left:
@@ -21,11 +22,13 @@ website:
         href: https://github.com/ivandeluna
       - icon: twitter
         href: https://twitter.com/idelunaa
-page-footer:
+body-footer:
   left: "© 2025 Ivan De Luna. All rights reserved."
   right:
     - icon: github
       href: https://github.com/ivandeluna
+    - icon: twitter
+      href: https://twitter.com/idelunaa
 format:
   html:
     theme: sandstone
