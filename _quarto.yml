@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Iván de Luna-Aldape"
+  open-graph: true
+  navbar:
+    search: true
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Blog
+        href: blog.qmd
+      - text: Projects
+        href: projects.qmd
+      - text: About
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/ivandeluna
+      - icon: twitter
+        href: https://twitter.com/idelunaa
+page-footer:
+  left: "© 2025 Ivan De Luna. All rights reserved."
+  right:
+    - icon: github
+      href: https://github.com/ivandeluna
+format:
+  html:
+    theme: sandstone
+    css: styles.css
+
+
+

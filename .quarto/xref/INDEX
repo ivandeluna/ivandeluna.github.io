@@ -1,0 +1,77 @@
+{
+  "posts/post-with-code/index.qmd": {
+    "index.html": "3c1abda3"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "c06320a4"
+  },
+  "index.qmd": {
+    "index.html": "598b4171"
+  },
+  "about.qmd": {
+    "about.html": "e75084c1"
+  },
+  "blog.qmd": {
+    "blog.html": "4c1ddbc7"
+  },
+  "projects.qmd": {
+    "projects.html": "141281f6"
+  },
+  "posts/2024-06-26-analisis-de-la-ocupacion-y-el-empleo-en-el-1er-trimestre-de-2018/analisis-de-la-ocupacion-y-el-empleo-en-el-1er-trimestre-de-2018.Rmd": {
+    "analisis-de-la-ocupacion-y-el-empleo-en-el-1er-trimestre-de-2018.html": "e6661e63"
+  },
+  "posts/2024-06-26-dinamica-del-impuesto-predial-en-torreon/dinamica-del-impuesto-predial-en-torreon.Rmd": {
+    "dinamica-del-impuesto-predial-en-torreon.html": "093f2a14"
+  },
+  "posts/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.Rmd": {
+    "energy-price-forecasting-model.html": "5c65dbea"
+  },
+  "posts/2024-06-26-como-manejamos-los-laguneros/como-manejamos-los-laguneros.Rmd": {
+    "como-manejamos-los-laguneros.html": "5ebe65d3"
+  },
+  "posts/2024-06-26-la-movilidad-social-en-la-laguna/la-movilidad-social-en-la-laguna.Rmd": {
+    "la-movilidad-social-en-la-laguna.html": "e62e9965"
+  },
+  "posts/2024-06-26-la-cuarentena-y-sus-implicaciones-en-la-laguna/la-cuarentena-y-sus-implicaciones-en-la-laguna.Rmd": {
+    "la-cuarentena-y-sus-implicaciones-en-la-laguna.html": "f0ad595b"
+  },
+  "posts/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.Rmd": {
+    "garch-modeling-nasdaq.html": "050e765e"
+  },
+  "posts/2024-06-26-la-resiliencia-economica-de-la-laguna/la-resiliencia-economica-de-la-laguna.Rmd": {
+    "la-resiliencia-economica-de-la-laguna.html": "587c70c3"
+  },
+  "posts/2024-06-26-el-estado-de-la-economia-lagunera/el-estado-de-la-economia-lagunera.Rmd": {
+    "el-estado-de-la-economia-lagunera.html": "26906a62"
+  },
+  "posts/2024-06-26-la-asequibilidad-de-la-vivienda/la-asequibilidad-de-la-vivienda.Rmd": {
+    "la-asequibilidad-de-la-vivienda.html": "975c7910"
+  },
+  "posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.Rmd": {
+    "empleos-formales-febrero-2021.html": "eb6f8269"
+  },
+  "posts/2024-06-26-la-violencia-familiar-en-torreon/la-violencia-familiar-en-torreon.Rmd": {
+    "la-violencia-familiar-en-torreon.html": "c7e4b7a6"
+  },
+  "posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna/la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna.Rmd": {
+    "la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna.html": "4931789c"
+  },
+  "posts/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.Rmd": {
+    "arima-forecasting-using-financial-data.html": "f24ee0ff"
+  },
+  "posts/2024-06-26-resultados-para-la-laguna-en-la-prueba-planea-2017/resultados-para-la-laguna-en-la-prueba-planea-2017.Rmd": {
+    "resultados-para-la-laguna-en-la-prueba-planea-2017.html": "4454a973"
+  },
+  "posts/2024-06-26-la-zml-obtiene-bajos-resultados-en-la-prueba-planea-educacion-basica-2018/la-zml-obtiene-bajos-resultados-en-la-prueba-planea-educacion-basica-2018.Rmd": {
+    "la-zml-obtiene-bajos-resultados-en-la-prueba-planea-educacion-basica-2018.html": "e679c93f"
+  },
+  "posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.Rmd": {
+    "torreon-como-una-ciudad-global.html": "187e1b20"
+  },
+  "posts/2024-06-26-la-sociedad-del-desempeno/la-sociedad-del-desempeno.Rmd": {
+    "la-sociedad-del-desempeno.html": "f1a266f9"
+  },
+  "posts/2024-06-26-composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna/composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna.Rmd": {
+    "composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna.html": "cd5871d2"
+  }
+}

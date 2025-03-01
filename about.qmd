@@ -1,0 +1,30 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/idelunaa
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/ln/ivandeluna
+    - icon: github
+      text: Github
+      href: https://github.com/ivandeluna
+
+---
+
+
+# Iván de Luna-Aldape, PhD
+
+👨‍🎓 B.A. Finance (Tec de Monterrey) | M.Sc. International Finance (HWR Berlin) | Doctor of Business Administration (UAdeC) | Specialty in Statistical Methods (CIMAT)
+
+👀 Interests: Finance, Statistics, Economics, ML/AI, Data Science, Regional Development, Governance, Entrepreneurship
+
+💼 Information Systems Manager | Data Science and Finance Lecturer | Business Intelligence Consultant
+
+📫 Twitter: @idelunaa | GitHub: @ivandeluna
+
+*Opinions are my own.*
