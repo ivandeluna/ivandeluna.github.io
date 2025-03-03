@@ -3,6 +3,7 @@ title: "Resultados para La Laguna en la prueba Planea 2017"
 description: "Torreón obtuvo resultados en el nivel sobresaliente por encima de la media nacional en la prueba de Lenguaje y Comunicación, con 15.34%. En cuanto a la prueba de Matemáticas Lerdo cuenta con la mayor proporción de alumnos en nivel suficiente con 11.69 % y sobresaliente con 7.56%."
 author: Iván de Luna-Aldape
 date: "2/8/2018"
+image: "/posts/img/torreon.jpg"
 categories:
   - society
   - torreon

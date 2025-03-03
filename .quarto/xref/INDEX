@@ -73,5 +73,17 @@
   },
   "posts/2024-06-26-composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna/composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna.Rmd": {
     "composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna.html": "cd5871d2"
+  },
+  "projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.Rmd": {
+    "energy-price-forecasting-model.html": "0d4a4ac3"
+  },
+  "projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.Rmd": {
+    "garch-modeling-nasdaq.html": "ee08b820"
+  },
+  "projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.ipynb": {
+    "ml-housing-prices-forecasting.html": "7d6e0513"
+  },
+  "projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.Rmd": {
+    "arima-forecasting-using-financial-data.html": "0db12710"
   }
 }

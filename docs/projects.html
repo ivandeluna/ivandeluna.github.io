@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Data Science Projects and Tutorials">
 
 <title>Projects – Iván de Luna-Aldape</title>
 <style>
@@ -78,9 +79,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -139,6 +140,7 @@ window.Quarto = {
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="Projects – Iván de Luna-Aldape">
+<meta property="og:description" content="Data Science Projects and Tutorials">
 <meta property="og:site_name" content="Iván de Luna-Aldape">
 </head>
 
@@ -199,7 +201,12 @@ window.Quarto = {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
       <h1 class="title">Projects</h1>
-                      </div>
+                  <div>
+        <div class="description">
+          Data Science Projects and Tutorials
+        </div>
+      </div>
+                </div>
   </div>
     
   
@@ -216,7 +223,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ZWNvbm9tZXRyaWNz">econometrics <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zm9yZWNhc3Rpbmc=">forecasting <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dHV0b3JpYWw=">tutorial <span class="quarto-category-count">(3)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -230,13 +237,157 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
     <div class="input-group input-group-sm quarto-listing-filter">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input type="text" class="search form-control" placeholder="Filter">
     </div>
 </div>
 <div class="list quarto-listing-default">
-
+<div class="quarto-post image-right" data-index="0" data-categories="ZWNvbm9tZXRyaWNzJTJDZmluYW5jZSUyQ21hY2hpbmUtbGVhcm5pbmclMkN0dXRvcmlhbA==" data-listing-date-sort="1725343200000" data-listing-file-modified-sort="1740953789663" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="954">
+<div class="thumbnail">
+<p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a></p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">
+<p class="card-img-top"><img src="projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data_files/figure-html/Stationarity-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">ARIMA Forecasting Using Financial Data</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
+econometrics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ZmluYW5jZQ=='); return false;">
+finance
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
+machine-learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
+tutorial
+</div>
+</div>
+<div class="listing-description">
+<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">In this article, we explore the use of ARIMA (AutoRegressive Integrated Moving Average) models for forecasting financial time series data. ARIMA is a robust statistical method that combines autoregression, differencing, and moving averages to predict future values based on historical data. Using a simple example of stock price forecasting, we walk through the steps of loading financial data, checking for stationarity, identifying ARIMA parameters, fitting the model, and generating forecasts. By the end of this article, you will have a clear understanding of how to apply ARIMA models to financial data and interpret the results. The example is implemented in R, with code snippets and visualizations to guide you through the process.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">
+<div class="listing-date">
+Sep 3, 2024
+</div>
+<div class="listing-author">
+Iván de Luna-Aldape
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1722664800000" data-listing-file-modified-sort="1740953776505" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1307">
+<div class="thumbnail">
+<p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a></p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">
+<p class="card-img-top"><img src="projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq_files/figure-html/download-data-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">GARCH Modeling of Nasdaq 100 Futures</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
+econometrics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
+forecasting
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
+machine-learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
+tutorial
+</div>
+</div>
+<div class="listing-description">
+<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">GARCH modeling using NASDAQ 100 Futures and EDA.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">
+<div class="listing-date">
+Aug 3, 2024
+</div>
+<div class="listing-author">
+Iván de Luna-Aldape
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1721714400000" data-listing-file-modified-sort="1740953764883" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1151">
+<div class="thumbnail">
+<p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a></p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">
+<p class="card-img-top"><img src="projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">Energy Price Forecasting Model</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
+econometrics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
+forecasting
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
+machine-learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
+tutorial
+</div>
+</div>
+<div class="listing-description">
+<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">Energy price forecasting model using AutoARIMA and model training for class example.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">
+<div class="listing-date">
+Jul 23, 2024
+</div>
+<div class="listing-author">
+Iván de Luna-Aldape
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
@@ -660,6 +811,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Ivan De Luna. All rights reserved.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

@@ -3,6 +3,7 @@ title: "La resiliencia económica de La Laguna"
 description: "La Zona Metropolitana de La Laguna concentra en la industria manufacturera el 72.85% de la producción bruta total o PBT (INEGI, 2014), ésta se encuentra más diversificada que en regiones como la de Saltillo-Ramos Arizpe."
 author: "Iván de Luna-Aldape"
 date: "2/5/2020"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

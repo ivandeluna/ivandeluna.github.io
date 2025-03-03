@@ -3,6 +3,7 @@ title: "Dinámica del impuesto predial en Torreón"
 description: "Los municipios de Coahuila recaudaron en el 2016 el equivalente a casi 817 millones de pesos en este impuesto, de los cuales se tiene que, en el mismo año, en Torreón se recaudaron 206 millones, un 10% más de los 187 millones originalmente presupuestados al inicio de ese mismo año."
 author: "Iván de Luna-Aldape"
 date: "8/9/2018"
+image: "/posts/img/torreon.jpg"
 categories:
   - governance
   - torreon

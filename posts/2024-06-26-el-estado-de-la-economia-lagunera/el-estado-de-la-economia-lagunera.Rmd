@@ -3,6 +3,7 @@ title: "El Estado de la Economía Lagunera"
 description: "“El desarrollo consiste en transformar la vida de las personas, no sólo transformar las economías.” ― Joseph E. Stiglitz, Making Globalization Work"
 author: "Iván de Luna-Aldape"
 date: "8/18/2020"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

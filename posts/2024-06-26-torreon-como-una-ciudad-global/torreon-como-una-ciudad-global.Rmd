@@ -3,6 +3,7 @@ title: "Torreón como una ciudad global"
 description: "The answers you get depend on the questions you ask. – Thomas S. Kuhn"
 author: Iván de Luna-Aldape
 date: "12/14/2020"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

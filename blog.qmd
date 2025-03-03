@@ -1,5 +1,6 @@
 ---
 title: "Blog"
+description: "Compendio de artículos de opinion y análisis (español)"
 listing:
     contents: posts
     sort: "date desc"

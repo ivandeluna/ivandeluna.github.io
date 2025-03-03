@@ -3,6 +3,7 @@ title: "Analisis de la ocupacion y el empleo en el 1er. trimestre de 2018"
 description: "De acuerdo con los últimos datos de INEGI, en La Laguna el 12.33% de las personas ocupadas ganan hasta un salario mínimo, mientras que el 32% de la población ocupada, gana entre 1 y 2 salarios mínimos. Asimismo el comercio emplea al 21.77% de la PEA."
 author: "Iván de Luna-Aldape"
 date: "5/22/2018"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

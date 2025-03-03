@@ -2,9 +2,6 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
-      "/posts/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
-      "/posts/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html",
       "/posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html",
       "/posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.html",
       "/posts/2024-06-26-el-estado-de-la-economia-lagunera/el-estado-de-la-economia-lagunera.html",
@@ -26,9 +23,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
-      "/posts/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
-      "/posts/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html",
+      "/projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
+      "/projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
+      "/projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html",
       "/posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html",
       "/posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.html",
       "/posts/2024-06-26-el-estado-de-la-economia-lagunera/el-estado-de-la-economia-lagunera.html",
@@ -49,6 +46,10 @@
   },
   {
     "listing": "/projects.html",
-    "items": []
+    "items": [
+      "/projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
+      "/projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
+      "/projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html"
+    ]
   }
 ]

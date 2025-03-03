@@ -22,13 +22,13 @@ website:
         href: https://github.com/ivandeluna
       - icon: twitter
         href: https://twitter.com/idelunaa
-body-footer:
-  left: "© 2025 Ivan De Luna. All rights reserved."
-  right:
-    - icon: github
-      href: https://github.com/ivandeluna
-    - icon: twitter
-      href: https://twitter.com/idelunaa
+  page-footer:
+    left: "© 2025 Ivan De Luna. All rights reserved."
+    right:
+      - icon: github
+        href: https://github.com/ivandeluna
+      - icon: twitter
+        href: https://twitter.com/idelunaa
 format:
   html:
     theme: sandstone

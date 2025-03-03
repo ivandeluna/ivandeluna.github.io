@@ -3,6 +3,7 @@ title: "La Cuarentena y sus implicaciones en La Laguna"
 description: "“En una epidemia no hay culpables, todos son víctimas.” – José Saramago, Ensayo sobre la ceguera."
 author: "Iván de Luna-Aldape"
 date: "5/18/2020"
+image: "/posts/img/torreon.jpg"
 categories:
   - economics
   - torreon

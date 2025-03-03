@@ -3,11 +3,11 @@ title: "¿Cómo manejamos los laguneros?"
 description: "El total de los accidentes reportados en el Tribunal de Justicia Municipal para el primer trimestre del 2018 es de 1,106 choques, 40 atropellos y 40 volcaduras. La mayoría de las causas son falta de precaución (60%), seguido de no respetar las señales de alto o cruceros semaforizados (30%)."
 author: "Iván de Luna-Aldape"
 date: "5/9/2018"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon
   - analysis
-
 ---
 
 >"Ciudad es ante todo plaza, ágora, discusión, elocuencia. De hecho, no necesita tener casas, la ciudad; las fachadas bastan. Las ciudades clásicas están basadas en un instinto opuesto al doméstico. La gente construye la casa para vivir en ella y la gente funda la ciudad para salir de la casa y encontrarse con otros que también han salido de la suya." 

@@ -3,6 +3,7 @@ title: "Composición del Ingreso y del Gasto en los Hogares de La Laguna "
 description: "La ENIGH 2018 es una encuesta realizada por el INEGI a nivel nacional y estatal que ayuda a conocer la composición del gasto e ingreso en los hogares. Este instrumento es útil para el análisis, no solo de la distribución de la riqueza, sino de los factores que influyen en una mejor calidad de vida de las personas."
 author: "Iván de Luna-Aldape"
 date: "08/14/2019"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

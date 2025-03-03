@@ -3,6 +3,7 @@ title: "La ZML obtiene bajos resultados en la prueba PLANEA Educacion Basica 201
 description: "A comparación con otras entidades federativas, Coahuila se encuentra en el 7° lugar en cuanto a LC (Lenguaje y Comunicación) y Durango en 26° y mientras que en la prueba de MAT (Matemáticas), Coahuila se ubica en 8° y Durango en el lugar 22°."
 author: "Iván de Luna-Aldape"
 date: "12/12/2018"
+image: "/posts/img/torreon.jpg"
 categories: 
   - education
   - torreon

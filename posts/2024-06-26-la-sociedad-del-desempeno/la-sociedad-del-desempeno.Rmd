@@ -3,6 +3,7 @@ title: "La sociedad del desempeño"
 description: "El 58% de los mexicanos mayores de 12 años quisiera tener más tiempo para hacer lo que realmente les gusta."
 author: "Iván de Luna-Aldape"
 date: "11/12/2019"
+image: "/posts/img/torreon.jpg"
 categories: 
   - society
   - torreon

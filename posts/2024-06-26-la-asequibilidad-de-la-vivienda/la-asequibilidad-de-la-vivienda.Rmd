@@ -3,6 +3,7 @@ title: "La Asequibilidad de la Vivienda en Torreón"
 description: "En el Índice de Precios de la Vivienda, y como se reporta en el Monitor de Vivienda del IMPLAN, el valor medio de las casa en Coahuila es de $425 mil pesos."
 author: "Iván de Luna-Aldape"
 date: "9/24/2018"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon

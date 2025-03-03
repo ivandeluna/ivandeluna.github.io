@@ -1,5 +1,6 @@
 ---
 title: "Projects"
+description: "Data Science Projects and Tutorials"
 listing:
   contents: projects
   sort: "date desc"

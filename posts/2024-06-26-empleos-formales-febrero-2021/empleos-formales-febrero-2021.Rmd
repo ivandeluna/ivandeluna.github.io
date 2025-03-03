@@ -3,6 +3,7 @@ title: "Empleos formales febrero 2021"
 description: "A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al registrar para este mes 306 mil 5 personas aseguradas asociadas a un trabajo, solo 0.53% por debajo del mismo mes respecto al año pasado, un incremento del 0.62% respecto a enero del presente año y un incremento del 3.06% respecto al mes que menos trabajadores asegurados registró durante el 2020."
 author: "Iván de Luna-Aldape"
 date: "3/22/2021"
+image: "/posts/img/torreon.jpg"
 categories: 
   - economics
   - torreon
