@@ -23,6 +23,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html",
       "/projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
       "/projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
       "/projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html",
@@ -47,6 +48,7 @@
   {
     "listing": "/projects.html",
     "items": [
+      "/projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html",
       "/projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
       "/projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",
       "/projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html"
