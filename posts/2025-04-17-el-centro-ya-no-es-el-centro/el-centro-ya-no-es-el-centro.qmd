@@ -5,8 +5,6 @@ author: "Iván de Luna Aldape"
 date: "4/17/2025"
 ---
 
-![Plaza de Armas, Torreón](plaza_armas_torreon.png)
-
 > “Toda ciudad es un texto que se escribe con los pasos de sus habitantes.”
 > —Michel de Certeau
 
