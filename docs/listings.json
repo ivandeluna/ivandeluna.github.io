@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html",
       "/posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html",
       "/posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.html",
       "/posts/2024-06-26-el-estado-de-la-economia-lagunera/el-estado-de-la-economia-lagunera.html",
@@ -23,6 +24,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html",
       "/projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html",
       "/projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html",
       "/projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html",

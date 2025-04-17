@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Data Science Projects and Tutorials">
+<meta name="author" content="Iván de Luna Aldape">
+<meta name="dcterms.date" content="2025-04-17">
+<meta name="description" content="Fragmentos para una nueva cartografía de Torreón">
 
-<title>Projects – Iván de Luna-Aldape</title>
+<title>El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón – Iván de Luna-Aldape</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
 
 <script type="text/javascript">
@@ -108,50 +79,22 @@ gtag('js', new Date());
 gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Projects – Iván de Luna-Aldape">
-<meta property="og:description" content="Data Science Projects and Tutorials">
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón – Iván de Luna-Aldape">
+<meta property="og:description" content="Fragmentos para una nueva cartografía de Torreón">
+<meta property="og:image" content="plaza_armas_torreon.png">
 <meta property="og:site_name" content="Iván de Luna-Aldape">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Iván de Luna-Aldape</span>
     </a>
   </div>
@@ -162,19 +105,19 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./projects.html" aria-current="page"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -199,236 +142,72 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Projects</h1>
+    <div class="quarto-title column-body">
+      <h1 class="title">El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón</h1>
                   <div>
         <div class="description">
-          Data Science Projects and Tutorials
+          Fragmentos para una nueva cartografía de Torreón
         </div>
       </div>
                 </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Iván de Luna Aldape </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 17, 2025</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(4)</span></div><div class="category" data-category="ZWNvbm9tZXRyaWNz">econometrics <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zm9yZWNhc3Rpbmc=">forecasting <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dHV0b3JpYWw=">tutorial <span class="quarto-category-count">(4)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="plaza_armas_torreon.png" class="img-fluid figure-img"></p>
+<figcaption>Plaza de Armas, Torreón</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>“Toda ciudad es un texto que se escribe con los pasos de sus habitantes.” —Michel de Certeau</p>
+</blockquote>
+<p>Torreón, como muchas ciudades latinoamericanas del siglo XX, no creció en espiral ni se consolidó en torno a un corazón central inmutable. Se expandió en horizontal, como una mancha de aceite que va buscando los caminos de menor resistencia. Hacia el oriente y norte encontró llanura y trazo, hacia el poniente y sur fue tomando forma entre obstáculos geográficos. En ese despliegue, el centro —ese viejo torreón de nombre y origen, y luego el centro histórico— fue quedando en los márgenes de la vida real.</p>
+<p>Hoy, más que centro, es vestigio. Ya no es el corazón palpitante de la ciudad, sino un eco de su historia. Y no se trata de una afirmación poética o simbólica: basta caminar unas cuadras más allá de la remozada calzada Colón, internarse en la Juárez, la Hidalgo o la Allende, para encontrar una realidad que no se maquilla fácilmente. Locales cerrados, edificios abandonados, un silencio comercial que contrasta con la vitalidad de otros puntos de la ciudad. Es allí donde se confirma que el centro ha perdido su papel como nodo articulador de la vida urbana.</p>
+<p>Henri Lefebvre nos recordó que “el espacio no es un objeto pasivo o neutro, sino un producto social”. Lo que antes se llamaba “centro” lo era no por su geografía, sino por su función simbólica y social: era el espacio de la reunión, del intercambio, de la política y la economía. Hoy ese rol se ha fragmentado. La ciudad se ha reconfigurado según nuevas lógicas de movilidad, consumo y residencia. Lo que antes era único y centralizado, ahora es múltiple y disperso.</p>
+<p>La Torreón contemporánea se reconoce en sus múltiples subcentros. Zonas como Viñedos, La Rosita, Monte Real, Senderos, Línea Verde, Ciudad Nazas o Sol de Oriente han ido configurando sus propias centralidades. En ellas confluyen viviendas, plazas, escuelas, supermercados, cafés y parques. Allí se encuentran los nuevos ritmos urbanos, allí se produce la cotidianidad, allí habita la ciudad viva que esporádicamente, en fines de semana entre medio dia y la madrugada, visitan unas cuantas calles del añejo centro.</p>
+<p>Y sin embargo, la planeación urbana y ciertos discursos institucionales insisten en “rescatar” el centro histórico, como si se tratara de un alma perdida a la que hay que devolverle su cuerpo. Pero ¿qué ciudad se salva desde la nostalgia? David Harvey advierte que toda política urbana debe partir del reconocimiento de las fuerzas reales que transforman el espacio, no de los deseos románticos de preservación simbólica. La ciudad no puede ni debe ser obligada a volver a ser lo que fue.</p>
+<p>Los esfuerzos de revitalización del centro histórico en Torreón han sido parciales, dispersos y, sobre todo, desconectados de la vida urbana efectiva. Se ha invertido en embellecer la calzada Colón, en peatonalizar la Morelos, en intervenir la Matamoros. Pero esas acciones han sido más estéticas que estructurales, más orientadas a eventos que a procesos. El “Paseo Colón” de los domingos, los cafés en la Morelos, o los clubes nocturnos que emergen como espectáculos ambulantes, no han logrado reactivar una vida urbana sostenida. La densidad poblacional en el perímetro del centro es baja, y las funciones económicas han migrado a otras partes de la ciudad. Jane Jacobs advirtió hace décadas que sin densidad y mezcla de usos, las ciudades no tienen vitalidad urbana real.</p>
+<p>Más que forzar la centralidad del centro, urge reconocer las nuevas formas en las que la ciudad produce sentido, valor y pertenencia. El nuevo centroide urbano —ubicado en las inmediaciones de la Diagonal Reforma y Saltillo 400— no es solo una curiosidad geográfica, sino una evidencia material del desplazamiento del peso urbano hacia otras coordenadas. Allí se expande el comercio, la vivienda, la movilidad. Allí se condensa hoy el presente urbano.</p>
+<p>Este fenómeno no es exclusivo de Torreón. En muchas ciudades intermedias del norte de México se observa el mismo patrón: un centro simbólico que pierde relevancia frente a nuevas centralidades funcionales, impulsadas por la urbanización periférica, la movilidad motorizada y los nuevos hábitos de consumo. Negarlo es prolongar la ceguera; aceptarlo es abrirse a nuevas formas de pensar la ciudad.</p>
+<p>¿Tiene sentido seguir invirtiendo recursos públicos en el rescate de un centro que ha sido abandonado por sus propios habitantes? ¿No sería más sensato invertir en consolidar y dotar de servicios a esos nuevos núcleos donde se juega el futuro de la ciudad?</p>
+<p>No se trata de renunciar al pasado, sino de comprender que la ciudad no es un museo. No todo puede o debe conservarse. Lo verdaderamente valioso no es el símbolo petrificado, sino la vida que se renueva. Si seguimos soñando con un centro que ya no existe, corremos el riesgo de ignorar la ciudad real que tenemos frente a nosotros.</p>
+<p>Es tiempo de trazar una nueva cartografía: no la de la nostalgia, sino la del presente. Una cartografía que reconozca los múltiples centros de la ciudad contemporánea, que invierta allí donde hay vida, y que permita que la ciudad se construya no desde lo que fue, sino desde lo que es y puede llegar a ser.</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-       <option value="" disabled="" selected="" hidden="">Order By</option>
-       <option value="index" data-direction="asc">Default</option>
-         <option value="listing-title" data-direction="asc">
-          Title
-        </option>
-         <option value="listing-date-sort" data-direction="asc">
-          Date - Oldest
-        </option>
-         <option value="listing-date-sort" data-direction="desc">
-          Date - Newest
-        </option>
-         <option value="listing-author" data-direction="asc">
-          Author
-        </option>
-     </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="bWFjaGluZS1sZWFybmluZyUyQ3R1dG9yaWFs" data-listing-date-sort="1740808800000" data-listing-file-modified-sort="1741618665568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985">
-<div class="thumbnail">
-<p><a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external"></a></p><a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external">
-<p class="card-img-top"><img src="projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external">Predicting House Prices using Machine Learning</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="listing-description">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external">In this project, we’ll build a machine learning model to predict house prices based on features like square footage, number of bedrooms, location, and more. Predicting house…</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="no-external">
-<div class="listing-date">
-Mar 1, 2025
-</div>
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="ZWNvbm9tZXRyaWNzJTJDZmluYW5jZSUyQ21hY2hpbmUtbGVhcm5pbmclMkN0dXRvcmlhbA==" data-listing-date-sort="1725343200000" data-listing-file-modified-sort="1740953789663" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="954">
-<div class="thumbnail">
-<p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a></p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">
-<p class="card-img-top"><img src="projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data_files/figure-html/Stationarity-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">ARIMA Forecasting Using Financial Data</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZmluYW5jZQ=='); return false;">
-finance
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="listing-description">
-<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">In this article, we explore the use of ARIMA (AutoRegressive Integrated Moving Average) models for forecasting financial time series data. ARIMA is a robust statistical method that combines autoregression, differencing, and moving averages to predict future values based on historical data. Using a simple example of stock price forecasting, we walk through the steps of loading financial data, checking for stationarity, identifying ARIMA parameters, fitting the model, and generating forecasts. By the end of this article, you will have a clear understanding of how to apply ARIMA models to financial data and interpret the results. The example is implemented in R, with code snippets and visualizations to guide you through the process.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.html" class="no-external">
-<div class="listing-date">
-Sep 3, 2024
-</div>
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1722664800000" data-listing-file-modified-sort="1740953776505" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1307">
-<div class="thumbnail">
-<p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a></p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">
-<p class="card-img-top"><img src="projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq_files/figure-html/download-data-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">GARCH Modeling of Nasdaq 100 Futures</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
-forecasting
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="listing-description">
-<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">GARCH modeling using NASDAQ 100 Futures and EDA.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="no-external">
-<div class="listing-date">
-Aug 3, 2024
-</div>
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1721714400000" data-listing-file-modified-sort="1740953764883" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1151">
-<div class="thumbnail">
-<p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a></p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">
-<p class="card-img-top"><img src="projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model_files/figure-html/unnamed-chunk-3-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">Energy Price Forecasting Model</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
-forecasting
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="listing-description">
-<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">Energy price forecasting model using AutoARIMA and model training for class example.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="no-external">
-<div class="listing-date">
-Jul 23, 2024
-</div>
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

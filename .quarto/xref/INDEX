@@ -85,5 +85,11 @@
   },
   "projects/2025-01-30-arima-forecasting-using-financial-data/arima-forecasting-using-financial-data.Rmd": {
     "arima-forecasting-using-financial-data.html": "0db12710"
+  },
+  "posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.qmd": {
+    "el-centro-ya-no-es-el-centro.html": "76eb3187"
+  },
+  "projects/2025-03-09-using-tensor-flow-for-stock-price-prediction/using-tensor-flow-for-stock-price-prediction.ipynb": {
+    "using-tensor-flow-for-stock-price-prediction.html": "2af9f26f"
   }
 }
