@@ -1,14 +1,14 @@
 ---
-title: "Projects"
-description: "Data Science Projects and Tutorials"
+title: "Proyectos"
+description: "Proyectos de ciencia de datos aplicados a finanzas, econometría y análisis de mercados — usando R y Python."
 listing:
   contents: projects
   sort: "date desc"
-  type: default
+  type: grid
   categories: true
   sort-ui: true
   filter-ui: true
-  page-size: 10
+  page-size: 9
 page-layout: full
 title-block-banner: true
 ---

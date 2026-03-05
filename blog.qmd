@@ -1,14 +1,14 @@
 ---
-title: "Blog"
-description: "Compendio de artículos de opinion y análisis (español)"
+title: "Publicaciones"
+description: "Artículos de análisis y opinión sobre economía regional, desarrollo urbano y política pública — con enfoque en La Laguna y México."
 listing:
-    contents: posts
-    sort: "date desc"
-    type: default
-    categories: true
-    sort-ui: true
-    filter-ui: true
-    page-size: 10
+  contents: posts
+  sort: "date desc"
+  type: grid
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  page-size: 9
 page-layout: full
 title-block-banner: true
 ---
