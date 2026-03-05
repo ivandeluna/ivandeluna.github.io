@@ -91,5 +91,8 @@
   },
   "projects/2025-03-09-using-tensor-flow-for-stock-price-prediction/using-tensor-flow-for-stock-price-prediction.ipynb": {
     "using-tensor-flow-for-stock-price-prediction.html": "2af9f26f"
+  },
+  "tutorials.qmd": {
+    "tutorials.html": "755f2525"
   }
 }

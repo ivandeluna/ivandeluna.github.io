@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "Iván de Luna"
 image: profile.jpg
 about:
   template: jolla
@@ -9,22 +9,24 @@ about:
       href: https://twitter.com/idelunaa
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com/ln/ivandeluna
+      href: https://linkedin.com/in/ivandeluna
     - icon: github
-      text: Github
+      text: GitHub
       href: https://github.com/ivandeluna
+---
+
+Soy economista y científico de datos con base en Torreón, México. Mi trabajo se mueve en la intersección entre el análisis cuantitativo, las finanzas y el desarrollo regional — combinando métodos estadísticos con herramientas modernas de datos para entender cómo se comportan las economías locales y qué decisiones se pueden tomar a partir de ellas.
+
+Tengo formación en Finanzas por el *Tec de Monterrey*, una Maestría en Finanzas Internacionales por la *HWR Berlin*, un Doctorado en Administración y Alta Dirección por la *UAdeC*, y una Especialidad en Métodos Estadísticos por el *CIMAT*. Ese recorrido me llevó de los modelos financieros clásicos hacia la econometría espacial, los métodos bayesianos y, en los últimos años, el machine learning aplicado a problemas económicos reales.
+
+Actualmente me desempeño como gerente de sistemas de información, docente de gestión de riesgos y consultor independiente en inteligencia de negocios. En este sitio documento proyectos, análisis y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público mexicano.
 
 ---
 
+**Áreas de interés**
 
-# Iván de Luna-Aldape, PhD
+Econometría y series de tiempo · Análisis de riesgo financiero · Desarrollo regional y urbano · Machine learning aplicado · Visualización de datos · Gobernanza y política pública
 
-👨‍🎓 B.A. Finance (Tec de Monterrey) | M.Sc. International Finance (HWR Berlin) | Doctor of Business Administration (UAdeC) | Specialty in Statistical Methods (CIMAT)
+---
 
-👀 Interests: Finance, Statistics, Economics, ML/AI, Data Science, Regional Development, Governance, Entrepreneurship
-
-💼 Information Systems Manager | Data Science and Finance Lecturer | Business Intelligence Consultant
-
-📫 Twitter: @idelunaa | GitHub: @ivandeluna
-
-*Opinions are my own.*
+*Las opiniones expresadas en este sitio son personales.*

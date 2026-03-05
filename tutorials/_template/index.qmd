@@ -1,0 +1,56 @@
+---
+title: "Título del Tutorial"
+description: "Descripción breve de una oración que explique qué aprende el lector."
+author: "Iván de Luna"
+date: "2026-01-01"
+categories: [R, estadística, tutorial]   # ajustar según el tema
+image: "thumbnail.png"                   # imagen de portada opcional
+---
+
+## Objetivo
+
+Explica en 2-3 líneas qué problema resuelve este tutorial y qué va a aprender quien lo lea.
+
+## Requisitos
+
+Paquetes o librerías necesarias:
+
+```r
+# R
+library(tidyverse)
+library(ggplot2)
+```
+
+```python
+# Python
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+## Datos
+
+Describe brevemente los datos que se usan, su fuente y cómo obtenerlos.
+
+```r
+# Ejemplo de carga de datos
+datos <- read.csv("datos.csv")
+head(datos)
+```
+
+## Desarrollo
+
+Aquí va el contenido principal del tutorial, dividido en secciones con
+texto explicativo entre cada bloque de código.
+
+```r
+# Primer paso
+summary(datos)
+```
+
+## Conclusión
+
+Resume en 2-3 puntos lo que se aprendió y posibles extensiones o siguientes pasos.
+
+---
+
+*Tutorial por [Iván de Luna](https://ivandeluna.github.io) · Código en [GitHub](https://github.com/ivandeluna)*

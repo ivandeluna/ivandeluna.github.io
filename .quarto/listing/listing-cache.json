@@ -4,8 +4,12 @@
       "projects"
     ],
     "index.qmd": [
-      "posts/",
-      "projects/"
+      "posts",
+      "projects",
+      "tutorials"
+    ],
+    "tutorials.qmd": [
+      "tutorials"
     ],
     "blog.qmd": [
       "posts"

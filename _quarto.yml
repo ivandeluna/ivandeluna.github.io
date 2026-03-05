@@ -3,8 +3,17 @@ project:
   output-dir: docs
 
 website:
-  title: "Iván de Luna-Aldape"
-  open-graph: true
+  title: "Iván de Luna"
+  description: "Economista y científico de datos. Análisis cuantitativo, econometría y desarrollo regional en México. R · Python · Data Science."
+  open-graph:
+    title: "Iván de Luna — Economista y Científico de Datos"
+    description: "Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI."
+    image: profile.jpg
+  twitter-card:
+    creator: "@idelunaa"
+    title: "Iván de Luna — Economista y Científico de Datos"
+    description: "Análisis cuantitativo, econometría y desarrollo regional en México."
+    image: profile.jpg
   google-analytics: "G-N5D7WWRDKG"
   navbar:
     search: true
@@ -13,9 +22,11 @@ website:
         href: index.qmd
       - text: Blog
         href: blog.qmd
-      - text: Projects
+      - text: Tutoriales
+        href: tutorials.qmd
+      - text: Proyectos
         href: projects.qmd
-      - text: About
+      - text: Acerca de
         href: about.qmd
     right:
       - icon: github
@@ -23,16 +34,14 @@ website:
       - icon: twitter
         href: https://twitter.com/idelunaa
   page-footer:
-    left: "© 2025 Ivan De Luna. All rights reserved."
+    left: "© 2025 Iván de Luna. Opiniones personales."
     right:
       - icon: github
         href: https://github.com/ivandeluna
       - icon: twitter
         href: https://twitter.com/idelunaa
+
 format:
   html:
     theme: sandstone
     css: styles.css
-
-
-

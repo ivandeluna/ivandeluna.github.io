@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Portfolio website for data science projects and blogging (mostly in spanish)">
+<meta name="description" content="Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.">
 
-<title>Meridian Parallax – Iván de Luna-Aldape</title>
+<title>Iván de Luna-Aldape – Iván de Luna</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,21 +72,48 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-posts-recientes .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      page: 18,
-    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-posts-recientes'] = new List('listing-posts-recientes', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-proyectos-recientes .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-proyectos-recientes'] = new List('listing-proyectos-recientes', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -140,10 +167,15 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Meridian Parallax – Iván de Luna-Aldape">
-<meta property="og:description" content="Portfolio website for data science projects and blogging (mostly in spanish)">
-<meta property="og:image" content="./posts/img/torreon.jpg">
-<meta property="og:site_name" content="Iván de Luna-Aldape">
+<meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
+<meta property="og:image" content="profile.jpg">
+<meta property="og:site_name" content="Iván de Luna">
+<meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
+<meta name="twitter:image" content="profile.jpg">
+<meta name="twitter:creator" content="@idelunaa">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -154,7 +186,7 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Iván de Luna-Aldape</span>
+    <span class="navbar-title">Iván de Luna</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -172,12 +204,16 @@ window.Quarto = {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./tutorials.html"> 
+<span class="menu-text">Tutoriales</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./projects.html"> 
-<span class="menu-text">Projects</span></a>
+<span class="menu-text">Proyectos</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Acerca de</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -201,18 +237,19 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Meridian Parallax</h1>
+    <div class="quarto-title column-page">
+      <h1 class="title">Iván de Luna-Aldape</h1>
+            <p class="subtitle lead">Economista · Científico de Datos · Desarrollo Regional</p>
                   <div>
         <div class="description">
-          Portfolio website for data science projects and blogging (mostly in spanish)
+          Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.
         </div>
       </div>
                 </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta column-page">
 
       
     
@@ -223,21 +260,19 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(21)</span></div><div class="category" data-category="YW5hbHlzaXM=">analysis <span class="quarto-category-count">(16)</span></div><div class="category" data-category="ZWNvbm9tZXRyaWNz">econometrics <span class="quarto-category-count">(3)</span></div><div class="category" data-category="ZWNvbm9taWNz">economics <span class="quarto-category-count">(10)</span></div><div class="category" data-category="ZWR1Y2F0aW9u">education <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmluYW5jZQ==">finance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zm9yZWNhc3Rpbmc=">forecasting <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Z292ZXJuYW5jZQ==">governance <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(4)</span></div><div class="category" data-category="c29jaWV0eQ==">society <span class="quarto-category-count">(4)</span></div><div class="category" data-category="dG9ycmVvbg==">torreon <span class="quarto-category-count">(16)</span></div><div class="category" data-category="dHV0b3JpYWw=">tutorial <span class="quarto-category-count">(4)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
 
 
 
 
 
-
-
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<p>Trabajo en la intersección de la economía cuantitativa, las finanzas y la ciencia de datos aplicada al desarrollo regional de México. En este sitio publico análisis, proyectos técnicos y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público.</p>
+<hr>
+<section id="últimas-publicaciones" class="level2">
+<h2 class="anchored" data-anchor-id="últimas-publicaciones">Últimas publicaciones</h2>
+<div id="listing-posts-recientes" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
 <div class="g-col-1" data-index="0" data-listing-date-sort="1744869600000" data-listing-file-modified-sort="1744921253541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="846">
 <a href="./posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html" class="quarto-grid-link">
@@ -250,12 +285,115 @@ El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón
 <div class="card-text listing-description">
 Fragmentos para una nueva cartografía de Torreón
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna Aldape
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 17, 2025
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1616392800000" data-listing-file-modified-sort="1740955059231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="414">
+<a href="./posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Empleos formales febrero 2021
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
+economics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
+torreon
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
+analysis
+</div>
+</div>
+<div class="card-text listing-description">
+A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al…
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Mar 22, 2021
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1607925600000" data-listing-file-modified-sort="1740955043201" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1215">
+<a href="./posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Torreón como una ciudad global
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
+economics
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
+torreon
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
+analysis
+</div>
+</div>
+<div class="card-text listing-description">
+The answers you get depend on the questions you ask. – Thomas S. Kuhn
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Dec 14, 2020
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
+<p><a href="./blog.html">Ver todas las publicaciones →</a></p>
+<hr>
+</section>
+<section id="proyectos-y-tutoriales-recientes" class="level2">
+<h2 class="anchored" data-anchor-id="proyectos-y-tutoriales-recientes">Proyectos y tutoriales recientes</h2>
+<div id="listing-proyectos-recientes" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="bWFjaGluZS1sZWFybmluZyUyQ3R1dG9yaWFs" data-listing-date-sort="1741500000000" data-listing-file-modified-sort="1744914680885" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="693">
+<a href="./projects/2025-03-09-using-tensor-flow-for-stock-price-prediction/using-tensor-flow-for-stock-price-prediction.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Using Tensor Flow for Stock Price Prediction: A Practical Guide
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
+machine-learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
+tutorial
+</div>
+</div>
+<div class="card-text listing-description">
+
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Mar 9, 2025
 </div>
 </div>
 </div>
@@ -281,10 +419,7 @@ tutorial
 <div class="card-text listing-description">
 In this project, we’ll build a machine learning model to predict house prices based on features like square footage, number of bedrooms, location, and more. Predicting house…
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Mar 1, 2025
 </div>
@@ -318,665 +453,9 @@ tutorial
 <div class="card-text listing-description">
 In this article, we explore the use of ARIMA (AutoRegressive Integrated Moving Average) models for forecasting financial time series data. ARIMA is a robust statistical…
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Sep 3, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1722664800000" data-listing-file-modified-sort="1740953776505" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1307">
-<a href="./projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/2024-08-03-garch-modeling-nasdaq/garch-modeling-nasdaq_files/figure-html/download-data-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-GARCH Modeling of Nasdaq 100 Futures
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
-forecasting
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="card-text listing-description">
-GARCH modeling using NASDAQ 100 Futures and EDA.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Aug 3, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="ZWNvbm9tZXRyaWNzJTJDZm9yZWNhc3RpbmclMkNtYWNoaW5lLWxlYXJuaW5nJTJDdHV0b3JpYWw=" data-listing-date-sort="1721714400000" data-listing-file-modified-sort="1740953764883" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1151">
-<a href="./projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/2024-07-23-energy-price-forecasting-model/energy-price-forecasting-model_files/figure-html/unnamed-chunk-3-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Energy Price Forecasting Model
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zm9yZWNhc3Rpbmc='); return false;">
-forecasting
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="card-text listing-description">
-Energy price forecasting model using AutoARIMA and model training for class example.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Jul 23, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1616392800000" data-listing-file-modified-sort="1740955059231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="414">
-<a href="./posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Empleos formales febrero 2021
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Mar 22, 2021
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1607925600000" data-listing-file-modified-sort="1740955043201" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1215">
-<a href="./posts/2024-06-26-torreon-como-una-ciudad-global/torreon-como-una-ciudad-global.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Torreón como una ciudad global
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-The answers you get depend on the questions you ask. – Thomas S. Kuhn
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Dec 14, 2020
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1597726800000" data-listing-file-modified-sort="1740955061819" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="583">
-<a href="./posts/2024-06-26-el-estado-de-la-economia-lagunera/el-estado-de-la-economia-lagunera.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-El Estado de la Economía Lagunera
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-“El desarrollo consiste en transformar la vida de las personas, no sólo transformar las economías.” ― Joseph E. Stiglitz, Making Globalization Work
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Aug 18, 2020
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="8" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1589778000000" data-listing-file-modified-sort="1740955056822" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="736">
-<a href="./posts/2024-06-26-la-cuarentena-y-sus-implicaciones-en-la-laguna/la-cuarentena-y-sus-implicaciones-en-la-laguna.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La Cuarentena y sus implicaciones en La Laguna
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-“En una epidemia no hay culpables, todos son víctimas.” – José Saramago, Ensayo sobre la ceguera.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-May 18, 2020
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="9" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1580882400000" data-listing-file-modified-sort="1740955048635" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="546">
-<a href="./posts/2024-06-26-la-resiliencia-economica-de-la-laguna/la-resiliencia-economica-de-la-laguna.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La resiliencia económica de La Laguna
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-La Zona Metropolitana de La Laguna concentra en la industria manufacturera el 72.85% de la producción bruta total o PBT (INEGI, 2014), ésta se encuentra más diversificada…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Feb 5, 2020
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="10" data-categories="c29jaWV0eSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1573538400000" data-listing-file-modified-sort="1740955047583" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="566">
-<a href="./posts/2024-06-26-la-sociedad-del-desempeno/la-sociedad-del-desempeno.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La sociedad del desempeño
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('c29jaWV0eQ=='); return false;">
-society
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-El 58% de los mexicanos mayores de 12 años quisiera tener más tiempo para hacer lo que realmente les gusta.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Nov 12, 2019
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="11" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1565758800000" data-listing-file-modified-sort="1740954962869" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="644">
-<a href="./posts/2024-06-26-composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna/composicin-del-ingreso-y-del-gasto-en-los-hogares-de-la-laguna.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Composición del Ingreso y del Gasto en los Hogares de La Laguna
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-La ENIGH 2018 es una encuesta realizada por el INEGI a nivel nacional y estatal que ayuda a conocer la composición del gasto e ingreso en los hogares. Este instrumento es…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Aug 14, 2019
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="12" data-categories="c29jaWV0eSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1560315600000" data-listing-file-modified-sort="1740955049728" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="737">
-<a href="./posts/2024-06-26-la-movilidad-social-en-la-laguna/la-movilidad-social-en-la-laguna.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La movilidad social en La Laguna
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('c29jaWV0eQ=='); return false;">
-society
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-El INEGI estima que existan en Torreón 496 mil personas mayores de 15 años, de las cuales el 2.16% no cuenta con escolaridad alguna, el 46.71% con educación básica (de los…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Jun 12, 2019
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="13" data-categories="c29jaWV0eSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1552975200000" data-listing-file-modified-sort="1740955046538" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1057">
-<a href="./posts/2024-06-26-la-violencia-familiar-en-torreon/la-violencia-familiar-en-torreon.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La violencia familiar en Torreón
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('c29jaWV0eQ=='); return false;">
-society
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-En el marco de la conmemoración del día internacional de la mujer, y como parte de las actividades que se llevan a cabo dentro del Municipio de Torreón a través del…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Mar 19, 2019
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="14" data-categories="ZWNvbm9taWNzJTJDZ292ZXJuYW5jZSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1551679200000" data-listing-file-modified-sort="1740955055555" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="529">
-<a href="./posts/2024-06-26-la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna/la-eficiencia-financiera-de-los-sistemas-municipales-de-aguas-y-saneamiento-en-la-laguna.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La eficiencia financiera de los Sistemas Municipales de Aguas y Saneamiento en La Laguna
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Z292ZXJuYW5jZQ=='); return false;">
-governance
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-De acuerdo con la CONAGUA, el SIMAS Rural cuenta con 17 títulos de derechos de agua de los cuales 12 se encuentran en la mancha urbana de Torreón. En el último avance de…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Mar 4, 2019
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="15" data-categories="ZWR1Y2F0aW9uJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1544594400000" data-listing-file-modified-sort="1740955045329" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="689">
-<a href="./posts/2024-06-26-la-zml-obtiene-bajos-resultados-en-la-prueba-planea-educacion-basica-2018/la-zml-obtiene-bajos-resultados-en-la-prueba-planea-educacion-basica-2018.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La ZML obtiene bajos resultados en la prueba PLANEA Educacion Basica 2018
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWR1Y2F0aW9u'); return false;">
-education
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-A comparación con otras entidades federativas, Coahuila se encuentra en el 7° lugar en cuanto a LC (Lenguaje y Comunicación) y Durango en 26° y mientras que en la prueba de…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Dec 12, 2018
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="16" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1537765200000" data-listing-file-modified-sort="1740955058045" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="808">
-<a href="./posts/2024-06-26-la-asequibilidad-de-la-vivienda/la-asequibilidad-de-la-vivienda.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-La Asequibilidad de la Vivienda en Torreón
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-En el Índice de Precios de la Vivienda, y como se reporta en el Monitor de Vivienda del IMPLAN, el valor medio de las casa en Coahuila es de $425 mil pesos.
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Sep 24, 2018
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="17" data-categories="Z292ZXJuYW5jZSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1533790800000" data-listing-file-modified-sort="1740954950410" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="821">
-<a href="./posts/2024-06-26-dinamica-del-impuesto-predial-en-torreon/dinamica-del-impuesto-predial-en-torreon.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Dinámica del impuesto predial en Torreón
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Z292ZXJuYW5jZQ=='); return false;">
-governance
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-Los municipios de Coahuila recaudaron en el 2016 el equivalente a casi 817 millones de pesos en este impuesto, de los cuales se tiene que, en el mismo año, en Torreón se…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Aug 9, 2018
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="18" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1526965200000" data-listing-file-modified-sort="1740954884286" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="704">
-<a href="./posts/2024-06-26-analisis-de-la-ocupacion-y-el-empleo-en-el-1er-trimestre-de-2018/analisis-de-la-ocupacion-y-el-empleo-en-el-1er-trimestre-de-2018.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" data-src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Analisis de la ocupacion y el empleo en el 1er. trimestre de 2018
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-De acuerdo con los últimos datos de INEGI, en La Laguna el 12.33% de las personas ocupadas ganan hasta un salario mínimo, mientras que el 32% de la población ocupada, gana…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-May 22, 2018
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="19" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1525842000000" data-listing-file-modified-sort="1740954980764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="933">
-<a href="./posts/2024-06-26-como-manejamos-los-laguneros/como-manejamos-los-laguneros.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" data-src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-¿Cómo manejamos los laguneros?
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-El total de los accidentes reportados en el Tribunal de Justicia Municipal para el primer trimestre del 2018 es de 1,106 choques, 40 atropellos y 40 volcaduras. La mayoría…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-May 9, 2018
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="20" data-categories="c29jaWV0eSUyQ3RvcnJlb24lMkNhbmFseXNpcw==" data-listing-date-sort="1518069600000" data-listing-file-modified-sort="1740955044280" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="929">
-<a href="./posts/2024-06-26-resultados-para-la-laguna-en-la-prueba-planea-2017/resultados-para-la-laguna-en-la-prueba-planea-2017.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" data-src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Resultados para La Laguna en la prueba Planea 2017
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('c29jaWV0eQ=='); return false;">
-society
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-Torreón obtuvo resultados en el nivel sobresaliente por encima de la media nacional en la prueba de Lenguaje y Comunicación, con 15.34%. En cuanto a la prueba de Matemáticas…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Iván de Luna-Aldape
-</div>
-<div class="listing-date">
-Feb 8, 2018
 </div>
 </div>
 </div>
@@ -987,10 +466,14 @@ Feb 8, 2018
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
-  <ul class="pagination"></ul>
-</nav>
-</div></main> <!-- /main -->
+</div>
+<p><a href="./projects.html">Ver todos los proyectos →</a> · <a href="./tutorials.html">Ver todos los tutoriales →</a></p>
+
+
+
+</section>
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1412,7 +895,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>© 2025 Ivan De Luna. All rights reserved.</p>
+<p>© 2025 Iván de Luna. Opiniones personales.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

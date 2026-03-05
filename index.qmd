@@ -1,17 +1,48 @@
 ---
-title: "Meridian Parallax"
-description: "Portfolio website for data science projects and blogging (mostly in spanish)"
+title: "Iván de Luna-Aldape"
+subtitle: "Economista · Científico de Datos · Desarrollo Regional"
+description: "Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría."
 listing:
-  contents:
-    - "posts/"
-    - "projects/"
-  sort: "date desc"
-  type: grid
-  categories: true
-  sort-ui: false
-  filter-ui: false
+  - id: posts-recientes
+    contents: posts
+    sort: "date desc"
+    type: grid
+    max-items: 3
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    fields: [image, date, title, description, categories]
+  - id: proyectos-recientes
+    contents:
+      - projects
+      - tutorials
+    sort: "date desc"
+    type: grid
+    max-items: 3
+    categories: false
+    sort-ui: false
+    filter-ui: false
+    fields: [image, date, title, description, categories]
 page-layout: full
 title-block-banner: true
 ---
 
+Trabajo en la intersección de la economía cuantitativa, las finanzas y la ciencia de datos aplicada al desarrollo regional de México. En este sitio publico análisis, proyectos técnicos y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público.
 
+---
+
+## Últimas publicaciones
+
+::: {#posts-recientes}
+:::
+
+[Ver todas las publicaciones →](blog.qmd)
+
+---
+
+## Proyectos y tutoriales recientes
+
+::: {#proyectos-recientes}
+:::
+
+[Ver todos los proyectos →](projects.qmd) · [Ver todos los tutoriales →](tutorials.qmd)
