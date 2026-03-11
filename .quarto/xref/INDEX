@@ -94,5 +94,8 @@
   },
   "tutorials.qmd": {
     "tutorials.html": "755f2525"
+  },
+  "posts/linear-regression-lasso-ridge/linear_regression_lasso_ridge_quarto.ipynb": {
+    "linear_regression_lasso_ridge_quarto.html": "f84554c9"
   }
 }
