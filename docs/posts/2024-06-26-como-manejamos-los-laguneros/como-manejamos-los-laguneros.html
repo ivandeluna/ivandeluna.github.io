@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.">
+<meta name="author" content="Iván de Luna-Aldape">
+<meta name="dcterms.date" content="2018-05-09">
+<meta name="description" content="El total de los accidentes reportados en el Tribunal de Justicia Municipal para el primer trimestre del 2018 es de 1,106 choques, 40 atropellos y 40 volcaduras. La mayoría de las causas son falta de precaución (60%), seguido de no respetar las señales de alto o cruceros semaforizados (30%).">
 
-<title>Iván de Luna-Aldape – Iván de Luna</title>
+<title>¿Cómo manejamos los laguneros? – Iván de Luna</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,63 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts-recientes'] = new List('listing-posts-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-proyectos-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-proyectos-recientes'] = new List('listing-proyectos-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
 
 <script type="text/javascript">
@@ -136,56 +79,27 @@ gtag('js', new Date());
 gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
 <meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
-<meta property="og:image" content="profile.jpg">
+<meta property="og:image" content="/posts/img/torreon.jpg">
 <meta property="og:site_name" content="Iván de Luna">
 <meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
 <meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
-<meta name="twitter:image" content="profile.jpg">
+<meta name="twitter:image" content="/posts/img/torreon.jpg">
 <meta name="twitter:creator" content="@idelunaa">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Iván de Luna</span>
     </a>
   </div>
@@ -196,23 +110,23 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./tutorials.html"> 
+    <a class="nav-link" href="../../tutorials.html"> 
 <span class="menu-text">Tutoriales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Proyectos</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
 </ul>
@@ -237,257 +151,120 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Iván de Luna-Aldape</h1>
-            <p class="subtitle lead">Economista · Científico de Datos · Desarrollo Regional</p>
+    <div class="quarto-title column-body">
+      <h1 class="title">¿Cómo manejamos los laguneros?</h1>
                   <div>
         <div class="description">
-          Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.
+          El total de los accidentes reportados en el Tribunal de Justicia Municipal para el primer trimestre del 2018 es de 1,106 choques, 40 atropellos y 40 volcaduras. La mayoría de las causas son falta de precaución (60%), seguido de no respetar las señales de alto o cruceros semaforizados (30%).
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">economics</div>
+                <div class="quarto-category">torreon</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Iván de Luna-Aldape </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 9, 2018</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<p>Trabajo en la intersección de la economía cuantitativa, las finanzas y la ciencia de datos aplicada al desarrollo regional de México. En este sitio publico análisis, proyectos técnicos y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público.</p>
-<hr>
-<section id="últimas-publicaciones" class="level2">
-<h2 class="anchored" data-anchor-id="últimas-publicaciones">Últimas publicaciones</h2>
-<div id="listing-posts-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="ZWNvbm9tZXRyaWNzJTJDbWFjaGluZS1sZWFybmluZyUyQ3B5dGhvbiUyQ21leGljbyUyQ2VuaWdo" data-listing-date-sort="1773122400000" data-listing-file-modified-sort="1773885811378" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1029">
-<a href="./posts/linear-regression-lasso-ridge/linear_regression_lasso_ridge_quarto.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/linear-regression-lasso-ridge/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Linear Regression with Regularization: OLS, Lasso, and Ridge
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWV4aWNv'); return false;">
-mexico
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZW5pZ2g='); return false;">
-enigh
-</div>
-</div>
-<div class="card-text listing-description">
-Comparing OLS, Lasso (L1), and Ridge (L2) regression on Mexican household income data (ENIGH 2022). Covers regularization theory, cross-validated lambda selection, and…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 10, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1744869600000" data-listing-file-modified-sort="1744921253541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="846">
-<a href="./posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2025-04-17-el-centro-ya-no-es-el-centro/plaza-armas-torreon.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón
-</h5>
-<div class="card-text listing-description">
-Fragmentos para una nueva cartografía de Torreón
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 17, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1616392800000" data-listing-file-modified-sort="1740955059231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="414">
-<a href="./posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Empleos formales febrero 2021
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 22, 2021
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./blog.html">Ver todas las publicaciones →</a></p>
-<hr>
-</section>
-<section id="proyectos-y-tutoriales-recientes" class="level2">
-<h2 class="anchored" data-anchor-id="proyectos-y-tutoriales-recientes">Proyectos y tutoriales recientes</h2>
-<div id="listing-proyectos-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="b3B0aW1pemFjaSVDMyVCM24lMkNtYWNoaW5lLWxlYXJuaW5nJTJDcHl0aG9uJTJDYWxnb3JpdG1vcw==" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773887267940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4095">
-<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-optimizacion-estocastica-python/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Optimización Estocástica con Python
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('b3B0aW1pemFjaSVDMyVCM24='); return false;">
-optimización
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YWxnb3JpdG1vcw=='); return false;">
-algoritmos
-</div>
-</div>
-<div class="card-text listing-description">
-Implementación desde cero de tres algoritmos de optimización metaheurística — Búsqueda Aleatoria, Evolución Diferencial y PSO — más Gradiente Estocástico, aplicados a…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="ZWNvbm9tZXRyJUMzJUFEYSUyQ2VzdGFkJUMzJUFEc3RpY2EtbXVsdGl2YXJpYWRhJTJDcHl0aG9uJTJDZGF0b3MtTSVDMyVBOXhpY28=" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773945714138" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3382">
-<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Análisis Factorial: Construyendo un Índice de Marginación para México
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyJUMzJUFEYQ=='); return false;">
-econometría
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZXN0YWQlQzMlQURzdGljYS1tdWx0aXZhcmlhZGE='); return false;">
-estadística-multivariada
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0b3MtTSVDMyVBOXhpY28='); return false;">
-datos-México
-</div>
-</div>
-<div class="card-text listing-description">
-Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="bWFjaGluZS1sZWFybmluZyUyQ3R1dG9yaWFs" data-listing-date-sort="1740808800000" data-listing-file-modified-sort="1741618665568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting_files/figure-html/cell-6-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Predicting House Prices using Machine Learning
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="card-text listing-description">
-In this project, we’ll build a machine learning model to predict house prices based on features like square footage, number of bedrooms, location, and more. Predicting house…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 1, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./projects.html">Ver todos los proyectos →</a> · <a href="./tutorials.html">Ver todos los tutoriales →</a></p>
+<blockquote class="blockquote">
+<p>“Ciudad es ante todo plaza, ágora, discusión, elocuencia. De hecho, no necesita tener casas, la ciudad; las fachadas bastan. Las ciudades clásicas están basadas en un instinto opuesto al doméstico. La gente construye la casa para vivir en ella y la gente funda la ciudad para salir de la casa y encontrarse con otros que también han salido de la suya.” José Ortega y Gasset</p>
+</blockquote>
+<p>Es en el espacio entre construcciones, aquello que llamamos calle, donde nos relacionamos de primera mano con las personas que conforman la ciudad. Es en donde a través de los espacios públicos que convivimos, aún sin darnos cuenta, con cientos y miles de personas en nuestros caminos día a día. Estos extraños cotidianos junto con nosotros conforman no solo el concepto de sociedad, sino entre sus acciones y relaciones, crean lo que llamamos ciudad.</p>
+<p>Las características de diseño de estos espacios se han ido transmutando en sus paradigmas y aplicaciones sobre el urbanismo conforme a los tiempos. Estas necesidades cambian y los modelos de ciudad se establecen, no por ser el mejor, sino por cumplir de mejor manera con las necesidades conformadas al momento de su diseño y concepción.</p>
+<p>En nuestra ciudad, el paradigma dominante establece la hegemonía del automóvil como medio de transporte; hegemonía visible a través de sus amplias calles, los numerosos puentes peatonales y los escasos caminos y accesos para las personas que eligen ir a pie, y que confirman al automóvil como parte central en el diseño prevaleciente de la ciudad.</p>
+<p>Este triunfo del vehículo motorizado conlleva a una serie de problemas y análisis que hacen trascender el tema del urbanismo hacia una esfera más social. Es esto a lo que llamamos cultura vial y se refiere a las interacciones, ayudadas por el diseño, y no solo se limita a las reglas sino a la manera en cómo todo quien usa las vías se comportan en ellas. De este comportamiento, ya sea a través del carro, bicicleta o a pie, derivan los conflictos que se presentan de manera diaria y se registran como infracciones, accidentes, daños y, en hechos más desafortunados, en muertes.</p>
+<p>En el reglamento de Tránsito del Municipio de Torreón se contemplan 189 numerales, divididos en normas generales de circulación para automóviles, para bicicletas o ciclistas y para motocicletas. De los registros que se han hecho públicos a través del Portal de Datos Abiertos del Municipio, se puede conocer en los primeros meses del 2017 que la mayoría de los numerales por los que se infracciona al conductor son el de manejar sin precaución (7.22%), estacionarse indebidamente (6.61%), conducir sosteniendo celulares o maquillándose (4.42%) y conducir sin cinturón (4.72%).</p>
+<p>Existen ciertas multas que rara vez son aplicadas, en especial las relativas a la circulación de ciclistas en dónde la infracción por no respetar el espacio de espera del ciclista y la relativa a no respetar el espacio de 1.5 metros que el automovilista debe acatar.</p>
+<p>Si bien las infracciones nos ayudan a entender más el comportamiento de los conductores en sus traslados y omisiones del reglamento en lo individual, los accidentes nos ayudan a entender más como se dan las consecuencias de este comportamiento con los demás. En el periodo que comprende de enero del 2018 a marzo, el total de los accidentes reportados en el Tribunal de Justicia Municipal para el primer trimestre del 2018 es de 1106 choques, 40 atropellos y 40 volcaduras.</p>
+<p>La mayoría de los accidentes registrados ante el TJM son causa de la falta de precaución (60%), seguido de no respetar las señales de alto o cruceros semaforizados (30%). Solo el 8% de los incidentes registrados tienen su motivo como manejar en estado de ebriedad.</p>
+<p>De acuerdo a los archivos más detallados de accidentes viales que se encuentran en el portal de datos abiertos del municipio, en el mes de enero y marzo del 2017 se reportaron 805 accidentes viales, con un promedio de 25 mil pesos en daños materiales, de los cuales la mayoría son choques por alcance (20%), por corte de circulación (18%) y por no respetar señalamientos (16%).</p>
+<p>SI bien del total de estos accidentes analizados la tasa de mortalidad es relativamente baja, la mayoría son derivados de los choques, 3 decesos, y solo uno por volcaduras. En cuanto a consecuencias de menor gravedad, en el periodo analizado se han registrado 136 personas lesionadas; visto en términos relativos, el 16% de los accidentes resultan con al menos una persona lesionada.</p>
+<p>En los choques dónde se involucran otras formas de movilidad, se destaca que 12 accidentes han sido de una bicicleta chocando con un carro, mientras que 15 han sido de un carro impactando una bicicleta. En cuestión de las motocicletas, en 22 casos se ha reportado que impactaron al vehículo mientras que en el sentido inverso se han registrado 62 accidentes. En su gran mayoría estos vehículos son conducidos por particulares, seguido de taxis y finalmente vehículos ilegales.</p>
+<p>En el total de los accidentes que se han registrado, con un patrón similar para el 2016, aproximadamente el 60% cuenta con seguro, mientras que en los casos donde se impactan dos o más vehículos, solo en el 35% de los casos ambos involucrados cuentan con seguro.</p>
+<p>Es notorio estos patrones se repiten año con año en cuanto al espectro de tiempo del estudio, por lo cual se enfatiza que la cultura vial y en el cuidado que se tiene a la hora de conducir, ya sea un automóvil o una motocicleta, está muy relacionado en el comportamiento individual, la falta de precaución al conducir, y con la falta de respeto a los señalamientos.</p>
+<p>Tipo de automóvil involucrado en los accidentes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Tipo vs Tipo</th>
+<th style="text-align: center;">Autobús de pasajeros</th>
+<th style="text-align: center;">Particular</th>
+<th style="text-align: center;">Taxi</th>
+<th style="text-align: center;">Vehículo Ilegal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Autobus de pasajeros</td>
+<td style="text-align: center;">0.12%</td>
+<td style="text-align: center;">2.36%</td>
+<td style="text-align: center;">0.12%</td>
+<td style="text-align: center;">0.00%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Particular</td>
+<td style="text-align: center;">1.24%</td>
+<td style="text-align: center;">65.34%</td>
+<td style="text-align: center;">6.96%</td>
+<td style="text-align: center;">0.99%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Taxi</td>
+<td style="text-align: center;">0.25%</td>
+<td style="text-align: center;">4.10%</td>
+<td style="text-align: center;">0.12%</td>
+<td style="text-align: center;">0.12%</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Vehículo Ilegal</td>
+<td style="text-align: center;">0.00%</td>
+<td style="text-align: center;">2.61%</td>
+<td style="text-align: center;">0.62%</td>
+<td style="text-align: center;">0.12%</td>
+</tr>
+</tbody>
+</table>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

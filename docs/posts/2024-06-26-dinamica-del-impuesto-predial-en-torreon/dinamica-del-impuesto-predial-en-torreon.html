@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.">
+<meta name="author" content="Iván de Luna-Aldape">
+<meta name="dcterms.date" content="2018-08-09">
+<meta name="description" content="Los municipios de Coahuila recaudaron en el 2016 el equivalente a casi 817 millones de pesos en este impuesto, de los cuales se tiene que, en el mismo año, en Torreón se recaudaron 206 millones, un 10% más de los 187 millones originalmente presupuestados al inicio de ese mismo año.">
 
-<title>Iván de Luna-Aldape – Iván de Luna</title>
+<title>Dinámica del impuesto predial en Torreón – Iván de Luna</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,63 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts-recientes'] = new List('listing-posts-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-proyectos-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-proyectos-recientes'] = new List('listing-proyectos-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
 
 <script type="text/javascript">
@@ -136,56 +79,27 @@ gtag('js', new Date());
 gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
 <meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
-<meta property="og:image" content="profile.jpg">
+<meta property="og:image" content="/posts/img/torreon.jpg">
 <meta property="og:site_name" content="Iván de Luna">
 <meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
 <meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
-<meta name="twitter:image" content="profile.jpg">
+<meta name="twitter:image" content="/posts/img/torreon.jpg">
 <meta name="twitter:creator" content="@idelunaa">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Iván de Luna</span>
     </a>
   </div>
@@ -196,23 +110,23 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./tutorials.html"> 
+    <a class="nav-link" href="../../tutorials.html"> 
 <span class="menu-text">Tutoriales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Proyectos</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
 </ul>
@@ -237,257 +151,70 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Iván de Luna-Aldape</h1>
-            <p class="subtitle lead">Economista · Científico de Datos · Desarrollo Regional</p>
+    <div class="quarto-title column-body">
+      <h1 class="title">Dinámica del impuesto predial en Torreón</h1>
                   <div>
         <div class="description">
-          Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.
+          Los municipios de Coahuila recaudaron en el 2016 el equivalente a casi 817 millones de pesos en este impuesto, de los cuales se tiene que, en el mismo año, en Torreón se recaudaron 206 millones, un 10% más de los 187 millones originalmente presupuestados al inicio de ese mismo año.
         </div>
       </div>
-                </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">governance</div>
+                <div class="quarto-category">torreon</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Iván de Luna-Aldape </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 9, 2018</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<p>Trabajo en la intersección de la economía cuantitativa, las finanzas y la ciencia de datos aplicada al desarrollo regional de México. En este sitio publico análisis, proyectos técnicos y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público.</p>
-<hr>
-<section id="últimas-publicaciones" class="level2">
-<h2 class="anchored" data-anchor-id="últimas-publicaciones">Últimas publicaciones</h2>
-<div id="listing-posts-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="ZWNvbm9tZXRyaWNzJTJDbWFjaGluZS1sZWFybmluZyUyQ3B5dGhvbiUyQ21leGljbyUyQ2VuaWdo" data-listing-date-sort="1773122400000" data-listing-file-modified-sort="1773885811378" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1029">
-<a href="./posts/linear-regression-lasso-ridge/linear_regression_lasso_ridge_quarto.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/linear-regression-lasso-ridge/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Linear Regression with Regularization: OLS, Lasso, and Ridge
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWV4aWNv'); return false;">
-mexico
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZW5pZ2g='); return false;">
-enigh
-</div>
-</div>
-<div class="card-text listing-description">
-Comparing OLS, Lasso (L1), and Ridge (L2) regression on Mexican household income data (ENIGH 2022). Covers regularization theory, cross-validated lambda selection, and…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 10, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1744869600000" data-listing-file-modified-sort="1744921253541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="846">
-<a href="./posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2025-04-17-el-centro-ya-no-es-el-centro/plaza-armas-torreon.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón
-</h5>
-<div class="card-text listing-description">
-Fragmentos para una nueva cartografía de Torreón
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 17, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1616392800000" data-listing-file-modified-sort="1740955059231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="414">
-<a href="./posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Empleos formales febrero 2021
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 22, 2021
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./blog.html">Ver todas las publicaciones →</a></p>
-<hr>
-</section>
-<section id="proyectos-y-tutoriales-recientes" class="level2">
-<h2 class="anchored" data-anchor-id="proyectos-y-tutoriales-recientes">Proyectos y tutoriales recientes</h2>
-<div id="listing-proyectos-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="b3B0aW1pemFjaSVDMyVCM24lMkNtYWNoaW5lLWxlYXJuaW5nJTJDcHl0aG9uJTJDYWxnb3JpdG1vcw==" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773887267940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4095">
-<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-optimizacion-estocastica-python/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Optimización Estocástica con Python
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('b3B0aW1pemFjaSVDMyVCM24='); return false;">
-optimización
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YWxnb3JpdG1vcw=='); return false;">
-algoritmos
-</div>
-</div>
-<div class="card-text listing-description">
-Implementación desde cero de tres algoritmos de optimización metaheurística — Búsqueda Aleatoria, Evolución Diferencial y PSO — más Gradiente Estocástico, aplicados a…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="ZWNvbm9tZXRyJUMzJUFEYSUyQ2VzdGFkJUMzJUFEc3RpY2EtbXVsdGl2YXJpYWRhJTJDcHl0aG9uJTJDZGF0b3MtTSVDMyVBOXhpY28=" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773945714138" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3382">
-<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Análisis Factorial: Construyendo un Índice de Marginación para México
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyJUMzJUFEYQ=='); return false;">
-econometría
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZXN0YWQlQzMlQURzdGljYS1tdWx0aXZhcmlhZGE='); return false;">
-estadística-multivariada
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0b3MtTSVDMyVBOXhpY28='); return false;">
-datos-México
-</div>
-</div>
-<div class="card-text listing-description">
-Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="bWFjaGluZS1sZWFybmluZyUyQ3R1dG9yaWFs" data-listing-date-sort="1740808800000" data-listing-file-modified-sort="1741618665568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting_files/figure-html/cell-6-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Predicting House Prices using Machine Learning
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="card-text listing-description">
-In this project, we’ll build a machine learning model to predict house prices based on features like square footage, number of bedrooms, location, and more. Predicting house…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 1, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./projects.html">Ver todos los proyectos →</a> · <a href="./tutorials.html">Ver todos los tutoriales →</a></p>
+<p>El impuesto predial es el ingreso más importante de los municipios a nivel nacional el cual, debido a la baja recaudación que se tiene, no representa una fuente de ingresos suficiente para que se puedan abordar los gastos de una administración a nivel local.</p>
+<p>Esto conlleva a que sean dependientes de recursos que provienen de aportaciones o participaciones estatales y federales, así como la contratación de deuda para solventar los gastos. Esta interdependencia gubernamental fluye para ambos lados, lo cual significaría que una eficiencia en el cobro del impuesto predial beneficia tanto al municipio como a los otros niveles de gobierno al disponer de más recursos en total1.</p>
+<p>Adicionalmente, el impuesto predial tiene la ventaja de que se aplica a un bien fijo y visible, lo que lo hace una base tributaría estable, y cuyo valor es más fácil de reconocer y estimar a diferencia de los impuestos sobre ingresos o pagos de derechos, entre otros.</p>
+<p>A nivel nacional, la recaudación de impuestos es considerablemente baja a comparación de otros países de la OCDE (Organización para la Cooperación y el Desarrollo Económico), en dónde para el 2015, solo el 17.4% del PIB se recauda a diferencia del promedio de 34.3% de los 35 países miembros en ese año, teniendo a Dinamarca como el que más recauda con un 46.6% del PIB2.</p>
+<p>En cuanto al impuesto predial, la tendencia es similar, ya que mientras en países como Estados Unidos o Francia recaudan 3.1% y 3.7% de su PIB respectivamente3, en México este solo representa el 0.15% para el 2016, y en Coahuila el 0.14%.</p>
+<p>A nivel nacional, la recaudación por impuesto predial asciende en el 2016 a poco más de $26 mil millones de pesos con un crecimiento promedio desde el 2011 de 7.2% en contraste con la inflación acumulada de 22.24%. de enero 2011 a diciembre 2016.</p>
+<p>Los municipios de Coahuila recaudaron en el 2016 el equivalente a casi 817 millones de pesos en este impuesto, de los cuales se tiene que, en el mismo año, en Torreón se recaudaron 206 millones, un 10% más de los 187 millones originalmente presupuestados al inicio de ese mismo año.</p>
+<p>Esta recaudación representa en los últimos tres años alrededor del 6% del presupuesto contemplado en la Ley de Ingresos del Municipio, a diferencia de otros municipios como Saltillo o Querétaro, en donde esta proporción equivale en el 2018 a 11.25% y 19.07% respectivamente.</p>
+<p>Si bien este impuesto está ligado directamente con la cantidad de predios y sus características en cuanto al valor catastral, es necesario considerar también su evolución a lo largo del tiempo, de lo cual, entre 2011 y 2016, el ingreso por este rubro ha crecido en promedio 4.51% en Torreón, mientras que en el mismo lapso lo ha hecho un 9.07% en Saltillo, un 9.89% en todo el estado de Coahuila y comparado con ciudades que han crecido en los últimos años, el crecimiento del ingreso por predial ha sido del 27% en los mismos años.</p>
+<p>Desde otra perspectiva, si calculamos este ingreso por el total de la población, se tiene que en Torreón se recaudan aproximadamente $240.00 pesos de impuesto predial por habitante, mientras que la media nacional es de $220.00 para el 2016.</p>
+<p>Con proyecciones de CONAPO, se estima que este 2018 en Torreón, la cifra ascienda a $230.00 por habitante o a $242.85 conforme a la población censada en el 2015. Respecto a otras ciudades como Saltillo, esta cifra asciende a $332.14 por habitante y en casos como Querétaro a $997.98 para el último ejercicio fiscal.</p>
+<p>Si bien el predial es un impuesto a todos los predios registrados en el municipio, se estima conforme al Inventario Nacional de Viviendas que la recaudación por hogar en Torreón es de $860.00 pesos conforme al presupuesto del 2018, mientras que para ciudades como Saltillo es de $1,197.00 y en Querétaro llega casi a los $4 mil pesos.</p>
+<p>La constante en este diferencial en cuanto a los ingresos por predial, es el esfuerzo que lleva a cabo por recaudar dicho impuesto, del cual se argumenta que las aportaciones y contribuciones de otros niveles de gobierno incentiva a no mejorar la recaudación local ya que implica mantener una actualización constante de los datos catastrales, así como el trabajo propio de recaudar el impuesto.</p>
+<p>De igual forma, la misma federación, a través de los cálculos para transferir el presupuesto, busca incentivar que los gobiernos locales mejoren en este aspecto al considerar dentro de sus variables el esfuerzo recaudatorio que hagan, siendo una condicionante par el monto final que se aporta al municipio.</p>
+<p>FUENTE: Sobarzo Fimbres, Horacio Enrique, Relaciones fiscales intergubernamentales en México: evolución reciente y perspectivas. Problemas del Desarrollo. Revista Latinoamericana de Economía en linea 2009, 40 (Enero-Marzo) : [Fecha de consulta: 1 de agosto de 2018] Disponible en esta liga ISSN 0301-7036 OECD (2014), “Tax Levels and Tax Structures, 1990-2012”, in Revenue Statistics in Latin America 2014, OECD Publishing, Paris, https://doi.org/10.1787/rev_lat-2014-5-en-fr. OECD (2013), “Tax levels and tax structures, 1965-2012”, in Revenue Statistics 2013, OECD Publishing, Paris, https://doi.org/10.1787/rev_stats-2013-5-en-fr.</p>
 
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

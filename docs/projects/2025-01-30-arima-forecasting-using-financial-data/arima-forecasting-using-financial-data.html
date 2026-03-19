@@ -6,9 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.">
+<meta name="author" content="Iván de Luna-Aldape">
+<meta name="dcterms.date" content="2024-09-03">
+<meta name="description" content="In this article, we explore the use of ARIMA (AutoRegressive Integrated Moving Average) models for forecasting financial time series data. ARIMA is a robust statistical method that combines autoregression, differencing, and moving averages to predict future values based on historical data. Using a simple example of stock price forecasting, we walk through the steps of loading financial data, checking for stationarity, identifying ARIMA parameters, fitting the model, and generating forecasts. By the end of this article, you will have a clear understanding of how to apply ARIMA models to financial data and interpret the results. The example is implemented in R, with code snippets and visualizations to guide you through the process.">
 
-<title>Iván de Luna-Aldape – Iván de Luna</title>
+<title>ARIMA Forecasting Using Financial Data – Iván de Luna</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,63 +69,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-posts-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-posts-recientes'] = new List('listing-posts-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-proyectos-recientes .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-proyectos-recientes'] = new List('listing-proyectos-recientes', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
 
 <script type="text/javascript">
@@ -136,37 +79,8 @@ gtag('js', new Date());
 gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
 <meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
 <meta property="og:image" content="profile.jpg">
@@ -178,14 +92,14 @@ window.Quarto = {
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Iván de Luna</span>
     </a>
   </div>
@@ -196,23 +110,23 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html"> 
+    <a class="nav-link" href="../../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./tutorials.html"> 
+    <a class="nav-link" href="../../tutorials.html"> 
 <span class="menu-text">Tutoriales</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./projects.html"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Proyectos</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">Acerca de</span></a>
   </li>  
 </ul>
@@ -235,256 +149,256 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page">
-      <h1 class="title">Iván de Luna-Aldape</h1>
-            <p class="subtitle lead">Economista · Científico de Datos · Desarrollo Regional</p>
-                  <div>
-        <div class="description">
-          Análisis cuantitativo aplicado a economía regional, finanzas y ciencia de datos en México. R · Python · INEGI · Econometría.
-        </div>
-      </div>
-                </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block column-page" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">ARIMA Forecasting Using Financial Data</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">econometrics</div>
+    <div class="quarto-category">finance</div>
+    <div class="quarto-category">machine-learning</div>
+    <div class="quarto-category">tutorial</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    In this article, we explore the use of ARIMA (AutoRegressive Integrated Moving Average) models for forecasting financial time series data. ARIMA is a robust statistical method that combines autoregression, differencing, and moving averages to predict future values based on historical data. Using a simple example of stock price forecasting, we walk through the steps of loading financial data, checking for stationarity, identifying ARIMA parameters, fitting the model, and generating forecasts. By the end of this article, you will have a clear understanding of how to apply ARIMA models to financial data and interpret the results. The example is implemented in R, with code snippets and visualizations to guide you through the process.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Iván de Luna-Aldape </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 3, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
+</header>
 
-<p>Trabajo en la intersección de la economía cuantitativa, las finanzas y la ciencia de datos aplicada al desarrollo regional de México. En este sitio publico análisis, proyectos técnicos y tutoriales — la mayoría usando R y Python, con datos del INEGI, IMSS y otras fuentes del sector público.</p>
-<hr>
-<section id="últimas-publicaciones" class="level2">
-<h2 class="anchored" data-anchor-id="últimas-publicaciones">Últimas publicaciones</h2>
-<div id="listing-posts-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="ZWNvbm9tZXRyaWNzJTJDbWFjaGluZS1sZWFybmluZyUyQ3B5dGhvbiUyQ21leGljbyUyQ2VuaWdo" data-listing-date-sort="1773122400000" data-listing-file-modified-sort="1773885811378" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1029">
-<a href="./posts/linear-regression-lasso-ridge/linear_regression_lasso_ridge_quarto.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/linear-regression-lasso-ridge/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Linear Regression with Regularization: OLS, Lasso, and Ridge
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyaWNz'); return false;">
-econometrics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWV4aWNv'); return false;">
-mexico
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZW5pZ2g='); return false;">
-enigh
-</div>
-</div>
-<div class="card-text listing-description">
-Comparing OLS, Lasso (L1), and Ridge (L2) regression on Mexican household income data (ENIGH 2022). Covers regularization theory, cross-validated lambda selection, and…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 10, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1744869600000" data-listing-file-modified-sort="1744921253541" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="846">
-<a href="./posts/2025-04-17-el-centro-ya-no-es-el-centro/el-centro-ya-no-es-el-centro.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2025-04-17-el-centro-ya-no-es-el-centro/plaza-armas-torreon.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-El centro ya no es el centro: fragmentos para una nueva cartografía de Torreón
-</h5>
-<div class="card-text listing-description">
-Fragmentos para una nueva cartografía de Torreón
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 17, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="ZWNvbm9taWNzJTJDdG9ycmVvbiUyQ2FuYWx5c2lz" data-listing-date-sort="1616392800000" data-listing-file-modified-sort="1740955059231" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="414">
-<a href="./posts/2024-06-26-empleos-formales-febrero-2021/empleos-formales-febrero-2021.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./posts/img/torreon.jpg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Empleos formales febrero 2021
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9taWNz'); return false;">
-economics
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dG9ycmVvbg=='); return false;">
-torreon
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('YW5hbHlzaXM='); return false;">
-analysis
-</div>
-</div>
-<div class="card-text listing-description">
-A un año del inicio de la pandemia en el país y de la pérdida generalizada de empleos, se tiene en la Zona Metropolitana de La Laguna (ZML) una recuperación completa, al…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 22, 2021
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./blog.html">Ver todas las publicaciones →</a></p>
-<hr>
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>ARIMA (AutoRegressive Integrated Moving Average) is a widely used statistical method for time series forecasting. It combines autoregression (AR), differencing (I), and moving average (MA) components to model and predict future values in a time series. In this article, we will explore how to use ARIMA to forecast financial data, such as stock prices or exchange rates, using R.</p>
 </section>
-<section id="proyectos-y-tutoriales-recientes" class="level2">
-<h2 class="anchored" data-anchor-id="proyectos-y-tutoriales-recientes">Proyectos y tutoriales recientes</h2>
-<div id="listing-proyectos-recientes" class="quarto-listing quarto-listing-container-grid">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="b3B0aW1pemFjaSVDMyVCM24lMkNtYWNoaW5lLWxlYXJuaW5nJTJDcHl0aG9uJTJDYWxnb3JpdG1vcw==" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773887267940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4095">
-<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-optimizacion-estocastica-python/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Optimización Estocástica con Python
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('b3B0aW1pemFjaSVDMyVCM24='); return false;">
-optimización
+<section id="what-is-arima" class="level1">
+<h1>What is ARIMA?</h1>
+<p>ARIMA models are defined by three parameters: <em>p</em>, <em>d</em>, and <em>q</em>.</p>
+<p>-<em>p</em> (AR - AutoRegressive): The number of lag observations in the model.</p>
+<p>-<em>d</em> (I - Integrated): The number of times the data is differenced to make it stationary.</p>
+<p>-<em>q</em> (MA - Moving Average): The size of the moving average window.</p>
+<p>The general form of an ARIMA model is ARIMA(p,d,q).</p>
+</section>
+<section id="steps-for-arima-forecasting" class="level1">
+<h1>Steps for ARIMA Forecasting</h1>
+<ol type="1">
+<li><strong>Load and Prepare the Data</strong>: Import the financial time series data and ensure it is in a suitable format.</li>
+<li><strong>Check for Stationarity</strong>: Use statistical tests or visual inspection to determine if the data is stationary. If not, apply differencing.</li>
+<li><strong>Select ARIMA parameters</strong>: Use tools like ACF (Autocorrelation Function) and PACF (Partial Autocorrelation Function) to identify <em>p</em> and <em>q</em>. Determiner <em>d</em> based on the number of differencing steps required.</li>
+<li><strong>Fit the ARIMA model</strong>: Use the identified parameters to fit the ARIMA model to the data.</li>
+<li><strong>Validate the Model</strong>: Check the residuals to ensure they resemble white noise.</li>
+<li><strong>Forecast</strong>: Use the fitted model to predict future values.</li>
+</ol>
+</section>
+<section id="example-forecasting-stock-prices" class="level1">
+<h1>Example: Forecasting Stock Prices</h1>
+<p>Let’s walk through a simple example using the <em>quantmod</em> package to download stock data and the <em>forecast</em> package to fit an ARIMA model.</p>
+<section id="step-1-load-required-libraries-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-load-required-libraries-and-data">Step 1: Load Required Libraries and Data</h2>
+<p>We start by loading necessary libraries and gathering the financial data we want to analyze, such as stock prices or exchange rates. This data is typicale organized by date and value (e.g., dialy closing prices).</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: xts</code></pre>
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: zoo</code></pre>
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
 </div>
-<div class="listing-category" onclick="window.quartoListingCategory('YWxnb3JpdG1vcw=='); return false;">
-algoritmos
-</div>
-</div>
-<div class="card-text listing-description">
-Implementación desde cero de tres algoritmos de optimización metaheurística — Búsqueda Aleatoria, Evolución Diferencial y PSO — más Gradiente Estocástico, aplicados a…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="ZWNvbm9tZXRyJUMzJUFEYSUyQ2VzdGFkJUMzJUFEc3RpY2EtbXVsdGl2YXJpYWRhJTJDcHl0aG9uJTJDZGF0b3MtTSVDMyVBOXhpY28=" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773945714138" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3382">
-<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/thumbnail.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Análisis Factorial: Construyendo un Índice de Marginación para México
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyJUMzJUFEYQ=='); return false;">
-econometría
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZXN0YWQlQzMlQURzdGljYS1tdWx0aXZhcmlhZGE='); return false;">
-estadística-multivariada
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
-python
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0b3MtTSVDMyVBOXhpY28='); return false;">
-datos-México
-</div>
-</div>
-<div class="card-text listing-description">
-Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 18, 2026
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="bWFjaGluZS1sZWFybmluZyUyQ3R1dG9yaWFs" data-listing-date-sort="1740808800000" data-listing-file-modified-sort="1741618665568" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985">
-<a href="./projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/2025-03-01-ml-housing-prices-forecasting/ml-housing-prices-forecasting_files/figure-html/cell-6-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Predicting House Prices using Machine Learning
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
-machine-learning
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('dHV0b3JpYWw='); return false;">
-tutorial
-</div>
-</div>
-<div class="card-text listing-description">
-In this project, we’ll build a machine learning model to predict house prices based on features like square footage, number of bedrooms, location, and more. Predicting house…
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Mar 1, 2025
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div>
-<p><a href="./projects.html">Ver todos los proyectos →</a> · <a href="./tutorials.html">Ver todos los tutoriales →</a></p>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
 
+    as.Date, as.Date.numeric</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: TTR</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AAPL"</code></pre>
+</div>
+</div>
+</section>
+<section id="setp-2-check-for-stationarity" class="level2">
+<h2 class="anchored" data-anchor-id="setp-2-check-for-stationarity">Setp 2: Check for Stationarity</h2>
+<p>Now we check if the data is “stationary”, which means its statistical properties (like mean and variance) don’t change over time. Financial data often has trends or patterns that make it non-stationary.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/Stationarity-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  aapl_close
+Dickey-Fuller = -1.2623, Lag order = 9, p-value = 0.8906
+alternative hypothesis: stationary</code></pre>
+</div>
+</div>
+<p>If the data is not stationary, apply differencing:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/differencing-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-identify-arima-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-identify-arima-parameters">Step 3: Identify ARIMA Parameters</h2>
+<p>We determine the values of <em>p</em>, <em>d</em>, and <em>q</em> for the ARIMA odel. These parameters control how the model looks at past data (<em>p</em>), how much differencing is applied (<em>d</em>), and how it smooths out noise (<em>q</em>).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/arima-params-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/arima-params-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-fit-the-arima-model" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-fit-the-arima-model">Step 4: Fit the ARIMA model</h2>
+<p>With the selecte parameters we train the ARIMA model on our data. This step involves finding the best mathematical relationship between past and future values.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+arima(x = aapl_close, order = c(1, 1, 1))
+
+Coefficients:
+         ar1      ma1
+      0.3965  -0.4611
+s.e.  0.3492   0.3372
+
+sigma^2 estimated as 7.759:  log likelihood = -1844.76,  aic = 3695.52
+
+Training set error measures:
+                     ME     RMSE      MAE        MPE     MAPE      MASE
+Training set 0.08120946 2.783715 2.069065 0.05190092 1.657774 0.9963087
+                     ACF1
+Training set 0.0003378316</code></pre>
+</div>
+</div>
+</section>
+<section id="step-5-validate-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-validate-the-model">Step 5: Validate the Model</h2>
+<p>The model’s performance can be checked by analyzing its errors (called residuals). Ideally, the errors should look like random noise, with no obvious patterns, ensuring that the model isn’t making systematic mistakes and is ready for real-world predictions.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/validate-model-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Ljung-Box test
+
+data:  Residuals from ARIMA(1,1,1)
+Q* = 10.945, df = 8, p-value = 0.2048
+
+Model df: 2.   Total lags used: 10</code></pre>
+</div>
+</div>
+</section>
+<section id="step-6-forecast-future-prices" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-forecast-future-prices">Step 6: Forecast Future Prices</h2>
+<p>Finally, we use the trained model to predict future values. For example, the next 30 days.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="arima-forecasting-using-financial-data_files/figure-html/arima-forecast-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>ARIMA models are powerful tools for time series forecasting, especially in financial markets. By following the steps outlined above, you can model and predict stock prices or other financial data.</p>
+<p>However, it’s important to remember that financial markets are influenced by many external factors, so ARIMA models should be used in conjunction with other analysis techniques.</p>
+</section>
+<section id="moving-forward" class="level1">
+<h1>Moving Forward</h1>
+<p>While ARIMA models are powerful for time series forecasting, there are several ways to extend and improve your analysis:</p>
+<ol type="1">
+<li><strong>Incorporate External Variables</strong></li>
+</ol>
+<p>ARIMA models are univariate, meaning they only use the target time series for forecasting. However, financial data is often influenced by external factors such as interest rates, economic indicators, or news events. Consider using <strong>SARIMAX</strong> (Seasonal ARIMA with Exogenous Variables) or other models like <strong>VAR</strong> (Vector Autoregression) to incorporate additional variables.</p>
+<ol start="2" type="1">
+<li><strong>Experiment with Seasonal ARIMA (SARIMA)</strong></li>
+</ol>
+<p>If your financial data exhibits seasonality (e.g., quarterly earnings reports), you can extend ARIMA to SARIMA by adding seasonal parameters (<em>P</em>, <em>D</em>, <em>Q</em>, <em>m</em>). This allows the model to capture recurring patterns in the data.</p>
+<ol start="3" type="1">
+<li><strong>Combine with Machine Learning Models</strong></li>
+</ol>
+<p>Hybrid models that combine ARIMA with machine learning techinques (e.g.&nbsp;Random Forests, Gradient Boosting, or Neural Networks) can often improve forecasting accuracy. For example, you can use ARIMA to model linear components and a machine learning model to capture non-linear patterns.</p>
+<ol start="4" type="1">
+<li><strong>Explote Alternative Time Series Models</strong></li>
+</ol>
+<p>While ARIMA is a popular choice, other models like <strong>GARCH</strong> (Generalized Autoregressive Conditional Heteroskedasticity) for volatility modeling, <strong>Prohpet</strong> for automated forecasting, or <strong>LSTM</strong> (Long Short-Term Memory) networks for deep learning-based approaches may be better suited for certain types of financial data.</p>
+<ol start="5" type="1">
+<li><strong>Perform Robust Model Evaluation</strong></li>
+</ol>
+<p>To ensure your model generalizes well, use techniques like cross-validation, rolling forecasts, or out-of-sample testing. Metrics such as <strong>Mean Absolute Error (MAE)</strong>, <strong>Mean Squared Error (MSE)</strong>, or <strong>Mean Absolute Percentage Error (MAPE)</strong> can help evaluate model performance.</p>
+<ol start="6" type="1">
+<li><strong>Consider Real-World Constraints</strong></li>
+</ol>
+<p>Financial markets are highly dynamic and influenced by unpredictable events (e.g., geopolitical developments, pandemics). Always complement statistical models with domain knowledge and qualitative analysis to make informe decisiones.</p>
 
 
 </section>
