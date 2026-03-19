@@ -1,7 +1,2 @@
-# Opciones aplicadas a todos los tutoriales
-
-# Congelar outputs computacionales para no re-ejecutar en cada render
 freeze: true
-
-# Banner en el título
 title-block-banner: true

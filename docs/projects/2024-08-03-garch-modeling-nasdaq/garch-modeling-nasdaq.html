@@ -344,7 +344,7 @@ window.Quarto = {
     Augmented Dickey-Fuller Test
 
 data:  returns
-Dickey-Fuller = -16.481, Lag order = 16, p-value = 0.01
+Dickey-Fuller = -17.049, Lag order = 16, p-value = 0.01
 alternative hypothesis: stationary</code></pre>
 </div>
 </div>
@@ -360,7 +360,7 @@ alternative hypothesis: stationary</code></pre>
     Box-Ljung test
 
 data:  returns
-X-squared = 71.585, df = 10, p-value = 2.189e-11</code></pre>
+X-squared = 70.366, df = 10, p-value = 3.767e-11</code></pre>
 </div>
 </div>
 </section>
@@ -375,7 +375,7 @@ X-squared = 71.585, df = 10, p-value = 2.189e-11</code></pre>
     ARCH LM-test; Null hypothesis: no ARCH effects
 
 data:  returns
-Chi-squared = 956.41, df = 5, p-value &lt; 2.2e-16</code></pre>
+Chi-squared = 888.73, df = 5, p-value &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -390,7 +390,7 @@ Chi-squared = 956.41, df = 5, p-value &lt; 2.2e-16</code></pre>
     Jarque Bera Test
 
 data:  returns
-X-squared = 13137, df = 2, p-value &lt; 2.2e-16</code></pre>
+X-squared = 15168, df = 2, p-value &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
@@ -405,7 +405,7 @@ X-squared = 13137, df = 2, p-value &lt; 2.2e-16</code></pre>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(desc_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         mean            sd      skewness      kurtosis 
- 0.0005375851  0.0141310429 -0.3253572664  8.2800525073 </code></pre>
+ 0.0005374909  0.0141533271 -0.2460448765  8.6671881154 </code></pre>
 </div>
 </div>
 </section>
@@ -443,7 +443,7 @@ X-squared = 13137, df = 2, p-value &lt; 2.2e-16</code></pre>
     Box-Ljung test
 
 data:  std_resid
-X-squared = 7.6433, df = 10, p-value = 0.6636</code></pre>
+X-squared = 7.6817, df = 10, p-value = 0.6599</code></pre>
 </div>
 </div>
 <p>Now we run the diagnostic on squared standardized residuals, in which we obtain a good model indicating that there is no serial autocorrelation within our model:</p>
@@ -459,7 +459,7 @@ X-squared = 7.6433, df = 10, p-value = 0.6636</code></pre>
     Box-Ljung test
 
 data:  std_resid^2
-X-squared = 5.9434, df = 10, p-value = 0.82</code></pre>
+X-squared = 6.3117, df = 10, p-value = 0.7884</code></pre>
 </div>
 </div>
 <p>and create a plot to visualize our model on standardized residuals:</p>
@@ -499,7 +499,7 @@ X-squared = 5.9434, df = 10, p-value = 0.82</code></pre>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>VaR <span class="ot">&lt;-</span> <span class="fu">quantile</span>(fit<span class="sc">@</span>fit<span class="sc">$</span>residuals, <span class="fl">0.05</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"5% Value at Risk:"</span>, VaR))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "5% Value at Risk: -0.0241682999576284"</code></pre>
+<pre><code>[1] "5% Value at Risk: -0.0240535976509294"</code></pre>
 </div>
 </div>
 <p>the 5% VaR represents the loss that we would expect to be exceeded only 5% of the time, based on our GARCH model.</p>

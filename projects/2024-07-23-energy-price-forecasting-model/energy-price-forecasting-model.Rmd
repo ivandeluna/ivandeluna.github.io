@@ -9,7 +9,7 @@ categories:
   - machine-learning
   - tutorial
 execute:
-  freeze: auto
+  freeze: true
 ---
 
 ```{r setup, inclue = FALSE}

@@ -79,9 +79,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -233,7 +233,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(0)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="YWxnb3JpdG1vcw==">algoritmos <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGF0b3MtTSVDMyVBOXhpY28=">datos-México <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZWNvbm9tZXRyJUMzJUFEYQ==">econometría <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXN0YWQlQzMlQURzdGljYS1tdWx0aXZhcmlhZGE=">estadística-multivariada <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWFjaGluZS1sZWFybmluZw==">machine-learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3B0aW1pemFjaSVDMyVCM24=">optimización <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHl0aG9u">python <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
@@ -247,13 +247,115 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+         <option value="listing-author" data-direction="asc">
+          Author
+        </option>
+     </select>
+  </div>
     <div class="input-group input-group-sm quarto-listing-filter">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input type="text" class="search form-control" placeholder="Filter">
     </div>
 </div>
 <div class="list quarto-listing-default">
-
+<div class="quarto-post image-right" data-index="0" data-categories="b3B0aW1pemFjaSVDMyVCM24lMkNtYWNoaW5lLWxlYXJuaW5nJTJDcHl0aG9uJTJDYWxnb3JpdG1vcw==" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773887267940" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4095">
+<div class="thumbnail">
+<p><a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external"></a></p><a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external">
+<p><img loading="lazy" src="./tutorials/2026-03-18-optimizacion-estocastica-python/thumbnail.png" class="thumbnail-image"></p>
+</a><p><a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external">Optimización Estocástica con Python</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('b3B0aW1pemFjaSVDMyVCM24='); return false;">
+optimización
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('bWFjaGluZS1sZWFybmluZw=='); return false;">
+machine-learning
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
+python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('YWxnb3JpdG1vcw=='); return false;">
+algoritmos
+</div>
+</div>
+<div class="listing-description">
+<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external">Implementación desde cero de tres algoritmos de optimización metaheurística — Búsqueda Aleatoria, Evolución Diferencial y PSO — más Gradiente Estocástico, aplicados a problemas de benchmarking clásicos.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./tutorials/2026-03-18-optimizacion-estocastica-python/optimizacion-estocastica-python.html" class="no-external">
+<div class="listing-date">
+Mar 18, 2026
+</div>
+<div class="listing-author">
+Iván de Luna
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="ZWNvbm9tZXRyJUMzJUFEYSUyQ2VzdGFkJUMzJUFEc3RpY2EtbXVsdGl2YXJpYWRhJTJDcHl0aG9uJTJDZGF0b3MtTSVDMyVBOXhpY28=" data-listing-date-sort="1773813600000" data-listing-file-modified-sort="1773943388574" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3382">
+<div class="thumbnail">
+<p><a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external"></a></p><a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external">
+<p><img loading="lazy" src="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/thumbnail.png" class="thumbnail-image"></p>
+</a><p><a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external">Análisis Factorial: Construyendo un Índice de Marginación para México</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external"></a>
+</div>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('ZWNvbm9tZXRyJUMzJUFEYQ=='); return false;">
+econometría
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ZXN0YWQlQzMlQURzdGljYS1tdWx0aXZhcmlhZGE='); return false;">
+estadística-multivariada
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('cHl0aG9u'); return false;">
+python
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('ZGF0b3MtTSVDMyVBOXhpY28='); return false;">
+datos-México
+</div>
+</div>
+<div class="listing-description">
+<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external">Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de adecuación, selección de factores, cargas, comunalidades y ranking estatal.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/factor-analysis-marginalizacion-mexico.html" class="no-external">
+<div class="listing-date">
+Mar 18, 2026
+</div>
+<div class="listing-author">
+Iván de Luna
+</div>
+</a>
+</div>
+</div>
 </div>
 <div class="listing-no-matching d-none">
 No matching items
