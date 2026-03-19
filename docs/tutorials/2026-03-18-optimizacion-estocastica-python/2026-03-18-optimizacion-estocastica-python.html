@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-03-18">
+
+<title>Tutorial: Optimización Estocástica con Python – Iván de Luna</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
+<meta property="og:image" content="profile.jpg">
+<meta property="og:site_name" content="Iván de Luna">
+<meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
+<meta name="twitter:image" content="profile.jpg">
+<meta name="twitter:creator" content="@idelunaa">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Iván de Luna</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../tutorials.html"> 
+<span class="menu-text">Tutoriales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Tutorial: Optimización Estocástica con Python</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Data Science</div>
+                <div class="quarto-category">Tutoriales</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>En este tutorial de <strong>Optimización Estocástica</strong>, exploraremos diferentes algoritmos usando Python. Abordaremos problemas de optimización matemática implementando desde cero algoritmos como <strong>Búsqueda Aleatoria</strong> (Random Search), <strong>Evolución Diferencial</strong> (Differential Evolution) y <strong>Optimización por Enjambre de Partículas (PSO)</strong>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> check_random_state, check_X_y, shuffle</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.neighbors <span class="im">import</span> KNeighborsClassifier</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="considere-los-siguientes-problemas-de-optimización" class="level3">
+<h3 class="anchored" data-anchor-id="considere-los-siguientes-problemas-de-optimización">1. Considere los siguientes problemas de optimización:</h3>
+<p>Usando búsqueda aleatoria, encuentre la solución a los problemas de optimización. Utilice 10,000 puntos en la búsqueda.</p>
+<p>Primero definimos el algoritmo para la búsqueda aleatoria:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> check_random_state</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_search(fun, n_dim, lower_bound <span class="op">=</span> <span class="dv">0</span>, upper_bound <span class="op">=</span> <span class="dv">1</span>, max_iters <span class="op">=</span> <span class="dv">1000</span>, random_state <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Búsqueda aleatoria pura</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">        fun (función): función objetivo a optimizar</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">        n_dim (int): numero de variables en la función objetivo</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">        lower_bound (int, array): límite inferior que puede tomar cada variable</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">        upper_bound (int, array): límite superior que puede tomar cada variable</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">        max_iters (int): máximo número de iteraciones</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">        random_state (_type_, optional): manejador de números aletorios</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inicializar manejador de números aletorios</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> check_random_state(random_state)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inicializar valores</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    best_val <span class="op">=</span> np.infty</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    best_sol <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> []</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Búsqueda aleatoria</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        candidate <span class="op">=</span> random_state.uniform(low <span class="op">=</span> lower_bound, high <span class="op">=</span> upper_bound, size <span class="op">=</span> (n_dim))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        obj_val <span class="op">=</span> fun(candidate)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> obj_val <span class="op">&lt;</span> best_val:</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            best_val <span class="op">=</span> obj_val</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            best_sol <span class="op">=</span> candidate</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>            path.append(best_val)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best_val, best_sol, path</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="a">
+<li></li>
+</ol>
+<p><span class="math display">\[
+\begin{array}{lc}
+\min &amp; 300 + \sum(x_{i}^2 - 10\cos(2 \pi x_{i})) \\
+s.t. &amp; -5.12 \leq x_{i} \leq 5.12, \forall  i  \in \{1,..,30\} \\
+\end{array}
+\]</span></p>
+<p>Se genera la solución óptima:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de la función objetivo</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fo1 <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">300</span> <span class="op">+</span> <span class="bu">sum</span>([x[i]<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">10</span><span class="op">*</span>np.cos(<span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>x[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x))])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>val1, sol1, path1 <span class="op">=</span> random_search(fo1, <span class="dv">1</span>, <span class="op">-</span><span class="fl">5.12</span>, <span class="fl">5.12</span>, <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(val1, sol1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>290.00001799886115 [0.0003012]</code></pre>
+<p>El algoritmo tarda 8 pasos en llegar a la solución óptima, empezando en 321.36 y finalizando en 290.000</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> highlight_max(s, props<span class="op">=</span><span class="st">''</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.where(s <span class="op">==</span> np.nanmax(s.values), props, <span class="st">''</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> highlight_min(s, props<span class="op">=</span><span class="st">''</span>):</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.where(s <span class="op">==</span> np.nanmin(s.values), props, <span class="st">''</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.DataFrame(path1)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>df1.style.<span class="bu">apply</span>(highlight_max, props<span class="op">=</span><span class="st">'color:black;background-color:yellow'</span>, axis<span class="op">=</span><span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        .<span class="bu">apply</span>(highlight_min, props<span class="op">=</span><span class="st">'color:white;background-color:darkblue'</span>, axis<span class="op">=</span><span class="dv">0</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style type="text/css">
+#T_69aad_row0_col0 {
+  color: black;
+  background-color: yellow;
+}
+#T_69aad_row9_col0 {
+  color: white;
+  background-color: darkblue;
+}
+</style>
+<table id="T_69aad">
+<thead>
+<tr>
+<th class="blank level0">
+&nbsp;
+</th>
+<th id="T_69aad_level0_col0" class="col_heading level0 col0">
+0
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th id="T_69aad_level0_row0" class="row_heading level0 row0">
+0
+</th>
+<td id="T_69aad_row0_col0" class="data row0 col0">
+309.591718
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row1" class="row_heading level0 row1">
+1
+</th>
+<td id="T_69aad_row1_col0" class="data row1 col0">
+300.364050
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row2" class="row_heading level0 row2">
+2
+</th>
+<td id="T_69aad_row2_col0" class="data row2 col0">
+293.278302
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row3" class="row_heading level0 row3">
+3
+</th>
+<td id="T_69aad_row3_col0" class="data row3 col0">
+291.181980
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row4" class="row_heading level0 row4">
+4
+</th>
+<td id="T_69aad_row4_col0" class="data row4 col0">
+291.000528
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row5" class="row_heading level0 row5">
+5
+</th>
+<td id="T_69aad_row5_col0" class="data row5 col0">
+290.073861
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row6" class="row_heading level0 row6">
+6
+</th>
+<td id="T_69aad_row6_col0" class="data row6 col0">
+290.007209
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row7" class="row_heading level0 row7">
+7
+</th>
+<td id="T_69aad_row7_col0" class="data row7 col0">
+290.000810
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row8" class="row_heading level0 row8">
+8
+</th>
+<td id="T_69aad_row8_col0" class="data row8 col0">
+290.000191
+</td>
+</tr>
+<tr>
+<th id="T_69aad_level0_row9" class="row_heading level0 row9">
+9
+</th>
+<td id="T_69aad_row9_col0" class="data row9 col0">
+290.000018
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.plot(path1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x7fa1d858f4c0&gt;]</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_11_1.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<ol start="2" type="a">
+<li></li>
+</ol>
+<p><span class="math display">\[
+\begin{array}{lc}
+\min &amp; -20 \exp \left(-\frac{2}{10} \sqrt{\frac{1}{10} \sum_{i=1}^{10}x_{i}^2}\right) - \exp\left(\frac{1}{10} \sum_{i=1}^{10}\cos(2 \pi x_{i})\right) + 20 + \exp(1) \\
+s.t. &amp; -32.768 \leq x_{i} \leq 32.768, \forall i \in \{1,..,10\} \\
+\end{array}
+\]</span></p>
+<p>Se corre el algoritmo y se obtiene una solución óptima:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fo2 <span class="op">=</span> <span class="kw">lambda</span> x: (<span class="op">-</span><span class="dv">20</span>)<span class="op">*</span>np.exp((<span class="op">-</span><span class="dv">2</span><span class="op">/</span><span class="dv">10</span>)<span class="op">*</span>np.sqrt((<span class="dv">1</span><span class="op">/</span><span class="dv">10</span>)<span class="op">*</span><span class="bu">sum</span>([x[i]<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x))]))) <span class="op">-</span> np.exp((<span class="dv">1</span><span class="op">/</span><span class="dv">10</span>)<span class="op">*</span><span class="bu">sum</span>([np.cos(<span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>(x[i])) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(x))])) <span class="op">+</span> <span class="dv">20</span> <span class="op">+</span> np.exp(<span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>val2, sol2, path2 <span class="op">=</span> random_search(fo2, <span class="dv">1</span>, <span class="op">-</span><span class="fl">32.768</span>, <span class="fl">32.768</span>, <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(val2, sol2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1.6197874459598265 [0.00523193]</code></pre>
+<p>En este caso se tardo 12 pasos en encontrarla, siendo que empezó en 13.93 y terimna en 1.6197.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.DataFrame(path2)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df2.style.<span class="bu">apply</span>(highlight_max, props<span class="op">=</span><span class="st">'color:black;background-color:yellow'</span>, axis<span class="op">=</span><span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        .<span class="bu">apply</span>(highlight_min, props<span class="op">=</span><span class="st">'color:white;background-color:darkblue'</span>, axis<span class="op">=</span><span class="dv">0</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style type="text/css">
+#T_2c55c_row0_col0 {
+  color: black;
+  background-color: yellow;
+}
+#T_2c55c_row12_col0 {
+  color: white;
+  background-color: darkblue;
+}
+</style>
+<table id="T_2c55c">
+<thead>
+<tr>
+<th class="blank level0">
+&nbsp;
+</th>
+<th id="T_2c55c_level0_col0" class="col_heading level0 col0">
+0
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th id="T_2c55c_level0_row0" class="row_heading level0 row0">
+0
+</th>
+<td id="T_2c55c_row0_col0" class="data row0 col0">
+13.936665
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row1" class="row_heading level0 row1">
+1
+</th>
+<td id="T_2c55c_row1_col0" class="data row1 col0">
+13.338078
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row2" class="row_heading level0 row2">
+2
+</th>
+<td id="T_2c55c_row2_col0" class="data row2 col0">
+2.414350
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row3" class="row_heading level0 row3">
+3
+</th>
+<td id="T_2c55c_row3_col0" class="data row3 col0">
+2.054538
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row4" class="row_heading level0 row4">
+4
+</th>
+<td id="T_2c55c_row4_col0" class="data row4 col0">
+2.044931
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row5" class="row_heading level0 row5">
+5
+</th>
+<td id="T_2c55c_row5_col0" class="data row5 col0">
+1.925555
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row6" class="row_heading level0 row6">
+6
+</th>
+<td id="T_2c55c_row6_col0" class="data row6 col0">
+1.898602
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row7" class="row_heading level0 row7">
+7
+</th>
+<td id="T_2c55c_row7_col0" class="data row7 col0">
+1.885518
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row8" class="row_heading level0 row8">
+8
+</th>
+<td id="T_2c55c_row8_col0" class="data row8 col0">
+1.809434
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row9" class="row_heading level0 row9">
+9
+</th>
+<td id="T_2c55c_row9_col0" class="data row9 col0">
+1.658971
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row10" class="row_heading level0 row10">
+10
+</th>
+<td id="T_2c55c_row10_col0" class="data row10 col0">
+1.645497
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row11" class="row_heading level0 row11">
+11
+</th>
+<td id="T_2c55c_row11_col0" class="data row11 col0">
+1.634740
+</td>
+</tr>
+<tr>
+<th id="T_2c55c_level0_row12" class="row_heading level0 row12">
+12
+</th>
+<td id="T_2c55c_row12_col0" class="data row12 col0">
+1.619787
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt.plot(path2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x7fa1fbefa370&gt;]</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_18_1.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<ol start="3" type="a">
+<li></li>
+</ol>
+<p><span class="math display">\[
+\begin{array}{lc}
+\min &amp; \sum_{i=1}^{10}\left( \sum_{j=1}^{d}(10 + j)(x_j^i - \frac{1}{j^i}) \right)^2 \\
+s.t. &amp; -10 \leq x_{i} \leq 10, \forall i \in \{1,..,10\} \\
+\end{array}
+\]</span></p>
+<p>En este caso se tienen dos indices, <span class="math inline">\(i, j\)</span>, lo cual puede abarcar más criterios de búsqueda.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fo3 <span class="op">=</span> <span class="kw">lambda</span> x: <span class="bu">sum</span>([(<span class="bu">sum</span>([(<span class="dv">10</span> <span class="op">+</span> j)<span class="op">*</span>((x[j]<span class="op">**</span>i) <span class="op">-</span> (<span class="dv">1</span><span class="op">/</span>(j<span class="op">**</span>i))) <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(x))]))<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">10</span>)])</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>val3, sol3, path3 <span class="op">=</span> random_search(fo3, <span class="dv">2</span>, <span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(val3, sol3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>0.09223701849382973 [-4.53308173  1.00162734]</code></pre>
+<p>En un inicio empieza con un número excesivamente grande, pero rápidamente el algoritmo va ubicando el punto óptimo lográndolo en 10 pasos.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df3 <span class="op">=</span> pd.DataFrame(path3)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df3.style.<span class="bu">apply</span>(highlight_max, props<span class="op">=</span><span class="st">'color:black;background-color:yellow'</span>, axis<span class="op">=</span><span class="dv">0</span>)<span class="op">\</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        .<span class="bu">apply</span>(highlight_min, props<span class="op">=</span><span class="st">'color:white;background-color:darkblue'</span>, axis<span class="op">=</span><span class="dv">0</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<style type="text/css">
+#T_fb9c4_row0_col0 {
+  color: black;
+  background-color: yellow;
+}
+#T_fb9c4_row10_col0 {
+  color: white;
+  background-color: darkblue;
+}
+</style>
+<table id="T_fb9c4">
+<thead>
+<tr>
+<th class="blank level0">
+&nbsp;
+</th>
+<th id="T_fb9c4_level0_col0" class="col_heading level0 col0">
+0
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th id="T_fb9c4_level0_row0" class="row_heading level0 row0">
+0
+</th>
+<td id="T_fb9c4_row0_col0" class="data row0 col0">
+69111352725635252224.000000
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row1" class="row_heading level0 row1">
+1
+</th>
+<td id="T_fb9c4_row1_col0" class="data row1 col0">
+6221924248513571.000000
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row2" class="row_heading level0 row2">
+2
+</th>
+<td id="T_fb9c4_row2_col0" class="data row2 col0">
+523607326744.967590
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row3" class="row_heading level0 row3">
+3
+</th>
+<td id="T_fb9c4_row3_col0" class="data row3 col0">
+1588.215869
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row4" class="row_heading level0 row4">
+4
+</th>
+<td id="T_fb9c4_row4_col0" class="data row4 col0">
+1113.456870
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row5" class="row_heading level0 row5">
+5
+</th>
+<td id="T_fb9c4_row5_col0" class="data row5 col0">
+508.353193
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row6" class="row_heading level0 row6">
+6
+</th>
+<td id="T_fb9c4_row6_col0" class="data row6 col0">
+362.597788
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row7" class="row_heading level0 row7">
+7
+</th>
+<td id="T_fb9c4_row7_col0" class="data row7 col0">
+120.813406
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row8" class="row_heading level0 row8">
+8
+</th>
+<td id="T_fb9c4_row8_col0" class="data row8 col0">
+2.773710
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row9" class="row_heading level0 row9">
+9
+</th>
+<td id="T_fb9c4_row9_col0" class="data row9 col0">
+1.112764
+</td>
+</tr>
+<tr>
+<th id="T_fb9c4_level0_row10" class="row_heading level0 row10">
+10
+</th>
+<td id="T_fb9c4_row10_col0" class="data row10 col0">
+0.092237
+</td>
+</tr>
+</tbody>
+</table>
+<p>En este caso no se aprecian bien los pasos por la magnitud de los primeros valores, dando un efecto de línea recta.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plt.plot(path3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x7fa1fbf2b7f0&gt;]</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_26_1.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+</section>
+<section id="resuelva-los-problemas-de-optimización-del-ejercicio-1-usando-evolución-diferencial-derand1bin-con-un-tamaño-de-población-de-100-durante-100-iteraciones-y-los-parámetros-f-0.5-y-cr-0.5." class="level3">
+<h3 class="anchored" data-anchor-id="resuelva-los-problemas-de-optimización-del-ejercicio-1-usando-evolución-diferencial-derand1bin-con-un-tamaño-de-población-de-100-durante-100-iteraciones-y-los-parámetros-f-0.5-y-cr-0.5.">2. Resuelva los problemas de optimización del ejercicio 1, usando evolución diferencial (DE/Rand/1/bin) con un tamaño de población de 100, durante 100 iteraciones y los parámetros <span class="math inline">\(F = 0.5\)</span> y <span class="math inline">\(CR = 0.5\)</span>.</h3>
+<p>Primero se define el algoritmo:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> check_random_state</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> differential_evolution(fun, n_dim, lower_bound <span class="op">=</span> <span class="dv">0</span>, upper_bound <span class="op">=</span> <span class="dv">1</span>, population_size <span class="op">=</span> <span class="dv">100</span>, CR <span class="op">=</span> <span class="fl">0.5</span>, F <span class="op">=</span> <span class="fl">.05</span>, max_iters <span class="op">=</span> <span class="dv">100</span>, random_state <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""Evolución Diferencial</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">  Args:</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co">      fun (funcion): Funcion objetivo a optimizar</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co">      n_dim (int): número de variables del problema de optimización</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co">      lower_bound (int, optional): limite inferior de las variables. Defaults to 0.</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">      upper_bound (int, optional): límite superior de las variables. Defaults to 1.</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">      population_size (int, optional): número de individuos en la población. Defaults to 100.</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">      CR (float, optional): tasa de cruza. Defaults to 0.5.</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">      F (float, optional): peso diferencial. Defaults to .05.</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">      max_iters (int, optional): número máxio de iteraciones/generaciones. Defaults to 100.</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">      random_state (int, optional): semilla de los números aleatorios. Defaults to None.</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Inicializar manejador de números aleatorios</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  random_state <span class="op">=</span> check_random_state(random_state)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Crear la población inicial</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  population <span class="op">=</span> random_state.uniform(size <span class="op">=</span> (population_size, n_dim))</span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Evaluando la aptitud de cada individuo de la población</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  fit <span class="op">=</span> [fun(np.subtract(upper_bound, lower_bound) <span class="op">*</span> ind <span class="op">+</span> lower_bound) <span class="cf">for</span> ind <span class="kw">in</span> population]</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Selección aleatoria de tres individuos para la mutación direccional</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    r1, r2, r3 <span class="op">=</span> np.argsort(random_state.uniform(size <span class="op">=</span> (population_size, population_size))).T[:<span class="dv">3</span>]</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Creando el vector de prueba usando la mutación direccional</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>    trial <span class="op">=</span> np.clip(population[r1] <span class="op">+</span> F <span class="op">*</span> (population[r2] <span class="op">-</span> population[r3]), <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cruza binomial</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Definiendo los puntos de cruza</span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    cross_points <span class="op">=</span> random_state.uniform(size <span class="op">=</span> (population_size, n_dim)) <span class="op">&lt;</span> CR</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    is_any_true <span class="op">=</span> np.<span class="bu">all</span>(<span class="op">~</span> cross_points, axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(is_any_true):</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>      cross_points[is_any_true, np.random.randint(n_dim, size <span class="op">=</span> (is_any_true.<span class="bu">sum</span>()))] <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>    offspring <span class="op">=</span> population.copy()</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>    offspring[cross_points] <span class="op">=</span> trial[cross_points]</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluando el fitness de la población descendiente</span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    fit_offspring <span class="op">=</span> [fun(np.subtract(upper_bound, lower_bound) <span class="op">*</span> ind <span class="op">+</span> lower_bound) <span class="cf">for</span> ind <span class="kw">in</span> offspring]</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Seleccionando los individuos de la siguiente generación</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>    is_better <span class="op">=</span> np.where(fit_offspring <span class="op">&lt;</span> fit, <span class="va">True</span>, <span class="va">False</span>)</span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> np.<span class="bu">any</span>(is_better):</span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>      population[is_better] <span class="op">=</span> offspring[is_better]</span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>      fit <span class="op">=</span> np.where(is_better, fit_offspring, fit)</span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.add(np.subtract(upper_bound, lower_bound) <span class="op">*</span> population, lower_bound), fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Se crea una función en donde se van a guardar 5 iteraciones de correr el algoritmo definido:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#differential_evolution(fo1, 1, -5.12, 5.12, 100, 0.5, 0.5, 100)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(differential_evolution(fo1, <span class="dv">1</span>, <span class="op">-</span><span class="fl">5.12</span>, <span class="fl">5.12</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">100</span>))</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>res4 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En este caso vemos como evoluciona el fit de los resultados, visualizando los primeros tres, siendo que en promedio el valor rondará:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>np.mean(res4[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>309.84160923595186</code></pre>
+<p>Se checa con el segundo resultado:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>np.mean(res4[<span class="dv">1</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>307.7391561651248</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res4[<span class="dv">0</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>plt.plot(res4[<span class="dv">1</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>plt.plot(res4[<span class="dv">2</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"orange"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_36_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<p>Ejercicio 2, se corren 5 iteraciones del mismo problema:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>differential_evolution(fo2, <span class="dv">1</span>, <span class="op">-</span><span class="fl">32.768</span>, <span class="fl">32.768</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">100</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(differential_evolution(fo2, <span class="dv">1</span>, <span class="op">-</span><span class="fl">32.768</span>, <span class="fl">32.768</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">100</span>))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>res5 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En este caso vemos que el valor promedio es de aprox. 14.45 para el primer resultado:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>np.mean(res5[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>14.453300553606741</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>np.mean(res5[<span class="dv">1</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>13.692466130372138</code></pre>
+<p>Visualizando los primeros dos resultados, toman valores muy variados pero al final se aproximan:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res5[<span class="dv">0</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.plot(res5[<span class="dv">1</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_43_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<p>Ejercicio 3, se corren 5 iteraciones del mismo problema:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#differential_evolution(fo3, 1, -10, 10, 100, 0.5, 0.5, 100)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(differential_evolution(fo3, <span class="dv">2</span>, <span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">100</span>))</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>res6 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En este caso obtenemos un valor promedio considerablemente grande en el primer y segundo resultado:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>np.mean(res6[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>3.9609733531870956e+18</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>np.mean(res6[<span class="dv">1</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1.1927377490391515e+19</code></pre>
+<p>De manera gráfica se puede ver, que si bien llega a tomar valores considerablemente grandes, al final se aproxima a la primer solución del ejercicio anterior.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res6[<span class="dv">0</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>plt.plot(res6[<span class="dv">1</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_50_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+</section>
+<section id="resuelva-los-problemas-de-optimización-del-ejercicio-1-usando-optimización-por-enjambre-de-partículas-con-un-tamaño-de-población-de-100-durante-100-iteraciones-y-los-parámetros-omega-0.5-y-c1-1-y-c2-1." class="level3">
+<h3 class="anchored" data-anchor-id="resuelva-los-problemas-de-optimización-del-ejercicio-1-usando-optimización-por-enjambre-de-partículas-con-un-tamaño-de-población-de-100-durante-100-iteraciones-y-los-parámetros-omega-0.5-y-c1-1-y-c2-1.">3. Resuelva los problemas de optimización del ejercicio 1, usando optimización por enjambre de partículas con un tamaño de población de 100, durante 100 iteraciones y los parámetros <span class="math inline">\(\omega = 0.5\)</span> y <span class="math inline">\(C1 = 1\)</span> y <span class="math inline">\(C2 = 1\)</span>.</h3>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> check_random_state</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pso(fun, n_dim, lower_bound <span class="op">=</span> <span class="dv">0</span>, upper_bound <span class="op">=</span> <span class="dv">1</span>, swarm_size <span class="op">=</span> <span class="dv">100</span>, inertia_weight <span class="op">=</span> <span class="fl">.05</span>, c1 <span class="op">=</span> <span class="dv">2</span>, c2 <span class="op">=</span> <span class="dv">2</span>, max_iters <span class="op">=</span> <span class="dv">100</span>, random_state <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Optimización por enjambre de partículas</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co">        fun (_type_): función objetivo a optimizar</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co">        n_dim (int): número de variables del problema de optimización</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co">        lower_bound (int, optional): límite inferior de las variables. Defaults to 0.</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="co">        upper_bound (int, optional): límite superior de las variables. Defaults to 1.</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="co">        swarm_size (int, optional): número de individuos en el enjambre. Defaults to 100.</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="co">        inertia_weight (float, optional): peso de inercia. Defaults to .05.</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="co">        c1 (float, optional): componente cognitivo y social. Defaults to 2.</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="co">        c2 (float, optional): componente cognitivo y social. Defaults to 2.</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a><span class="co">        max_iters (int, optional): número máximo de iteraciones/generaciones. Defaults to 100.</span></span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a><span class="co">        random_State (int, optional): semilla de los números aleatorios. Defaults to None.</span></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inicializar manejador de números aletorios</span></span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> check_random_state(random_state)</span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Crear enjambre inicial e inicializar velocidades en cero</span></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    swarm_position <span class="op">=</span> random_state.uniform(size <span class="op">=</span> (swarm_size, n_dim))</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>    swarm_velocity <span class="op">=</span> np.zeros((swarm_size, n_dim))</span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluando la calidad de cada partícula en el enjambre</span></span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>    fit <span class="op">=</span> [fun(np.subtract(upper_bound, lower_bound) <span class="op">*</span> particle <span class="op">+</span> lower_bound) <span class="cf">for</span> particle <span class="kw">in</span> swarm_position]</span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>    fit <span class="op">=</span> np.array(fit)</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Definir cada partícula como su mejor posición</span></span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>    personal_best <span class="op">=</span> {<span class="st">'position'</span>: swarm_position, <span class="st">'quality'</span>: fit}</span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>    neighborhood <span class="op">=</span> np.argsort(random_state.uniform(size <span class="op">=</span> (swarm_size, swarm_size)))[:,:<span class="dv">5</span>]</span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Guardar la mejor partícula hasta el momento</span></span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>    particle_best <span class="op">=</span> {<span class="st">'position'</span>: swarm_position[np.argmin(fit)], <span class="st">'quality'</span>: np.<span class="bu">min</span>(fit)}</span>
+<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dterminar la mejor partícula del vecindario y actualizar la velocidad</span></span>
+<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>        idx_best <span class="op">=</span> np.argmin(fit[neighborhood], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>        swarm_velocity <span class="op">*=</span> inertia_weight</span>
+<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>        swarm_velocity <span class="op">+=</span> c1 <span class="op">*</span> random_state.uniform() <span class="op">*</span> np.subtract(personal_best[<span class="st">'position'</span>], swarm_position)</span>
+<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>        swarm_velocity <span class="op">+=</span> c2 <span class="op">*</span> random_state.uniform() <span class="op">*</span> np.subtract(swarm_position[idx_best], swarm_position)</span>
+<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Desplazar la partícula</span></span>
+<span id="cb40-38"><a href="#cb40-38" aria-hidden="true" tabindex="-1"></a>        swarm_position <span class="op">=</span> np.clip(swarm_position <span class="op">+</span> swarm_velocity, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb40-39"><a href="#cb40-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Evaluando el fitness de la población descendiente</span></span>
+<span id="cb40-40"><a href="#cb40-40" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> [fun(np.subtract(upper_bound, lower_bound) <span class="op">*</span> particle <span class="op">+</span> lower_bound) <span class="cf">for</span> particle <span class="kw">in</span> swarm_position]</span>
+<span id="cb40-41"><a href="#cb40-41" aria-hidden="true" tabindex="-1"></a>        fit <span class="op">=</span> np.array(fit)</span>
+<span id="cb40-42"><a href="#cb40-42" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Comparar si mejora su mejor posición</span></span>
+<span id="cb40-43"><a href="#cb40-43" aria-hidden="true" tabindex="-1"></a>        is_improved <span class="op">=</span> np.where(fit <span class="op">&lt;</span> personal_best[<span class="st">'quality'</span>], <span class="va">True</span>, <span class="va">False</span>)</span>
+<span id="cb40-44"><a href="#cb40-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.<span class="bu">any</span>(is_improved):</span>
+<span id="cb40-45"><a href="#cb40-45" aria-hidden="true" tabindex="-1"></a>            personal_best[<span class="st">'position'</span>][is_improved] <span class="op">=</span> swarm_position[is_improved]</span>
+<span id="cb40-46"><a href="#cb40-46" aria-hidden="true" tabindex="-1"></a>            personal_best[<span class="st">'quality'</span>][is_improved] <span class="op">=</span> fit[is_improved]</span>
+<span id="cb40-47"><a href="#cb40-47" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compara si es la mejor global</span></span>
+<span id="cb40-48"><a href="#cb40-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.<span class="bu">min</span>(fit) <span class="op">&lt;</span> particle_best[<span class="st">'quality'</span>]:</span>
+<span id="cb40-49"><a href="#cb40-49" aria-hidden="true" tabindex="-1"></a>            particle_best <span class="op">=</span> {<span class="st">'position'</span> : swarm_position[np.argmin(fit)], <span class="st">'quality'</span> : np.<span class="bu">min</span>(fit)}</span>
+<span id="cb40-50"><a href="#cb40-50" aria-hidden="true" tabindex="-1"></a>    particle_best[<span class="st">'position'</span>] <span class="op">*=</span> np.subtract(upper_bound, lower_bound)</span>
+<span id="cb40-51"><a href="#cb40-51" aria-hidden="true" tabindex="-1"></a>    particle_best[<span class="st">'position'</span>] <span class="op">+=</span> lower_bound</span>
+<span id="cb40-52"><a href="#cb40-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.add(np.subtract(upper_bound, lower_bound) <span class="op">*</span> swarm_position, lower_bound), fit, particle_best</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ejercicio 1, obtenemos 5 iteraciones del mismo problema:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pso(fo1, 1,-5.12, 5.12, 100, 0.5, 1, 1, 100)</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(pso(fo1, <span class="dv">1</span>,<span class="op">-</span><span class="fl">5.12</span>, <span class="fl">5.12</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>))</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>res7 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Obtenemos que el valor promedio es de 290.000 como en el primer resultado del primer ejercicio:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>np.mean(res7[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>290.0000000000048</code></pre>
+<p>En este caso, observamos la mejor posición y su calidad (290.0):</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>res7[<span class="dv">0</span>][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>{'position': array([1.01393036e-08]), 'quality': 290.0}</code></pre>
+<p>Aquí observamos con el segundo resultado, como se aproxima al valor óptimo:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res7[<span class="dv">1</span>][<span class="dv">1</span>])</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_60_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<p>Ejercicio 2, lo corremos 5 veces:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#differential_evolution(fo2, 1, -32.768, 32.768, 100, 0.5, 0.5, 100)</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(pso(fo2, <span class="dv">1</span>,<span class="op">-</span><span class="fl">32.768</span>, <span class="fl">32.768</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>))</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>res8 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En este caso el valor promedio es similar a los resultados anteriores:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>np.mean(res8[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1.6131987126191563</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>np.mean(res8[<span class="dv">1</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>1.6131987126191563</code></pre>
+<p>Observaos la mejor posición y su calidad, en dos resultados diferentes:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>res8[<span class="dv">0</span>][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>{'position': array([3.57616159e-10]), 'quality': 1.613110910835751}</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>res8[<span class="dv">3</span>][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>{'position': array([4.07609946e-10]), 'quality': 1.6131109108989894}</code></pre>
+<p>De manera gráfica, observamos como se aproximan al valor óptimo:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res8[<span class="dv">1</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>plt.plot(res8[<span class="dv">4</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_70_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+<p>Ejercicio 3, lo corremos 5 veces</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#differential_evolution(fo3, 1, -10, 10, 100, 0.5, 0.5, 100)</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> resultados(n):</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    resultado <span class="op">=</span> []</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> i <span class="op">&lt;=</span> n:</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>        resultado.append(pso(fo3, <span class="dv">2</span>, <span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>))</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>        i <span class="op">=</span> i <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> resultado</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>res9 <span class="op">=</span> resultados(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>En este caso el valor óptimo es casi 0:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>np.mean(res9[<span class="dv">0</span>][<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>3.230549325368434e-07</code></pre>
+<p>En cuanto a la posición y su calidad, se confirma que también es casi 0:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>res9[<span class="dv">0</span>][<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>{'position': array([7.21264203, 1.        ]), 'quality': 4.093492029288253e-13}</code></pre>
+<p>De manera gráfica se puede apreciar como en una iteración los valores son muy variables, pero al final logra obtener la solución óptima:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>plt.plot(res9[<span class="dv">1</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>plt.plot(res9[<span class="dv">4</span>][<span class="dv">1</span>], c<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../assets/images/optimizacion_estocastica/Ivan_deLuna_Actividad_4_78_0.png" class="img-fluid figure-img"></p>
+<figcaption>png</figcaption>
+</figure>
+</div>
+</section>
+<section id="considere-el-método-de-regresión-lineal-con-gradiente-estocástico.-genere-un-conjunto-de-datos-artificial-con-10000-ejemplos-y-50-características.-evalúe-el-desempeño-de-la-regresión-lineal-con-gradiente-estocástico-considerando-las-tasas-de-aprendizaje-de-0.001-0.01-y-0.1.-compare-en-término-de-la-aproximación-da-los-valores-de-los-coeficientes-reales-y-la-velocidad-de-convergencia." class="level3">
+<h3 class="anchored" data-anchor-id="considere-el-método-de-regresión-lineal-con-gradiente-estocástico.-genere-un-conjunto-de-datos-artificial-con-10000-ejemplos-y-50-características.-evalúe-el-desempeño-de-la-regresión-lineal-con-gradiente-estocástico-considerando-las-tasas-de-aprendizaje-de-0.001-0.01-y-0.1.-compare-en-término-de-la-aproximación-da-los-valores-de-los-coeficientes-reales-y-la-velocidad-de-convergencia.">4. Considere el método de regresión lineal con gradiente estocástico. Genere un conjunto de datos artificial con 10,000 ejemplos y 50 características. Evalúe el desempeño de la regresión lineal con gradiente estocástico considerando las tasas de aprendizaje de 0.001, 0.01 y 0.1. Compare en término de la aproximación da los valores de los coeficientes reales y la velocidad de convergencia.</h3>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> check_X_y, check_random_state, shuffle</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradiente estocástico para regresión lineal</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stochastic_gradient(X, y, learning_rate <span class="op">=</span> <span class="fl">0.001</span>, max_iters <span class="op">=</span> <span class="dv">1000</span>, random_state <span class="op">=</span> <span class="va">None</span>):</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Gradiente estocástico</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="co">        X (array): tamaño m x n, m observaciones y n características</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a><span class="co">        y (array): tamaño m, la respuesta para cada observación</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="co">        learning_rate (float, optional): mayor que 0 y menor igual a 1. Defaults to 0.001.</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="co">        max_iters (int, optional): número máximo de iteraciones. Defaults to 1000.</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a><span class="co">        random_state (int, optional): semilla para el manejador de números aleatorios. Defaults to None.</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inicializar manejador de números aleatorios</span></span>
+<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> check_random_state(random_state)</span>
+<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verificar las entradas X e y</span></span>
+<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>    X, y <span class="op">=</span> check_X_y(X, y)</span>
+<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Definir el modelo inicial</span></span>
+<span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>    omega <span class="op">=</span> np.zeros((X.shape[<span class="dv">1</span>]))</span>
+<span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Proceso iterativo de gradiente estocástico</span></span>
+<span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Ordenar aleatoriamente el conjunto de datos</span></span>
+<span id="cb63-29"><a href="#cb63-29" aria-hidden="true" tabindex="-1"></a>        X, y <span class="op">=</span> shuffle(X, y, random_state<span class="op">=</span> random_state)</span>
+<span id="cb63-30"><a href="#cb63-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> x_i, y_i <span class="kw">in</span> <span class="bu">zip</span>(X,y):</span>
+<span id="cb63-31"><a href="#cb63-31" aria-hidden="true" tabindex="-1"></a>            grad_intercept <span class="op">=</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span> (y_i <span class="op">-</span> intercept <span class="op">-</span> np.dot(omega, x_i))</span>
+<span id="cb63-32"><a href="#cb63-32" aria-hidden="true" tabindex="-1"></a>            grad_omega <span class="op">=</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span> (y_i <span class="op">-</span> intercept <span class="op">-</span> np.dot(omega, x_i)) <span class="op">*</span> x_i</span>
+<span id="cb63-33"><a href="#cb63-33" aria-hidden="true" tabindex="-1"></a>            intercept <span class="op">-=</span> (learning_rate <span class="op">*</span> grad_intercept)</span>
+<span id="cb63-34"><a href="#cb63-34" aria-hidden="true" tabindex="-1"></a>            omega <span class="op">-=</span> (learning_rate <span class="op">*</span> grad_omega)</span>
+<span id="cb63-35"><a href="#cb63-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> omega, intercept</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Se genera una base de datos aleatoria de 10000 muestras y 50 características:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> datasets.make_classification(n_samples <span class="op">=</span> <span class="dv">10000</span>, n_features <span class="op">=</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Corremos la función de gradiente estocástico y recolecatamos los resultados por separado, con una tasa de aprendizaje de 0.001:</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timer</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>omega1, intercept1 <span class="op">=</span> stochastic_gradient(X, y, learning_rate<span class="op">=</span><span class="fl">0.001</span>)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="co"># End timer</span></span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>end_time <span class="op">=</span> time.time()</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate elapsed time</span></span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>elapsed_time <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Elapsed time: "</span>, elapsed_time) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Elapsed time:  74.16768217086792</code></pre>
+<p>En este caso el algoritmó tardo 74.16 segundos en llevar a cabo la estimación, obteniendo los siguientes resultados:</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(omega1)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(intercept1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[-0.00365287 -0.08494606 -0.00184399 -0.01511146  0.01360706  0.00204674
+ -0.00204518 -0.00741708  0.02003671  0.00412079 -0.00109717 -0.00523334
+ -0.00518782 -0.10998755 -0.0117172   0.01355009 -0.01592077 -0.00292468
+ -0.01329201 -0.00535921  0.00909109  0.01499787  0.00263485 -0.00046012
+  0.00857393  0.14052667  0.013473    0.01809829 -0.00774951 -0.00509166
+ -0.00696523  0.00554606 -0.00063539 -0.00669625 -0.00359956  0.01313653
+ -0.01346442  0.01093578  0.01044452  0.00371501 -0.00693793  0.00555293
+ -0.01525534 -0.01885527 -0.01501925 -0.01012968  0.001977   -0.01347637
+  0.01431036  0.00134733]
+0.47249497070097113</code></pre>
+<p>Se corre una segunda vez el algoritmo, con la misma base de datos, pero con una tasa de aprendizaje de 0.01 y se toma el tiempo:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timer</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>omega2, intercept2 <span class="op">=</span> stochastic_gradient(X, y, learning_rate<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="co"># End timer</span></span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a>end_time <span class="op">=</span> time.time()</span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate elapsed time</span></span>
+<span id="cb69-12"><a href="#cb69-12" aria-hidden="true" tabindex="-1"></a>elapsed_time <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
+<span id="cb69-13"><a href="#cb69-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Elapsed time: "</span>, elapsed_time) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Elapsed time:  73.08863687515259</code></pre>
+<p>En este caso el tiempo transcurrido fue similar a una tasa de 0.001, obteniendo los siguientes resultados, siendo un poco diferente el intercepto:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(omega2)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(intercept2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[ 0.04583426 -0.09838265 -0.05124442  0.03243062  0.00726993 -0.05671738
+  0.00126     0.04833638  0.07544446 -0.06598323 -0.01050268 -0.01760466
+ -0.04734852 -0.12334049 -0.01129806  0.00240011 -0.08200165 -0.0211939
+ -0.0313935   0.04683407  0.04735408  0.05214968 -0.03283477  0.00388029
+  0.05950577  0.15850433  0.02319545  0.04237044 -0.01636827 -0.0547155
+ -0.00338561  0.0059124   0.02023546 -0.03506715 -0.0478049   0.04105054
+  0.01999098 -0.05840938  0.03603444 -0.00475924  0.01003561  0.03038419
+  0.04481663  0.06177327 -0.0631107  -0.00896757  0.03219548 -0.09829254
+  0.01179448  0.04377922]
+0.5686679694133312</code></pre>
+<p>Se corre una tercera vez el algoritmo, con una tasa de aprendizaje del 0.1:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timer</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>omega3, intercept3 <span class="op">=</span> stochastic_gradient(X, y, learning_rate<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="co"># End timer</span></span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>end_time <span class="op">=</span> time.time()</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate elapsed time</span></span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>elapsed_time <span class="op">=</span> end_time <span class="op">-</span> start_time</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Elapsed time: "</span>, elapsed_time) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>/var/folders/dp/hjbpmxsx7797vz0btvv75yh00000gn/T/ipykernel_3631/4067277165.py:34: RuntimeWarning: overflow encountered in multiply
+  grad_omega = -2 * (y_i - intercept - np.dot(omega, x_i)) * x_i
+
+
+Elapsed time:  73.68351197242737</code></pre>
+<p>En este caso el tiempo de ejecución fue similar, obteniendo lo siguiente, probablemente a consecuencia del algoritmo que sobrepasa la memoria alojada al multiplicar la tasa de 0.1 por el valor del gradiente del intercepto:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(omega3)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(intercept3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>[nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan nan
+ nan nan nan nan nan nan nan nan nan nan nan nan nan nan]
+nan</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Iván de Luna. Opiniones personales.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
