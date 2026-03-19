@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Iván de Luna">
+<meta name="dcterms.date" content="2026-03-18">
+<meta name="description" content="Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de adecuación, selección de factores, cargas, comunalidades y ranking estatal.">
+
+<title>Análisis Factorial: Construyendo un Índice de Marginación para México – Iván de Luna</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
+<meta property="og:image" content="thumbnail.png">
+<meta property="og:site_name" content="Iván de Luna">
+<meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
+<meta name="twitter:image" content="thumbnail.png">
+<meta name="twitter:creator" content="@idelunaa">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Iván de Luna</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../tutorials.html"> 
+<span class="menu-text">Tutoriales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Análisis Factorial: Construyendo un Índice de Marginación para México</h1>
+                  <div>
+        <div class="description">
+          Aplicación de Factor Analysis a los indicadores de marginación del CONAPO para construir un índice latente de deprivación estructural por estado. Incluye pruebas de adecuación, selección de factores, cargas, comunalidades y ranking estatal.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">econometría</div>
+                <div class="quarto-category">estadística-multivariada</div>
+                <div class="quarto-category">python</div>
+                <div class="quarto-category">datos-México</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Iván de Luna </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#el-dataset-indicadores-de-marginación-conapo" id="toc-el-dataset-indicadores-de-marginación-conapo" class="nav-link" data-scroll-target="#el-dataset-indicadores-de-marginación-conapo">El Dataset: Indicadores de Marginación CONAPO</a></li>
+  <li><a href="#análisis-exploratorio" id="toc-análisis-exploratorio" class="nav-link" data-scroll-target="#análisis-exploratorio">Análisis Exploratorio</a>
+  <ul class="collapse">
+  <li><a href="#qué-estados-tienen-mayor-privación-general" id="toc-qué-estados-tienen-mayor-privación-general" class="nav-link" data-scroll-target="#qué-estados-tienen-mayor-privación-general">¿Qué estados tienen mayor privación general?</a></li>
+  </ul></li>
+  <li><a href="#pruebas-de-normalidad" id="toc-pruebas-de-normalidad" class="nav-link" data-scroll-target="#pruebas-de-normalidad">Pruebas de Normalidad</a></li>
+  <li><a href="#son-estos-datos-adecuados-para-el-análisis-factorial" id="toc-son-estos-datos-adecuados-para-el-análisis-factorial" class="nav-link" data-scroll-target="#son-estos-datos-adecuados-para-el-análisis-factorial">¿Son Estos Datos Adecuados para el Análisis Factorial?</a></li>
+  <li><a href="#cuántos-factores-retener" id="toc-cuántos-factores-retener" class="nav-link" data-scroll-target="#cuántos-factores-retener">¿Cuántos Factores Retener?</a></li>
+  <li><a href="#extrayendo-el-factor-el-índice-de-marginación" id="toc-extrayendo-el-factor-el-índice-de-marginación" class="nav-link" data-scroll-target="#extrayendo-el-factor-el-índice-de-marginación">Extrayendo el Factor: El Índice de Marginación</a></li>
+  <li><a href="#rotación-factorial-varimax-y-promax" id="toc-rotación-factorial-varimax-y-promax" class="nav-link" data-scroll-target="#rotación-factorial-varimax-y-promax">Rotación Factorial: Varimax y Promax</a></li>
+  <li><a href="#puntuaciones-factoriales-ranking-estatal" id="toc-puntuaciones-factoriales-ranking-estatal" class="nav-link" data-scroll-target="#puntuaciones-factoriales-ranking-estatal">Puntuaciones Factoriales: Ranking Estatal</a></li>
+  <li><a href="#caso-de-estudio-en-qué-debe-enfocarse-guanajuato" id="toc-caso-de-estudio-en-qué-debe-enfocarse-guanajuato" class="nav-link" data-scroll-target="#caso-de-estudio-en-qué-debe-enfocarse-guanajuato">Caso de Estudio: ¿En Qué Debe Enfocarse Guanajuato?</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>¿Cómo se mide algo que no se puede observar directamente, como la “marginación”?</p>
+<p>No puedes entrar a un estado y leer un número. Pero sí puedes medir muchos síntomas correlacionados: tasas de analfabetismo, falta de agua corriente, hacinamiento, bajos ingresos. El <strong>Análisis Factorial</strong> es la herramienta estadística que toma un conjunto de variables observadas correlacionadas y pregunta: ¿qué <em>factor latente</em> está impulsando todas ellas?</p>
+<p>En este tutorial aplicamos Análisis Factorial a los indicadores de marginación del CONAPO en los 32 estados de México. El resultado es una puntuación compuesta — un <strong>Índice de Marginación</strong> — que clasifica los estados de mayor a menor privación y revela <em>cuáles</em> privaciones importan más.</p>
+<p><strong>Lo que aprenderás:</strong></p>
+<ul>
+<li>Cómo difiere el Análisis Factorial de PCA y cuándo usar cada uno</li>
+<li>Cómo verificar si tus datos son adecuados (Bartlett + KMO)</li>
+<li>Cómo elegir el número de factores con valores propios y el scree plot</li>
+<li>Cómo interpretar las cargas factoriales y las comunalidades</li>
+<li>Qué hace la rotación — y por qué es menos relevante con un solo factor</li>
+</ul>
+<p><strong>Fuente de datos:</strong> CONAPO (Consejo Nacional de Población) — indicadores de marginación por estado, basados en datos censales del INEGI. 32 estados × 9 indicadores. Código y datos disponibles en <a href="https://github.com/ivandeluna/data-science-notebooks">github.com/ivandeluna/data-science-notebooks</a> (carpeta <code>08-metodos-multivariados/</code>).</p>
+<hr>
+</section>
+<section id="el-dataset-indicadores-de-marginación-conapo" class="level2">
+<h2 class="anchored" data-anchor-id="el-dataset-indicadores-de-marginación-conapo">El Dataset: Indicadores de Marginación CONAPO</h2>
+<p>El CONAPO construye su índice de marginación a partir de nueve indicadores, cada uno midiendo el <strong>porcentaje de la población que carece</strong> de un bien o servicio básico. Valores más altos = mayor privación.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Código</th>
+<th>Indicador</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>% Población de 15+ años analfabeta</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>% Población de 15+ años sin primaria completa</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>% Viviendas sin drenaje ni sanitario</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>% Viviendas sin electricidad</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>% Viviendas sin agua entubada</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td>% Viviendas con hacinamiento</td>
+</tr>
+<tr class="odd">
+<td>G</td>
+<td>% Viviendas con piso de tierra</td>
+</tr>
+<tr class="even">
+<td>H</td>
+<td>% Población en localidades con menos de 5,000 habitantes (rural)</td>
+</tr>
+<tr class="odd">
+<td>I</td>
+<td>% Población ocupada con ingreso ≤ 2 salarios mínimos</td>
+</tr>
+</tbody>
+</table>
+<p>Estos indicadores se agrupan temáticamente en: <strong>privación educativa</strong> (A, B), <strong>infraestructura de vivienda</strong> (C, D, E, F, G) y <strong>marginalidad económica/geográfica</strong> (H, I).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.patches <span class="im">as</span> mpatches</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> factor_analyzer <span class="im">import</span> FactorAnalyzer</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> factor_analyzer.factor_analyzer <span class="im">import</span> calculate_kmo, calculate_bartlett_sphericity</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.rcParams.update({</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'figure.dpi'</span>: <span class="dv">120</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.spines.top'</span>: <span class="va">False</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">'axes.spines.right'</span>: <span class="va">False</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">'font.size'</span>: <span class="dv">11</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">'pobreza.xlsx'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [<span class="st">'estado'</span>] <span class="op">+</span> <span class="bu">list</span>(<span class="st">'ABCDEFGHI'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'estado'</span>] <span class="op">=</span> df[<span class="st">'estado'</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>VARS <span class="op">=</span> <span class="bu">list</span>(<span class="st">'ABCDEFGHI'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>LABELS <span class="op">=</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'A'</span>: <span class="st">'Analfabetismo'</span>,   <span class="st">'B'</span>: <span class="st">'Sin primaria'</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'C'</span>: <span class="st">'Sin drenaje'</span>,     <span class="st">'D'</span>: <span class="st">'Sin electricidad'</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'E'</span>: <span class="st">'Sin agua'</span>,        <span class="st">'F'</span>: <span class="st">'Hacinamiento'</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'G'</span>: <span class="st">'Piso de tierra'</span>,  <span class="st">'H'</span>: <span class="st">'Población rural'</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'I'</span>: <span class="st">'Bajo ingreso'</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dataset: </span><span class="sc">{</span>df<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> estados × </span><span class="sc">{</span><span class="bu">len</span>(VARS)<span class="sc">}</span><span class="ss"> indicadores"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Dataset: 32 estados × 9 indicadores
+
+         estado     A      B     C     D     E      F     G      H      I
+Aguascalientes  2.60  11.89  0.67  0.30  0.81  21.86  0.75  25.16  34.60
+Baja California 1.96  10.46  0.26  0.47  2.82  23.03  1.15  10.35  22.85
+...</code></pre>
+<hr>
+</section>
+<section id="análisis-exploratorio" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-exploratorio">Análisis Exploratorio</h2>
+<section id="qué-estados-tienen-mayor-privación-general" class="level3">
+<h3 class="anchored" data-anchor-id="qué-estados-tienen-mayor-privación-general">¿Qué estados tienen mayor privación general?</h3>
+<p>Un gráfico de puntos — un punto por estado, un panel por indicador — nos permite identificar qué estados aparecen consistentemente en la parte superior (mayor privación).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df.melt(id_vars<span class="op">=</span><span class="st">'estado'</span>, value_vars<span class="op">=</span>VARS,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                  var_name<span class="op">=</span><span class="st">'indicator'</span>, value_name<span class="op">=</span><span class="st">'pct'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>HIGHLIGHT <span class="op">=</span> {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Chiapas'</span>: <span class="st">'tomato'</span>, <span class="st">'Guerrero'</span>: <span class="st">'tomato'</span>, <span class="st">'Oaxaca'</span>: <span class="st">'tomato'</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Cuidad de México'</span>: <span class="st">'seagreen'</span>, <span class="st">'Nuevo Leon'</span>: <span class="st">'seagreen'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">3</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, var <span class="kw">in</span> <span class="bu">enumerate</span>(VARS):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> axes.flatten()[i]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> df_long[df_long[<span class="st">'indicator'</span>] <span class="op">==</span> var].sort_values(<span class="st">'pct'</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    colors <span class="op">=</span> [HIGHLIGHT.get(s, <span class="st">'slategrey'</span>) <span class="cf">for</span> s <span class="kw">in</span> sub[<span class="st">'estado'</span>]]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    ax.scatter(<span class="bu">range</span>(<span class="bu">len</span>(sub)), sub[<span class="st">'pct'</span>], c<span class="op">=</span>colors, s<span class="op">=</span><span class="dv">35</span>, alpha<span class="op">=</span><span class="fl">0.85</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    ax.axhline(sub[<span class="st">'pct'</span>].mean(), color<span class="op">=</span><span class="st">'darkorange'</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'</span><span class="sc">{</span>var<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>LABELS[var]<span class="sc">}</span><span class="ss">'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>, fontsize<span class="op">=</span><span class="fl">9.5</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'%'</span>, fontsize<span class="op">=</span><span class="dv">8</span>)<span class="op">;</span> ax.set_xticks([])<span class="op">;</span> ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fa_dotplot.png" class="img-fluid figure-img"></p>
+<figcaption>Indicadores de marginación por estado. Línea naranja = media nacional.</figcaption>
+</figure>
+</div>
+<p>Chiapas, Guerrero y Oaxaca aparecen en la cima de prácticamente todos los indicadores — confirmando que están estructuralmente marginados en educación, vivienda e ingresos. Nuevo León y CDMX se sitúan consistentemente en la parte baja.</p>
+<p>Nótese también que los indicadores tienen <em>escalas muy diferentes</em>: el analfabetismo (A) llega al 15% mientras que la población rural (H) alcanza el 62%. Esto hace que la estandarización sea esencial antes de ejecutar el Análisis Factorial.</p>
+<hr>
+</section>
+</section>
+<section id="pruebas-de-normalidad" class="level2">
+<h2 class="anchored" data-anchor-id="pruebas-de-normalidad">Pruebas de Normalidad</h2>
+<p>El Análisis Factorial (especialmente el método de Máxima Verosimilitud) asume que las variables siguen una distribución aproximadamente normal. Probamos cada indicador con la prueba de <strong>Shapiro-Wilk</strong>:</p>
+<ul>
+<li>H₀: la variable sigue una distribución normal</li>
+<li>Rechazar H₀ si p &lt; 0.05</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Var'</span><span class="sc">:&lt;4}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Indicador'</span><span class="sc">:&lt;22}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'W'</span><span class="sc">:&gt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'p-valor'</span><span class="sc">:&gt;10}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Resultado'</span><span class="sc">:&gt;15}</span><span class="ss">"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">68</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> v <span class="kw">in</span> VARS:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    stat, p <span class="op">=</span> stats.shapiro(df[v])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> <span class="st">"Normal ✓"</span> <span class="cf">if</span> p <span class="op">&gt;</span> <span class="fl">0.05</span> <span class="cf">else</span> <span class="st">"No normal ✗"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>v<span class="sc">:&lt;4}</span><span class="ss"> </span><span class="sc">{</span>LABELS[v]<span class="sc">:&lt;22}</span><span class="ss"> </span><span class="sc">{</span>stat<span class="sc">:&gt;12.4f}</span><span class="ss"> </span><span class="sc">{</span>p<span class="sc">:&gt;10.4f}</span><span class="ss"> </span><span class="sc">{</span>result<span class="sc">:&gt;15}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Var  Indicador               W statistic    p-valor          Resultado
+--------------------------------------------------------------------
+A    Analfabetismo                0.8563     0.0006       No normal ✗
+B    Sin primaria                 0.9484     0.1296           Normal ✓
+C    Sin drenaje                  0.7096     0.0000       No normal ✗
+D    Sin electricidad             0.8710     0.0012       No normal ✗
+E    Sin agua                     0.8306     0.0002       No normal ✗
+F    Hacinamiento                 0.9214     0.0228       No normal ✗
+G    Piso de tierra               0.7492     0.0000       No normal ✗
+H    Población rural              0.9626     0.3236           Normal ✓
+I    Bajo ingreso                 0.9902     0.9899           Normal ✓</code></pre>
+<p>Solo <strong>B</strong> (sin primaria), <strong>H</strong> (población rural) e <strong>I</strong> (bajo ingreso) pasan la prueba de normalidad. Las demás — especialmente <strong>C</strong> (sin drenaje) y <strong>G</strong> (piso de tierra) — tienen una asimetría marcada, con unos pocos estados con valores extremadamente altos.</p>
+<p>Esto significa que debemos interpretar los resultados del método ML con cierta cautela. Usaremos el método de <strong>Ejes Principales</strong> (<em>Principal Axis</em>) como modelo primario, ya que hace menos supuestos distribucionales.</p>
+<hr>
+</section>
+<section id="son-estos-datos-adecuados-para-el-análisis-factorial" class="level2">
+<h2 class="anchored" data-anchor-id="son-estos-datos-adecuados-para-el-análisis-factorial">¿Son Estos Datos Adecuados para el Análisis Factorial?</h2>
+<p>Dos pruebas evalúan si la estructura de correlaciones justifica el uso de Análisis Factorial:</p>
+<p>La <strong>Prueba de Esfericidad de Bartlett</strong> verifica si la matriz de correlaciones es significativamente diferente de una matriz identidad (es decir, que las variables están efectivamente correlacionadas). Si no se puede rechazar esta prueba, el Análisis Factorial no tiene nada con qué trabajar.</p>
+<p>El <strong>Kaiser-Meyer-Olkin (KMO)</strong> mide qué proporción de las correlaciones entre variables puede explicarse por factores comunes. Valores sobre 0.6 son aceptables; sobre 0.8 es bueno.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df[VARS].values</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>chi2, p_bartlett <span class="op">=</span> calculate_bartlett_sphericity(X)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Bartlett: χ² = </span><span class="sc">{</span>chi2<span class="sc">:.2f}</span><span class="ss">,  p-valor = </span><span class="sc">{</span>p_bartlett<span class="sc">:.2e}</span><span class="ss">"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>kmo_per_var, kmo_overall <span class="op">=</span> calculate_kmo(X)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"KMO global: </span><span class="sc">{</span>kmo_overall<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>=== Prueba de Esfericidad de Bartlett ===
+  χ² = 278.84,  p-valor = 2.56e-39
+  → Se rechaza H₀: la matriz de correlaciones NO es una identidad.
+  → El Análisis Factorial es apropiado.
+
+=== Kaiser-Meyer-Olkin (KMO) ===
+  KMO global: 0.8861  →  Bueno
+
+  Var  Indicador               KMO  Clasificación
+  A    Analfabetismo         0.8435           Bueno
+  B    Sin primaria          0.9024       Excelente
+  C    Sin drenaje           0.9104       Excelente
+  D    Sin electricidad      0.8727           Bueno
+  E    Sin agua              0.8943           Bueno
+  F    Hacinamiento          0.9205       Excelente
+  G    Piso de tierra        0.8469           Bueno
+  H    Población rural       0.8893           Bueno
+  I    Bajo ingreso          0.9329       Excelente</code></pre>
+<p>Ambas pruebas confirman que los datos son muy adecuados para el Análisis Factorial: Bartlett es altamente significativo (p ≈ 0), las variables están fuertemente correlacionadas, y el KMO de <strong>0.89 (Bueno, casi Excelente)</strong> indica que la mayor parte de las correlaciones son impulsadas por factores comunes.</p>
+<hr>
+</section>
+<section id="cuántos-factores-retener" class="level2">
+<h2 class="anchored" data-anchor-id="cuántos-factores-retener">¿Cuántos Factores Retener?</h2>
+<p>Antes de extraer factores, necesitamos decidir cuántos retener. El <strong>scree plot</strong> (valores propios de la matriz de correlaciones) nos da dos criterios:</p>
+<ol type="1">
+<li><strong>Regla de Kaiser</strong>: retener factores con valor propio &gt; 1</li>
+<li><strong>Criterio del codo</strong>: buscar la “rodilla” en la curva</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corr_matrix <span class="op">=</span> np.corrcoef(X.T)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="op">=</span> np.linalg.eigvalsh(corr_matrix)[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>cumulative_var <span class="op">=</span> np.cumsum(eigenvalues) <span class="op">/</span> eigenvalues.<span class="bu">sum</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Scree plot + varianza acumulada</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(eigenvalues)<span class="op">+</span><span class="dv">1</span>), eigenvalues, <span class="st">'o-'</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>             color<span class="op">=</span><span class="st">'steelblue'</span>, linewidth<span class="op">=</span><span class="fl">2.5</span>, markersize<span class="op">=</span><span class="dv">8</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].axhline(<span class="dv">1</span>, color<span class="op">=</span><span class="st">'tomato'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Regla de Kaiser (λ = 1)'</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fa_scree.png" class="img-fluid figure-img"></p>
+<figcaption>Scree plot y varianza explicada acumulada. El Factor 1 tiene valor propio de 6.39 — muy por encima del umbral de Kaiser.</figcaption>
+</figure>
+</div>
+<pre><code>Factor 1: λ = 6.3950  |  Acumulado = 71.1%  ← único por encima de Kaiser
+Factor 2: λ = 0.7349  |  Acumulado = 79.2%
+Factor 3: λ = 0.6249  |  Acumulado = 86.2%
+...</code></pre>
+<p>El resultado es inusualmente claro: <strong>el Factor 1 tiene un valor propio de 6.39</strong>, explicando el <strong>71% de la varianza total</strong> — y el segundo cae a 0.73, <em>por debajo</em> del umbral de Kaiser. El codo en el Factor 1 es inequívoco.</p>
+<p>Un factor dominante con este nivel de poder explicativo es una señal fuerte de que estos nueve indicadores están midiendo esencialmente <em>una sola cosa</em>: un eje general de marginación que va desde la privación estructural hasta la prosperidad relativa.</p>
+<hr>
+</section>
+<section id="extrayendo-el-factor-el-índice-de-marginación" class="level2">
+<h2 class="anchored" data-anchor-id="extrayendo-el-factor-el-índice-de-marginación">Extrayendo el Factor: El Índice de Marginación</h2>
+<p>Ajustamos un modelo de 1 factor usando el método de <strong>Ejes Principales</strong>. Para cada variable obtenemos:</p>
+<ul>
+<li><strong>Carga (Loading)</strong>: correlación entre la variable y el factor latente</li>
+<li><strong>Comunalidad</strong>: proporción de la varianza de la variable explicada por el factor (= carga²)</li>
+</ul>
+<p>Una comunalidad menor a 0.5 indica que el factor no captura bien esa variable.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fa <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span><span class="dv">1</span>, rotation<span class="op">=</span><span class="va">None</span>, method<span class="op">=</span><span class="st">'principal'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fa.fit(X)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>loadings   <span class="op">=</span> fa.loadings_.flatten()</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>communalities <span class="op">=</span> fa.get_communalities()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fa_loadings.png" class="img-fluid figure-img"></p>
+<figcaption>Cargas factoriales y comunalidades por indicador. Rojo = comunalidad &lt; 0.5.</figcaption>
+</figure>
+</div>
+<pre><code>Factor explica 71.1% de la varianza total
+
+           Variable  Carga  Comunalidad
+     C: Sin drenaje  0.617        0.381  ← communality &lt; 0.5
+D: Sin electricidad  0.745        0.555
+    F: Hacinamiento  0.814        0.663
+ H: Población rural  0.833        0.693
+    I: Bajo ingreso  0.847        0.717
+        E: Sin agua  0.864        0.746
+  G: Piso de tierra  0.911        0.830
+    B: Sin primaria  0.938        0.880
+   A: Analfabetismo  0.964        0.930</code></pre>
+<p><strong>Leyendo las cargas:</strong> Las tres cargas más fuertes son <strong>A (analfabetismo, 0.96)</strong>, <strong>B (sin primaria, 0.94)</strong> y <strong>G (piso de tierra, 0.91)</strong>. Son marcadores clásicos de pobreza extrema — cargan fuertemente en el factor único porque donde el analfabetismo es alto, los pisos de tierra también tienden a serlo.</p>
+<p><strong>La excepción: C (sin drenaje)</strong> tiene una carga de solo 0.62 y una comunalidad de 0.38 — por debajo de 0.5. El acceso a drenaje en México tiene un patrón parcialmente independiente de la marginación general (depende de la inversión municipal en infraestructura y la geografía de formas que otros indicadores no), por lo que el modelo de un solo factor lo captura con menor precisión.</p>
+<hr>
+</section>
+<section id="rotación-factorial-varimax-y-promax" class="level2">
+<h2 class="anchored" data-anchor-id="rotación-factorial-varimax-y-promax">Rotación Factorial: Varimax y Promax</h2>
+<p>Con más de un factor, la rotación ayuda a hacer la estructura factorial más interpretable maximizando la asociación de cada variable con un solo factor. Existen dos tipos:</p>
+<ul>
+<li><strong>Varimax</strong> (ortogonal): los factores permanecen no correlacionados — más limpio pero asume independencia</li>
+<li><strong>Promax</strong> (oblicuo): permite que los factores se correlacionen — más realista para datos sociales</li>
+</ul>
+<p><strong>Con un solo factor, la rotación no tiene efecto</strong> — no hay nada que rotar. Ajustamos ambas rotaciones para ilustrar que las cargas son idénticas, lo que confirma la robustez de nuestra solución de 1 factor.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fa_varimax <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span><span class="dv">1</span>, rotation<span class="op">=</span><span class="st">'varimax'</span>, method<span class="op">=</span><span class="st">'ml'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fa_promax  <span class="op">=</span> FactorAnalyzer(n_factors<span class="op">=</span><span class="dv">1</span>, rotation<span class="op">=</span><span class="st">'promax'</span>,  method<span class="op">=</span><span class="st">'ml'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>fa_varimax.fit(X)<span class="op">;</span> fa_promax.fit(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Cargas bajo tres métodos de rotación:
+          Indicador  Sin rotación  Varimax  Promax
+   A: Analfabetismo        0.9642   0.9895  0.9895
+    B: Sin primaria        0.9378   0.9527  0.9527
+     C: Sin drenaje        0.6174   0.5533  0.5533
+     ...
+
+Nota: Con un solo factor, Varimax y Promax producen resultados idénticos.
+La rotación es relevante solo cuando hay 2+ factores que reorientar.</code></pre>
+<hr>
+</section>
+<section id="puntuaciones-factoriales-ranking-estatal" class="level2">
+<h2 class="anchored" data-anchor-id="puntuaciones-factoriales-ranking-estatal">Puntuaciones Factoriales: Ranking Estatal</h2>
+<p>Las puntuaciones factoriales representan la posición de cada estado en el eje de marginación. Se calculan como una combinación ponderada de los indicadores estandarizados, usando las cargas factoriales como pesos.</p>
+<p>Puntuaciones positivas = marginación mayor al promedio; negativas = menor al promedio.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> fa.transform(X)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>score_df <span class="op">=</span> pd.DataFrame({<span class="st">'estado'</span>: df[<span class="st">'estado'</span>], <span class="st">'marginacion'</span>: scores[:, <span class="dv">0</span>]})</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>score_df <span class="op">=</span> score_df.sort_values(<span class="st">'marginacion'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fa_scores.png" class="img-fluid figure-img"></p>
+<figcaption>Ranking de los 32 estados por índice de marginación construido con Análisis Factorial.</figcaption>
+</figure>
+</div>
+<pre><code>Top 5 más marginados:
+  1. Guerrero          +2.60
+  2. Chiapas           +2.45
+  3. Oaxaca            +2.16
+  4. Veracruz          +1.16
+  5. Puebla            +0.70
+
+Top 5 menos marginados:
+ 28. Aguascalientes    -0.90
+ 29. Coahuila          -1.11
+ 30. Baja California   -1.11
+ 31. Nuevo León        -1.41
+ 32. Ciudad de México  -1.47</code></pre>
+<hr>
+</section>
+<section id="caso-de-estudio-en-qué-debe-enfocarse-guanajuato" class="level2">
+<h2 class="anchored" data-anchor-id="caso-de-estudio-en-qué-debe-enfocarse-guanajuato">Caso de Estudio: ¿En Qué Debe Enfocarse Guanajuato?</h2>
+<p>Examinar un estado específico nos permite traducir los resultados del análisis factorial en recomendaciones de política concretas. Guanajuato se ubica en el rango medio del ranking — no entre los más privados, pero con margen claro de mejora.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>gto <span class="op">=</span> df[df[<span class="st">'estado'</span>].<span class="bu">str</span>.contains(<span class="st">'Guanajuato'</span>)]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>gto_vals <span class="op">=</span> gto[VARS].values.flatten()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>national_mean <span class="op">=</span> df[VARS].mean().values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="fa_guanajuato.png" class="img-fluid figure-img"></p>
+<figcaption>Guanajuato vs.&nbsp;media nacional por indicador. Las barras azules por encima de las rojas indican áreas de mayor privación relativa.</figcaption>
+</figure>
+</div>
+<pre><code>       Indicador  Guanajuato  Media Nac.  Diferencia
+   Analfabetismo        6.39        5.45       +0.94  ▲ peor
+    Sin primaria       19.12       16.55       +2.57  ▲ peor
+ Población rural       34.67       30.61       +4.06  ▲ peor
+     Sin drenaje        3.31        2.47       +0.84  ▲ peor
+Sin electricidad        0.68        1.07       -0.39  ▼ mejor
+        Sin agua        4.13        5.04       -0.91  ▼ mejor
+    Hacinamiento       25.36       28.77       -3.41  ▼ mejor
+  Piso de tierra        2.00        3.73       -1.73  ▼ mejor
+    Bajo ingreso       37.41       38.05       -0.64  ▼ mejor</code></pre>
+<p>Guanajuato está por encima de la media nacional en <strong>población rural (H)</strong> y <strong>sin primaria (B)</strong> — y estos también tienen cargas factoriales altas, lo que significa que contribuyen significativamente al índice de marginación. Mejorar en estas dos dimensiones tendría el mayor efecto en la puntuación compuesta del estado.</p>
+<hr>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">Conclusiones</h2>
+<p>El Análisis Factorial extrajo una variable latente única y poderosa de los nueve indicadores de marginación del CONAPO — y este factor explica el <strong>71% de la varianza total</strong> en los datos.</p>
+<p><strong>Lo que captura el factor:</strong> Un eje general de pobreza estructural. Los estados que tienen alta analfabetismo también tienden a tener pisos de tierra, falta de agua corriente y bajos salarios. Estas condiciones están tan fuertemente correlacionadas (impulsadas por las mismas fuerzas socioeconómicas subyacentes) que un solo número — la puntuación de marginación — las resume notablemente bien.</p>
+<p><strong>Hallazgos principales:</strong></p>
+<ul>
+<li><strong>Indicadores más fuertes</strong>: El analfabetismo (A) y la falta de escolaridad primaria (B) son las variables más correlacionadas con el factor latente — son los “síntomas” más confiables de marginación profunda.</li>
+<li><strong>Ajuste más débil</strong>: El acceso a drenaje (C) tiene una comunalidad por debajo de 0.5, indicando que responde a factores diferentes (inversión municipal, geografía) más allá de la pobreza general.</li>
+<li><strong>Persistencia geográfica</strong>: Chiapas, Guerrero y Oaxaca se sitúan muy por encima del resto en el eje de marginación — patrón visible en cada indicador individual y confirmado por la puntuación compuesta.</li>
+<li><strong>La rotación no cambia la historia</strong>: Con un solo factor, Varimax y Promax producen cargas idénticas. La rotación es relevante cuando hay 2+ factores.</li>
+</ul>
+<p><strong>PCA vs.&nbsp;Análisis Factorial — ¿cuándo usar cada uno?</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>PCA</th>
+<th>Análisis Factorial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Objetivo</strong></td>
+<td>Reducir dimensiones</td>
+<td>Encontrar estructura latente</td>
+</tr>
+<tr class="even">
+<td><strong>Maximiza</strong></td>
+<td>Varianza total</td>
+<td>Varianza común</td>
+</tr>
+<tr class="odd">
+<td><strong>Mejor para</strong></td>
+<td>Compresión, visualización</td>
+<td>Variables latentes con fundamento teórico</td>
+</tr>
+<tr class="even">
+<td><strong>Output</strong></td>
+<td>Componentes (combinaciones lineales)</td>
+<td>Factores (constructos latentes)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><em>Tutorial por <a href="https://ivandeluna.github.io">Iván de Luna</a> · Código y datos en <a href="https://github.com/ivandeluna/data-science-notebooks">GitHub</a></em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Iván de Luna. Opiniones personales.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
