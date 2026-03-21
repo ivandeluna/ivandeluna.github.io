@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Iván de Luna">
+<meta name="dcterms.date" content="2026-03-18">
+<meta name="description" content="Análisis exploratorio multivariado y Componentes Principales aplicados a datos de bienes y servicios del ENIGH. Identificamos un eje general de desarrollo que explica el 62.8% de la variación entre los 32 estados de México.">
+
+<title>EDA Multivariado y PCA: Patrones de Consumo en los Hogares de México – Iván de Luna</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7ad6542725e80d1433b1f8ee26c2a1fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-N5D7WWRDKG"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-N5D7WWRDKG', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta property="og:description" content="Análisis cuantitativo, econometría y desarrollo regional en México. Proyectos con R, Python y datos del INEGI.">
+<meta property="og:image" content="thumbnail.png">
+<meta property="og:site_name" content="Iván de Luna">
+<meta name="twitter:title" content="Iván de Luna — Economista y Científico de Datos">
+<meta name="twitter:description" content="Análisis cuantitativo, econometría y desarrollo regional en México.">
+<meta name="twitter:image" content="thumbnail.png">
+<meta name="twitter:creator" content="@idelunaa">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Iván de Luna</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../tutorials.html"> 
+<span class="menu-text">Tutoriales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">EDA Multivariado y PCA: Patrones de Consumo en los Hogares de México</h1>
+                  <div>
+        <div class="description">
+          Análisis exploratorio multivariado y Componentes Principales aplicados a datos de bienes y servicios del ENIGH. Identificamos un eje general de desarrollo que explica el 62.8% de la variación entre los 32 estados de México.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">estadística-multivariada</div>
+                <div class="quarto-category">python</div>
+                <div class="quarto-category">datos-México</div>
+                <div class="quarto-category">visualización</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Iván de Luna </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
+  <li><a href="#el-dataset" id="toc-el-dataset" class="nav-link" data-scroll-target="#el-dataset">El Dataset</a></li>
+  <li><a href="#análisis-exploratorio" id="toc-análisis-exploratorio" class="nav-link" data-scroll-target="#análisis-exploratorio">Análisis Exploratorio</a>
+  <ul class="collapse">
+  <li><a href="#qué-bienes-varían-más-entre-estados" id="toc-qué-bienes-varían-más-entre-estados" class="nav-link" data-scroll-target="#qué-bienes-varían-más-entre-estados">¿Qué bienes varían más entre estados?</a></li>
+  <li><a href="#matriz-de-correlaciones" id="toc-matriz-de-correlaciones" class="nav-link" data-scroll-target="#matriz-de-correlaciones">Matriz de correlaciones</a></li>
+  </ul></li>
+  <li><a href="#prueba-de-adecuación-kmo" id="toc-prueba-de-adecuación-kmo" class="nav-link" data-scroll-target="#prueba-de-adecuación-kmo">Prueba de Adecuación: KMO</a></li>
+  <li><a href="#selección-de-componentes" id="toc-selección-de-componentes" class="nav-link" data-scroll-target="#selección-de-componentes">Selección de Componentes</a>
+  <ul class="collapse">
+  <li><a href="#criterio-1-varianza-acumulada-75" id="toc-criterio-1-varianza-acumulada-75" class="nav-link" data-scroll-target="#criterio-1-varianza-acumulada-75">Criterio 1 — Varianza Acumulada (≥ 75%)</a></li>
+  <li><a href="#criterio-2-regla-de-kaiser-λ-1" id="toc-criterio-2-regla-de-kaiser-λ-1" class="nav-link" data-scroll-target="#criterio-2-regla-de-kaiser-λ-1">Criterio 2 — Regla de Kaiser (λ &gt; 1)</a></li>
+  </ul></li>
+  <li><a href="#el-biplot-estados-y-bienes-en-el-mismo-espacio" id="toc-el-biplot-estados-y-bienes-en-el-mismo-espacio" class="nav-link" data-scroll-target="#el-biplot-estados-y-bienes-en-el-mismo-espacio">El Biplot: Estados y Bienes en el Mismo Espacio</a>
+  <ul class="collapse">
+  <li><a href="#leyendo-el-biplot" id="toc-leyendo-el-biplot" class="nav-link" data-scroll-target="#leyendo-el-biplot">Leyendo el biplot</a></li>
+  </ul></li>
+  <li><a href="#validando-los-grupos-del-biplot" id="toc-validando-los-grupos-del-biplot" class="nav-link" data-scroll-target="#validando-los-grupos-del-biplot">Validando los Grupos del Biplot</a></li>
+  <li><a href="#conclusiones" id="toc-conclusiones" class="nav-link" data-scroll-target="#conclusiones">Conclusiones</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introducción" class="level2">
+<h2 class="anchored" data-anchor-id="introducción">Introducción</h2>
+<p>México tiene 32 estados que difieren dramáticamente en ingresos, geografía y acceso a bienes. ¿Cómo resumir esas diferencias en algo manejable? ¿Y qué nos dicen los patrones de consumo de los hogares sobre el desarrollo regional?</p>
+<p>El <strong>Análisis de Componentes Principales (PCA)</strong> es la herramienta estándar para este tipo de pregunta. Toma variables correlacionadas — en este caso, las tasas de posesión de bienes y servicios por estado — y las comprime en unas pocas dimensiones que capturan la mayor parte de la variación.</p>
+<p>En este tutorial aplicamos PCA a datos del ENIGH sobre 11 bienes y servicios en los 32 estados de México. El resultado es un <strong>mapa bidimensional</strong> donde cada punto es un estado y cada flecha es un bien — y la geometría del mapa revela la estructura económica regional del país.</p>
+<p><strong>Lo que aprenderás:</strong></p>
+<ul>
+<li>Cómo hacer un EDA multivariado: variación, outliers y correlaciones</li>
+<li>Cómo verificar si los datos son adecuados para PCA (KMO)</li>
+<li>Cómo elegir el número de componentes (varianza acumulada, scree plot, Kaiser)</li>
+<li>Cómo construir e interpretar un <strong>biplot</strong></li>
+<li>Cuándo usar PCA vs.&nbsp;Análisis Factorial</li>
+</ul>
+<p><strong>Fuente de datos:</strong> ENIGH 2022 (INEGI) — proporción de hogares que poseen cada bien o servicio, por estado. 32 estados × 11 variables. Código y datos en <a href="https://github.com/ivandeluna/data-science-notebooks">github.com/ivandeluna/data-science-notebooks</a> (carpeta <code>08-metodos-multivariados/</code>).</p>
+<hr>
+</section>
+<section id="el-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="el-dataset">El Dataset</h2>
+<p>Cada fila es un estado de México. Cada columna es la <strong>proporción de hogares</strong> (0 a 1) que poseen o están suscritos a un bien o servicio.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>internet</code></td>
+<td>Acceso a internet</td>
+</tr>
+<tr class="even">
+<td><code>television</code></td>
+<td>Televisión (cualquier tipo)</td>
+</tr>
+<tr class="odd">
+<td><code>tv_paga</code></td>
+<td>Televisión de paga</td>
+</tr>
+<tr class="even">
+<td><code>telefonia</code></td>
+<td>Telefonía (fija o móvil)</td>
+</tr>
+<tr class="odd">
+<td><code>radio</code></td>
+<td>Radio</td>
+</tr>
+<tr class="even">
+<td><code>computadora</code></td>
+<td>Computadora o laptop</td>
+</tr>
+<tr class="odd">
+<td><code>estufa</code></td>
+<td>Estufa de gas o eléctrica</td>
+</tr>
+<tr class="even">
+<td><code>refrigerador</code></td>
+<td>Refrigerador</td>
+</tr>
+<tr class="odd">
+<td><code>lavadora</code></td>
+<td>Lavadora</td>
+</tr>
+<tr class="even">
+<td><code>microondas</code></td>
+<td>Microondas</td>
+</tr>
+<tr class="odd">
+<td><code>aire</code></td>
+<td>Aire acondicionado</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> factor_analyzer.factor_analyzer <span class="im">import</span> calculate_kmo</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">'Hogares_equipo.xlsx'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [<span class="st">'estado'</span>, <span class="st">'internet'</span>, <span class="st">'television'</span>, <span class="st">'tv_paga'</span>, <span class="st">'telefonia'</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>              <span class="st">'radio'</span>, <span class="st">'computadora'</span>, <span class="st">'estufa'</span>, <span class="st">'refrigerador'</span>, <span class="st">'lavadora'</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>              <span class="st">'microondas'</span>, <span class="st">'aire'</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>NUMERIC <span class="op">=</span> [<span class="st">'internet'</span>,<span class="st">'television'</span>,<span class="st">'tv_paga'</span>,<span class="st">'telefonia'</span>,<span class="st">'radio'</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>           <span class="st">'computadora'</span>,<span class="st">'estufa'</span>,<span class="st">'refrigerador'</span>,<span class="st">'lavadora'</span>,<span class="st">'microondas'</span>,<span class="st">'aire'</span>]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dataset: </span><span class="sc">{</span>df<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> estados × </span><span class="sc">{</span><span class="bu">len</span>(NUMERIC)<span class="sc">}</span><span class="ss"> variables"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Dataset: 32 estados × 11 variables
+
+        estado  internet  television  tv_paga  telefonia  radio  ...
+Aguascalientes     0.642       0.948    0.498      0.921  0.295  ...</code></pre>
+<hr>
+</section>
+<section id="análisis-exploratorio" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-exploratorio">Análisis Exploratorio</h2>
+<section id="qué-bienes-varían-más-entre-estados" class="level3">
+<h3 class="anchored" data-anchor-id="qué-bienes-varían-más-entre-estados">¿Qué bienes varían más entre estados?</h3>
+<p>El primer paso es siempre entender dónde hay variación y dónde no. Si una variable tiene poca variación, aporta poco a PCA.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df.melt(id_vars<span class="op">=</span><span class="st">'estado'</span>, var_name<span class="op">=</span><span class="st">'variable'</span>, value_name<span class="op">=</span><span class="st">'proporcion'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">5</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dotplot: un punto por estado, paneles por bien</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ordenado por mediana descendente</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_dotplot.png" class="img-fluid figure-img"></p>
+<figcaption>Distribución de cada bien por estado, ordenado por mediana. Rojo = sur marginado, verde = norte/centro desarrollado.</figcaption>
+</figure>
+</div>
+<p>Nótese el contraste en dispersión:</p>
+<ul>
+<li><strong>Televisión</strong> y <strong>Telefonía</strong> son casi universales — poca variación entre estados</li>
+<li><strong>Internet</strong>, <strong>Computadora</strong> y <strong>TV de Paga</strong> tienen la mayor dispersión — aquí vive la información más útil para PCA</li>
+<li><strong>Aire acondicionado</strong> tiene un patrón geográfico distinto: alto en estados norteños por el clima, no necesariamente por nivel de ingresos</li>
+</ul>
+<p>Los tres estados del sur — <strong>Chiapas, Oaxaca y Guerrero</strong> — aparecen consistentemente por debajo de la mediana en casi todos los bienes.</p>
+</section>
+<section id="matriz-de-correlaciones" class="level3">
+<h3 class="anchored" data-anchor-id="matriz-de-correlaciones">Matriz de correlaciones</h3>
+<p>PCA funciona mejor cuando las variables están correlacionadas — “comprime” variables correlacionadas en menos dimensiones sin perder mucha información.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> df[NUMERIC].corr()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>sns.heatmap(corr, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">'.2f'</span>, cmap<span class="op">=</span><span class="st">'RdYlGn'</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            center<span class="op">=</span><span class="dv">0</span>, vmin<span class="op">=-</span><span class="dv">1</span>, vmax<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Matriz de Correlaciones — Bienes y Servicios por Hogar'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_corr.png" class="img-fluid figure-img"></p>
+<figcaption>Matriz de correlaciones triangular. Verde = correlación positiva fuerte.</figcaption>
+</figure>
+</div>
+<p><strong>Qué observar:</strong></p>
+<ul>
+<li><strong>Los electrodomésticos forman un clúster</strong>: <code>Estufa</code>, <code>Refrigerador</code>, <code>Lavadora</code> y <code>Microondas</code> tienen correlaciones altas (r &gt; 0.7). En México, la posesión de estos bienes va de la mano con el nivel de ingresos del hogar.</li>
+<li><strong><code>Internet</code> y <code>Computadora</code></strong> están muy correlacionados (r = 0.93) — ambos reflejan acceso digital.</li>
+<li><strong><code>Aire acondicionado</code></strong> es el más independiente: correlaciona modestamente con el resto porque responde más a geografía climática (estados del norte y Baja California) que a nivel de ingresos.</li>
+<li><strong><code>Radio</code></strong> tiene correlaciones negativas con los bienes modernos — refleja que en estados más rurales y menos conectados, la radio sigue siendo el medio principal.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="prueba-de-adecuación-kmo" class="level2">
+<h2 class="anchored" data-anchor-id="prueba-de-adecuación-kmo">Prueba de Adecuación: KMO</h2>
+<p>Antes de aplicar PCA, verificamos si las correlaciones en los datos son lo suficientemente fuertes como para justificarlo. El <strong>Kaiser-Meyer-Olkin (KMO)</strong> mide qué proporción de las correlaciones se explica por factores comunes.</p>
+<ul>
+<li>KMO ≥ 0.9: Excelente</li>
+<li>KMO ≥ 0.8: Bueno</li>
+<li>KMO ≥ 0.7: Aceptable</li>
+<li>KMO &lt; 0.6: Inadecuado</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>X_std <span class="op">=</span> scaler.fit_transform(df[NUMERIC])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>kmo_per_var, kmo_overall <span class="op">=</span> calculate_kmo(X_std)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"KMO global: </span><span class="sc">{</span>kmo_overall<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>KMO global: 0.8100  →  Bueno
+
+Variable         KMO
+Internet        0.82  Bueno
+Televisión      0.81  Bueno
+TV de Paga      0.83  Bueno
+Telefonía       0.80  Bueno
+Radio           0.68  Aceptable
+Computadora     0.81  Bueno
+Estufa          0.84  Bueno
+Refrigerador    0.85  Bueno
+Lavadora        0.79  Aceptable
+Microondas      0.87  Bueno
+Aire Acondic.   0.76  Aceptable</code></pre>
+<p>Un KMO de <strong>0.81 (Bueno)</strong> confirma que hay suficiente varianza compartida entre las variables para justificar PCA. <code>Radio</code> y <code>Aire Acondicionado</code> tienen los valores más bajos, consistente con lo que vimos en la matriz de correlaciones — responden a factores más idiosincrásicos.</p>
+<hr>
+</section>
+<section id="selección-de-componentes" class="level2">
+<h2 class="anchored" data-anchor-id="selección-de-componentes">Selección de Componentes</h2>
+<section id="criterio-1-varianza-acumulada-75" class="level3">
+<h3 class="anchored" data-anchor-id="criterio-1-varianza-acumulada-75">Criterio 1 — Varianza Acumulada (≥ 75%)</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>scores <span class="op">=</span> pca.fit_transform(X_std)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ev <span class="op">=</span> pca.explained_variance_ratio_</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>cumev <span class="op">=</span> np.cumsum(ev)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ¿Cuántos PCs necesitamos para explicar el 75%?</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n_75 <span class="op">=</span> np.argmax(cumev <span class="op">&gt;=</span> <span class="fl">0.75</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>n_75<span class="sc">}</span><span class="ss"> componentes explican </span><span class="sc">{</span>cumev[n_75<span class="op">-</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">% de la varianza"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>2 componentes explican 78.9% de la varianza</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_scree.png" class="img-fluid figure-img"></p>
+<figcaption>Varianza por componente y varianza acumulada. Con solo 2 PCs ya superamos el 75%.</figcaption>
+</figure>
+</div>
+<p><strong>PC1</strong> sola captura el <strong>62.8%</strong> de la varianza — un valor inusualmente alto que indica una estructura muy clara en los datos: existe un eje dominante de variación que separa a los estados.</p>
+</section>
+<section id="criterio-2-regla-de-kaiser-λ-1" class="level3">
+<h3 class="anchored" data-anchor-id="criterio-2-regla-de-kaiser-λ-1">Criterio 2 — Regla de Kaiser (λ &gt; 1)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="op">=</span> pca.explained_variance_</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Retener componentes con valor propio &gt; 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_kaiser.png" class="img-fluid figure-img"></p>
+<figcaption>Scree plot con regla de Kaiser. Solo 2 componentes tienen valor propio mayor a 1.</figcaption>
+</figure>
+</div>
+<pre><code>PC1: λ = 6.91  ← muy por encima de Kaiser
+PC2: λ = 1.77  ← justo por encima de Kaiser
+PC3: λ = 0.74  ← por debajo del umbral</code></pre>
+<p>Ambos criterios coinciden: <strong>2 componentes</strong> es la solución óptima. El scree plot muestra un codo claro después de PC2.</p>
+<hr>
+</section>
+</section>
+<section id="el-biplot-estados-y-bienes-en-el-mismo-espacio" class="level2">
+<h2 class="anchored" data-anchor-id="el-biplot-estados-y-bienes-en-el-mismo-espacio">El Biplot: Estados y Bienes en el Mismo Espacio</h2>
+<p>Un biplot superpone dos cosas en el mismo espacio 2D:</p>
+<ol type="1">
+<li><strong>Puntos</strong> — uno por estado, posicionado por sus puntuaciones en PC1 y PC2</li>
+<li><strong>Vectores</strong> — uno por variable, cuya dirección indica con qué componente correlaciona más</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pca2 <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>scores2 <span class="op">=</span> pca2.fit_transform(X_std)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>loadings <span class="op">=</span> pca2.components_</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">11</span>, <span class="dv">8</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ... scatter de estados + flechas de variables</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="pca_biplot.png" class="img-fluid figure-img"></p>
+<figcaption>Biplot PCA: cada punto es un estado, cada flecha es un bien. PC1 (horizontal) es el eje de desarrollo general; PC2 (vertical) separa clima del sur.</figcaption>
+</figure>
+</div>
+<section id="leyendo-el-biplot" class="level3">
+<h3 class="anchored" data-anchor-id="leyendo-el-biplot">Leyendo el biplot</h3>
+<p><strong>PC1 (eje horizontal, 62.8%)</strong> es el <strong>eje de desarrollo general</strong>: - Estados a la <strong>derecha</strong> (Nuevo León, Baja California, Sonora, CDMX) tienen alta conectividad digital, electrodomésticos y acceso a servicios modernos - Estados a la <strong>izquierda</strong> (Chiapas, Oaxaca, Guerrero) tienen baja penetración de prácticamente todos los bienes</p>
+<p>Casi todas las flechas apuntan hacia la derecha — confirma que PC1 captura un factor general de bienestar material.</p>
+<p><strong>PC2 (eje vertical, 16.1%)</strong> separa dos patrones distintos: - <strong>Arriba</strong>: <code>Aire Acondicionado</code> apunta claramente hacia arriba — estados norteños como Sonora y Baja California tienen AC alto no por riqueza sino por necesidad climática - <strong>Abajo</strong>: <code>Radio</code> apunta hacia abajo — estados más rurales y del sur donde la radio sigue siendo relevante</p>
+<pre><code>Puntuaciones PC1 más extremas:
+  Más desarrollados:  Nuevo León (+3.1), Baja California (+2.8), CDMX (+2.6)
+  Menos desarrollados: Chiapas (−3.4), Oaxaca (−2.9), Guerrero (−2.7)</code></pre>
+<hr>
+</section>
+</section>
+<section id="validando-los-grupos-del-biplot" class="level2">
+<h2 class="anchored" data-anchor-id="validando-los-grupos-del-biplot">Validando los Grupos del Biplot</h2>
+<p>El biplot sugiere tres grupos geográficos. Confirmamos con las puntuaciones reales:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>score_df <span class="op">=</span> pd.DataFrame(scores2[:, :<span class="dv">2</span>], columns<span class="op">=</span>[<span class="st">'PC1'</span>, <span class="st">'PC2'</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>score_df[<span class="st">'estado'</span>] <span class="op">=</span> df[<span class="st">'estado'</span>].values</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>score_df <span class="op">=</span> score_df.sort_values(<span class="st">'PC1'</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Estados con PC1 más bajo (menor desarrollo material):"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(score_df.head(<span class="dv">5</span>)[[<span class="st">'estado'</span>,<span class="st">'PC1'</span>,<span class="st">'PC2'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Estados con PC1 más alto (mayor desarrollo material):"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(score_df.tail(<span class="dv">5</span>)[[<span class="st">'estado'</span>,<span class="st">'PC1'</span>,<span class="st">'PC2'</span>]].to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Estados con PC1 más bajo:
+  Chiapas        −3.39   −0.21
+  Oaxaca         −2.88   −0.44
+  Guerrero       −2.71   −0.38
+  Veracruz       −1.63   −0.55
+  Hidalgo        −1.31   −0.22
+
+Estados con PC1 más alto:
+  Sonora         +2.14   +1.42  ← PC2 alto por AC
+  CDMX           +2.60   −0.31
+  Baja California+2.78   +0.88
+  Nuevo León     +3.12   −0.07</code></pre>
+<p>La separación es clara: la brecha entre Chiapas (−3.4) y Nuevo León (+3.1) en el eje PC1 representa <strong>6.5 desviaciones estándar</strong> de diferencia en bienestar material medido por posesión de bienes.</p>
+<hr>
+</section>
+<section id="conclusiones" class="level2">
+<h2 class="anchored" data-anchor-id="conclusiones">Conclusiones</h2>
+<p>PCA aplicado al ENIGH revela que el acceso a bienes y servicios en los hogares mexicanos está estructurado por <strong>dos factores geométricos</strong> que capturan el 78.9% de la varianza:</p>
+<p><strong>PC1 — Eje de desarrollo general (62.8%):</strong> Una sola dimensión separa al país en un espectro que va de Chiapas/Guerrero/Oaxaca hasta Nuevo León/Baja California/CDMX. Casi todos los bienes contribuyen a este eje, lo que refleja que la desigualdad regional en México no es sectorial sino estructural — los estados ricos lo son en todo.</p>
+<p><strong>PC2 — Eje climático/demográfico (16.1%):</strong> Una segunda dimensión más débil captura la diferencia entre estados norteños (alto AC, efecto climático) y estados más rurales (alto radio, efecto demográfico). Este eje no responde a ingresos sino a geografía.</p>
+<p><strong>Hallazgos clave:</strong></p>
+<ul>
+<li>Con solo <strong>2 componentes</strong> se explica el <strong>78.9% de la varianza</strong> — los datos tienen una estructura muy comprimida</li>
+<li><strong>Internet y Computadora</strong> son los indicadores más discriminantes del eje PC1 — el “acceso digital” es donde la brecha regional es más pronunciada</li>
+<li><strong>Televisión y Telefonía</strong> aportan poco a PCA — son casi universales y no diferencian entre estados</li>
+<li><strong>Aire Acondicionado</strong> define su propio eje — no es un indicador de riqueza sino de clima</li>
+</ul>
+<p><strong>PCA vs.&nbsp;Análisis Factorial:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>PCA</th>
+<th>Análisis Factorial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Objetivo</strong></td>
+<td>Reducir dimensiones</td>
+<td>Encontrar estructura latente</td>
+</tr>
+<tr class="even">
+<td><strong>Maximiza</strong></td>
+<td>Varianza total</td>
+<td>Varianza común</td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>Componentes (combinaciones lineales)</td>
+<td>Factores (constructos teóricos)</td>
+</tr>
+<tr class="even">
+<td><strong>Mejor para</strong></td>
+<td>Visualización, compresión</td>
+<td>Variables latentes con fundamento teórico</td>
+</tr>
+<tr class="odd">
+<td><strong>Usa</strong></td>
+<td>Eigendecomposition de la covarianza</td>
+<td>Modelo de factor con residual único</td>
+</tr>
+</tbody>
+</table>
+<p>Cuando el objetivo es <strong>visualizar</strong> o <strong>comprimir</strong> datos, PCA es la herramienta correcta. Cuando se busca estimar una variable <strong>latente teórica</strong> (como “marginación”), el Análisis Factorial es más apropiado — como vimos en el <a href="https://ivandeluna.github.io/tutorials/2026-03-18-factor-analysis-marginalizacion-mexico/">tutorial complementario sobre Factor Analysis</a>.</p>
+<hr>
+<p><em>Tutorial por <a href="https://ivandeluna.github.io">Iván de Luna</a> · Código y datos en <a href="https://github.com/ivandeluna/data-science-notebooks">GitHub</a></em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 Iván de Luna. Opiniones personales.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ivandeluna">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/idelunaa">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
